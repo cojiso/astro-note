@@ -1,0 +1,203 @@
+---
+// src/layouts/Header.astro
+import { Icon } from 'astro-icon/components';
+// import GeometricText from './GeometricText.astro';
+// import FilmText from './FilmText.astro';
+
+interface Props {
+  siteName: string;
+}
+
+const { siteName } = Astro.props;
+
+// Nord Color Scheme をベースにした時間帯別の色設定
+function getTimeBasedColors(): string[] {
+  const now = new Date();
+  const hours = now.getHours() + now.getMinutes() / 60;
+  // const hours = 23;
+
+  // 夜明け前 (4:00-6:00): 暗い青から薄明るい青へ
+  if (hours >= 4 && hours < 6) {
+    return [
+      '#2E3440', // 最も暗い空
+      '#3B4252', // 夜空から明け方へ
+      '#434C5E', // 明け方の空
+      '#4C566A', // 薄明の空
+      '#D8DEE9', // 明るい地平線
+      '#E5E9F0', // より明るい地面
+      '#E5B676', // 街灯の温かみのある弱い光
+      '#2B2F3B'  // ぼんやりとした街灯に染まる闇
+    ];
+  }
+
+  // 朝 (6:00-9:00): 青みがかった水色からクリアな青へ
+  if (hours >= 6 && hours < 9) {
+    return [
+      '#81A1C1', // 朝方の空
+      '#88C0D0', // 明るい朝空
+      '#8FBCBB', // さらに明るい空
+      '#5E81AC', // 澄んだ青空
+      '#A3BE8C', // 朝露の地面
+      '#B9D39C', // 明るい草地
+      '#EBCB8B', // 朝日
+      '#5B7DBA'  // 朝霧 
+    ];
+  }
+
+  // 昼前 (9:00-12:00): 澄んだ青から深い青へ
+  if (hours >= 9 && hours < 12) {
+    return [
+      '#88C0D0', // 明るい空
+      '#81A1C1', // やや深い空
+      '#5E81AC', // 深まる青空
+      '#5171A1', // 濃い青空
+      '#EBCB8B', // 明るい地面
+      '#E1B86B', // 陽光を受けた地面
+      '#E5E9F0', // モダニズム建築の壁面に差す光
+      '#4C566A'  // コントラストの強い影
+    ];
+  }
+
+  // 真昼 (12:00-15:00): 深い青から鮮やかな青へ
+  if (hours >= 12 && hours < 15) {
+    return [
+      '#81A1C1', // 明るい空
+      '#7191B1', // やや深い空
+      '#6181A1', // 深い空
+      '#5E81AC', // 濃い青空
+      '#A3BE8C', // 緑の地面
+      '#98B37E', // 深い緑地
+      '#EBCB8B', // 強い日差し
+      '#596773'  // やや淡い影
+    ];
+  }
+
+  // 午後 (15:00-17:00): 青から黄みの青へ
+  if (hours >= 15 && hours < 17) {
+    return [
+      '#81A1C1', // 午後の空
+      '#8FBCBB', // 柔らかな空
+      '#88C0D0', // 明るい空
+      '#7DB5C5', // 傾く陽の空
+      '#D08770', // 温かな地面
+      '#C57B63', // 深い地面色
+      '#EBCB8B', // 西日
+      '#4C566A'  // 長い影
+    ];
+  }
+
+  // 夕暮れ (17:00-19:00): 青から橙へのグラデーション
+  if (hours >= 17 && hours < 19) {
+    return [
+      '#81A1C1', // 夕方の空
+      '#B48EAD', // 紫がかる空
+      '#D08770', // オレンジの空
+      '#BF616A', // 赤みの空
+      '#A3BE8C', // 緑の地面
+      '#98B37E', // 深い緑地
+      '#363B47', // 夕暮れの建物の深い影
+      '#3F4557'  // 影の中に残る昼の名残
+    ];
+  }
+
+  // 宵の時間 (19:00-22:00): 暗い青からより暗い青へ
+  if (hours >= 19 && hours < 22) {
+    return [
+      '#4C566A', // 宵の空
+      '#434C5E', // 暮れゆく空
+      '#3B4252', // 暗い夜空
+      '#2E3440', // より暗い夜空
+      '#B48EAD', // 薄紫の地面
+      '#A97D9C', // 深い紫の地面
+      '#5E81AC', // 月明かり
+      '#2E3440'  // 夜の影
+    ];
+  }
+
+  // 深夜 (22:00-4:00): 濃紺から黒みの青へ
+  return [
+    '#2E3440', // 最も暗い空
+    '#2B3038', // より暗い夜空
+    '#272B33', // 暗い夜空
+    '#232830', // 漆黒の空
+    '#3B4252', // 暗い地面
+    '#363D47', // より暗い地面
+    '#4C566A', // わずかな光
+    '#1D2128'  // 深い闇
+  ];
+}
+
+const colors = getTimeBasedColors();
+const stripeHeight = '2px';
+
+// function getTimeBasedColor(): string {
+//   const now = new Date();
+//   const hours = now.getHours() + now.getMinutes() / 60;
+
+//   if (hours < 6) return '#2E3440';   // 深夜
+//   if (hours < 12) return '#81A1C1';  // 朝
+//   if (hours < 18) return '#88C0D0';  // 昼
+//   return '#5E81AC';                  // 夕方
+// }
+---
+
+<header class="w-full relative px-6">
+  <!-- Stripes Container -->
+  <!-- <div class="absolute inset-0 flex flex-col">
+    {colors.slice(0, 6).map((color) => (
+      <div 
+        class="w-full flex-1"
+        style={`background-color: ${color};`}
+      />
+    ))}
+  </div> -->
+  <!-- Content Container -->
+  <!-- <div class="relative z-10">
+    <div class="content-wrapper">
+      <div class="flex h-14 items-center">
+        <a href="/" class="hover:opacity-80 transition-opacity duration-200">
+          <FilmText text={siteName} colors={colors} />
+        </a>
+      </div>
+    </div>
+  </div> -->
+  <!-- 22.5+142+640+23+22.5 -->
+  <div class="mx-auto relative">
+    <div class="flex h-14 items-center">
+      {/* 左側エリア - 大画面で右寄せ、小画面で左寄せ */}
+      <div class="flex-1 flex justify-start min-[850px]:justify-end">
+        <a href="/" class="flex items-center gap-2 group text-zinc-900 hover:no-underline">
+          <Icon name="lucide:orbit" class="w-6 h-6 transition-transform group-hover:rotate-90 duration-300" />
+          <span class="text-xl font-bold font-inter">{siteName}</span>
+        </a>
+      </div>
+
+      {/* スペーサー - 大画面でのみ表示 */}
+      <div class="w-[640px] shrink-0 hidden min-[850px]:block" />
+
+      {/* 右側エリア - 大画面で左寄せ、小画面で右寄せ */}
+      <div class="flex-1 flex justify-end min-[850px]:justify-start">
+        <button 
+          aria-label="Generate QR Code"
+          class="group rounded-full"
+        >
+        <Icon name="lucide:qr-code" class="w-6 h-6 text-zinc-500 hover:text-zinc-700" />
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* デバッグ用のスタイル */
+  header :global(.flex-1) {
+    outline: 1px solid red;
+  }
+  header :global(.w-\[640px\]) {
+    outline: 1px solid green;
+  }
+
+  .group:hover .group-hover\:rotate-90 {
+    transform: rotate(-90deg);
+  }
+</style>

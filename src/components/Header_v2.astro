@@ -1,0 +1,67 @@
+---
+// src/layouts/Header.astro
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  siteName: string;
+}
+
+const { siteName } = Astro.props;
+---
+
+<!-- 22.5+142+640+23+22.5 -->
+<header class="w-full relative px-6">
+  <div class="flex h-14 items-center">
+    {/* 左側エリア - 大画面で右寄せ、小画面で左寄せ */}
+    <div class="flex-1 flex justify-start min-[850px]:justify-end">
+      <a href="/" class="flex items-center gap-2 group text-zinc-900 hover:no-underline">
+        <Icon name="lucide:orbit" class="w-6 h-6 text-lime-800 icons" />
+        <!-- [&:not(:group-hover)]:-rotate-0 -->
+        <span class="text-xl font-bold font-inter">{siteName}</span>
+      </a>
+    </div>
+
+    {/* スペーサー - 大画面でのみ表示 */}
+    <div class="w-[640px] shrink-0 hidden min-[850px]:block" />
+
+    {/* 右側エリア - 大画面で左寄せ、小画面で右寄せ */}
+    <div class="flex-1 flex justify-end min-[850px]:justify-start">
+      <button 
+        aria-label="Generate QR Code"
+        class="group rounded-full"
+      >
+      <Icon name="lucide:qr-code" class="w-6 h-6 text-zinc-500 hover:text-zinc-700" />
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .group:hover .icons {
+    transform: rotate(-180deg);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .group:not(:hover) .icons {
+    transform: rotate(0deg);
+    animation: rotateBack 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes rotateBack {
+    from {
+      transform: rotate(-180deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
+  /* 969px以上でのみスティッキー化 */
+  @media (min-width: 969px) {
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+  }
+</style>

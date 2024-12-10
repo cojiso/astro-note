@@ -1,0 +1,56 @@
+---
+// src/pages/note/[id].astro
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate } from '../../lib/note';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('note', ({ data }) => {
+    return import.meta.env.DEV || data.public === true;
+  });
+
+  return notes.map(note => ({
+    params: { id: note.data.id },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const { Content } = await note.render();
+---
+
+<Layout 
+  pageTitle={note.data.title}
+  pageDescription={note.data.description ?? undefined}
+  pagePublished={note.data.publishedAt}
+  pageEdited={note.data.editedAt ?? undefined}
+  pageTags={note.data.tags ?? undefined}
+>
+  <article class="prose">
+    <header class="mb-8">
+      <h1 class="text-xl font-bold md:text-2xl text-center mb-3">{note.data.title}</h1>
+      <div class="flex flex-col text-zinc-500 font-mono md:justify-center">
+        <div class="flex justify-center items-center gap-2 font-raleway text-sm">
+          {(note.data.editedAt && note.data.editedAt.getTime() !== note.data.publishedAt.getTime()) ? (
+            <time class="flex-1 text-right">
+              {formatDate(note.data.publishedAt)}
+            </time>
+            <span class="text-zinc-400">→</span>
+            <time class="flex-1">
+              {formatDate(note.data.editedAt)}
+            </time>
+          ) : (
+            <time class="flex-1 text-center">
+              {formatDate(note.data.publishedAt)}
+            </time>
+          )}
+        </div>
+        <div class="flex gap-2 justify-center font-dosis text-sm">
+          {note.data.tags?.map(tag => <span>{tag}</span>)}
+        </div>
+      </div>
+    </header>
+    <Content />
+  </article>
+</Layout>

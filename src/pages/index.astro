@@ -1,0 +1,166 @@
+---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro';
+import { getAllPublicNotes, formatDate, generateNotePath } from '../lib/note';
+import { Icon } from 'astro-icon/components';
+// import { 
+//   Github,
+//   FileText,
+//   Library,
+//   MapPinned,
+//   X,
+//   ArrowUpRight
+// } from 'lucide-svelte';
+
+const notes = await getAllPublicNotes();
+
+const links = [
+  { 
+    name: "GitHub",
+    url: "https://github.com/cojiso",
+    icon: "lucide:github"
+  }
+];
+
+const projects = [
+  {
+    title: "orbit.supply",
+    description: "Blog, Link in Bio, Portfolio",
+    url: "https://orbit.supply",
+    status: "active", // active, beta, archived
+    tech: ["Astro", "TypeScript", "Tailwind", "Cloudflare Pages", "Lucide Icons"],
+    lastUpdated: "2024-10",
+    icon: "lucide:file-text",
+  },
+  {
+    title: "NDC Scroll",
+    description: "NDC9の表示探索Webツール",
+    url: "https://ndc-scroll.orbit.supply",
+    status: "active", // active, beta, archived
+    tech: ["Svelte", "TypeScript", "Cloudflare Pages"],
+    lastUpdated: "2024-10",
+    icon: "lucide:library", // サービスのアイコン
+  },
+  {
+    title: "RDF Map",
+    description: "ジャパンサーチのデータを表示するMapツール",
+    url: "https://rdf-map.orbit.supply/kamakura",
+    status: "archived", // active, beta, archived
+    tech: ["Svelte", "Leaflet", "Virtuoso", "GCE", "Cloudflare Pages"],
+    lastUpdated: "2023-11",
+    icon: "lucide:map-pinned",
+  }
+];
+---
+
+<Layout>
+  <section class="mb-12">
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">
+      Notes
+    </h2>
+    <div class="space-y-4">
+      {notes.map((note) => (
+        <a 
+          href={generateNotePath(note.data.id)}
+          class="flex justify-between items-center group hover:bg-zinc-50 p-1 -mx-2 rounded transition-colors hover:underline hover:text-zinc-500"
+        >
+          <h3 class="text-base font-medium text-zinc-700 group-hover:text-zinc-500 transition-colors">
+            {note.data.title}
+          </h3>
+          <time class="text-sm text-zinc-500 font-raleway">
+            {formatDate(note.data.publishedAt)}
+          </time>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">
+      Projects
+    </h2>
+    <div class="grid gap-3 md:grid-cols-2">
+      {projects.map((project) => (
+        <a 
+          href={project.url}
+          class="flex gap-3 p-4 border rounded-lg bg-white hover:bg-zinc-50 transition-all hover:translate-y-[-2px] group"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100 group-hover:bg-zinc-200 transition-colors">
+            <Icon name={project.icon} size={20} class="text-zinc-600 group-hover:text-zinc-900" />
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-medium text-zinc-800 group-hover:text-zinc-600">
+                {project.title}
+              </h3>
+              {(project.status === 'beta' || project.status === 'archived') && (
+                <span class="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-500 rounded-full">
+                  {project.status === 'beta' ? 'Beta' : 'Archived'}
+                </span>
+              )}
+              <Icon 
+                name={project.status === 'archived' ? "lucide:x" : "lucide:arrow-up-right"}
+                size={16} 
+                class:list={[
+                  "ml-auto transition-colors",
+                  {
+                    "text-lime-500 group-hover:text-lime-700": project.status === 'active',
+                    "text-amber-500 group-hover:text-amber-700": project.status === 'beta',
+                    "text-red-400 group-hover:text-red-600": project.status === 'archived'
+                  }
+                ]}
+              />
+            </div>
+            <p class="text-sm text-zinc-600 mt-1">{project.description}</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              {project.tech.map(tech => (
+                <span class="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-600 rounded-full">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">
+      Links
+    </h2>
+    <div class="grid gap-3">
+      {links.map(({ name, url, icon }) => (
+        <a
+          href={url}
+          class="flex items-center gap-3 p-4 border rounded-lg bg-white hover:bg-zinc-50 transition-all hover:translate-y-[-2px] group"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100 group-hover:bg-zinc-200 transition-colors">
+            <Icon name={icon} size={20} class="text-zinc-600 group-hover:text-zinc-900" />
+          </div>
+          <span class="text-base font-medium text-zinc-800 group-hover:text-zinc-600">
+            {name}
+          </span>
+          <Icon 
+            name="lucide:arrow-up-right" 
+            size={16} 
+            class="ml-auto text-zinc-400 group-hover:text-zinc-600 transition-colors" 
+          />
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">
+      About
+    </h2>
+    <p>コードを書きます。工作をします。</p>
+    <p>ローカルのメモ帳のテキスト量が増えてノイズで探索に時間がかかるようになりました。</p>
+    <p>いくつかのコードスニペットは将来再利用できるようCC0で公開しています。</p>
+  </section>
+</Layout>
