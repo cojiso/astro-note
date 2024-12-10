@@ -1,7 +1,7 @@
 ---
 title: 10分で体験するIIIFマニフェスト
 id: zxt9zyko
-public: false
+public: true
 publishedAt: 2024-11-25
 editedAt: 2024-12-05
 description: 
