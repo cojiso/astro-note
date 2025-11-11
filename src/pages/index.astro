@@ -101,16 +101,16 @@ const projects = [
       {projects.map((project) => (
         <a 
           href={project.url}
-          class="flex gap-3 p-4 border rounded-lg bg-white hover:bg-zinc-50 transition-all hover:translate-y-[-2px] group"
+          class="flex gap-3 p-4 border rounded-lg bg-white transition-all hover:shadow-lg group"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100 group-hover:bg-zinc-200 transition-colors">
+          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100">
             <Icon name={project.icon} size={20} class="text-zinc-600 group-hover:text-zinc-900" />
           </div>
           <div class="flex-1">
             <div class="flex items-center gap-2">
-              <h3 class="text-base font-medium text-zinc-800 group-hover:text-zinc-600">
+              <h3 class="text-base font-medium text-zinc-800 group-hover:text-zinc-900">
                 {project.title}
               </h3>
               {(project.status === 'beta' || project.status === 'archived') && (
@@ -153,14 +153,14 @@ const projects = [
       {links.map(({ name, url, icon }) => (
         <a
           href={url}
-          class="flex items-center gap-3 p-4 border rounded-lg bg-white hover:bg-zinc-50 transition-all hover:translate-y-[-2px] group"
+          class="flex items-center gap-3 p-4 border rounded-lg bg-white transition-all hover:shadow-lg group"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100 group-hover:bg-zinc-200 transition-colors">
+          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100 transition-colors">
             <Icon name={icon} size={20} class="text-zinc-600 group-hover:text-zinc-900" />
           </div>
-          <span class="text-base font-medium text-zinc-800 group-hover:text-zinc-600">
+          <span class="text-base font-medium text-zinc-800 group-hover:text-zinc-900">
             {name}
           </span>
           <Icon 
