@@ -153,7 +153,6 @@
   /* Base callout styling */
   [data-callout] {
     @apply my-6 p-4 rounded-lg border
-           bg-opacity-50
            flex flex-col gap-2;
   }
 
