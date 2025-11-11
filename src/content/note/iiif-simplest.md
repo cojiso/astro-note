@@ -1,9 +1,9 @@
 ---
-title: 10分で体験するIIIFマニフェスト
+title: 10分で体験するIIIFマニフェスト入門
 id: zxt9zyko
 public: true
 publishedAt: 2024-11-25
-editedAt: 2024-12-05
+editedAt: 2025-02-04
 description: 
 tags:
   - IIIF

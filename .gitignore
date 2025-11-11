@@ -1,3 +1,4 @@
+## .gitignore
 # build output
 dist/
 # generated types
@@ -5,6 +6,7 @@ dist/
 
 # dependencies
 node_modules/
+.vscode/
 
 # logs
 npm-debug.log*
@@ -22,3 +24,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# obsidian folder
+src/content/note/.*
+src/content/note/_*.md
+src/content/note/[✏️✏︎✍️📝🫥]*.md
+src/content/note/_draft
+!src/content/note/_template/*.md
