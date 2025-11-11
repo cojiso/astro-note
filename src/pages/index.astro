@@ -36,7 +36,7 @@ const projects = [
     title: "NDC Scroll",
     description: "NDC9の表示探索Webツール",
     url: "https://ndc-scroll.orbit.supply",
-    status: "active", // active, beta, archived
+    status: "active",
     tech: ["Svelte", "TypeScript", "Cloudflare Pages"],
     lastUpdated: "2024-10",
     icon: "lucide:library", // サービスのアイコン
@@ -45,10 +45,28 @@ const projects = [
     title: "RDF Map",
     description: "ジャパンサーチのデータを表示するMapツール",
     url: "https://rdf-map.orbit.supply/kamakura",
-    status: "archived", // active, beta, archived
+    status: "archived",
     tech: ["Svelte", "Leaflet", "Virtuoso", "GCE", "Cloudflare Pages"],
     lastUpdated: "2023-11",
     icon: "lucide:map-pinned",
+  },
+  {
+    title: "新古書店横断検索",
+    description: "unitrad-uiをフォークし書店検索機能を追加したもの",
+    url: "https://b.orbit.supply",
+    status: "active",
+    tech: ["Svelte", "unitrad-ui", "GCR"],
+    lastUpdated: "2025-09",
+    icon: "lucide:book-alert",
+  },
+  {
+    title: "cReturn",
+    description: "どんなサイトでも、Enterで改行、Ctrl+Enterで送信できる、Chrome拡張機能",
+    url: "https://chromewebstore.google.com/detail/creturn/dpfkfjilfchkjcohjfmdnlmecgbpakfd",
+    status: "active",
+    tech: ["WXT", "React", "Chrome Extensions"],
+    lastUpdated: "2025-08",
+    icon: "lucide:chromium",
   }
 ];
 ---
@@ -159,8 +177,6 @@ const projects = [
     <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">
       About
     </h2>
-    <p>コードを書き、工作をします。</p>
-    <p>ローカルのメモ帳のテキスト量が増えてノイズで探索に時間がかかるようになった。</p>
-    <p>いくつかのコードスニペットは将来再利用しやすいようCC0で公開しています。</p>
+    <p>本サイトのコンテンツについて、引用部分や第三者の著作物を除き、別段の記載がない限り、私の文章および図表はCC BY 4.0で、ソースコードはMITライセンスで公開します。</p>
   </section>
 </Layout>
