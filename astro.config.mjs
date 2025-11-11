@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';
 import expressiveCode from 'astro-expressive-code';
 import remarkToc from 'remark-toc';
@@ -16,8 +16,13 @@ import svelte from '@astrojs/svelte';
 
 // https://astro.build/config
 export default defineConfig({
+  vite: {
+    plugins: [tailwindcss()],
+    ssr: {
+      noExternal: ['@iconify/svelte', 'lucide-svelte']
+    }
+  },
   integrations: [
-    tailwind(), 
     expressiveCode({themes: ['plastic'],}), 
     icon(), 
     svelte()
@@ -45,9 +50,4 @@ export default defineConfig({
   build: {
     assets: '_assets'
   },
-  vite: {
-    ssr: {
-      noExternal: ['@iconify/svelte', 'lucide-svelte']
-    }
-  }
 });

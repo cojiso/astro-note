@@ -1,7 +1,18 @@
 /* src/styles/global.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+@plugin '@tailwindcss/forms';
+
+@source '../**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}';
+
+@theme {
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-dosis: Dosis, Verdana, sans-serif;
+  --font-raleway: Raleway, Verdana, sans-serif;
+}
 
 @layer base {
   :root {
@@ -9,90 +20,91 @@
     --content-padding: 1.5rem;  /* tailwind-6 */
   }
 
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
   a {
     @apply no-underline hover:no-underline;
   }
 }
 
-@layer components {
-  .content-wrapper {
-    @apply mx-auto w-full max-w-[640px] px-6;
-  }
+@utility content-wrapper {
+  @apply mx-auto w-full max-w-[640px] px-6;
+}
 
-  .prose {
-    @apply break-words;
-  }
+@utility prose {
+  @apply wrap-break-word;
 
-  .prose a {
+  & a {
     @apply text-lime-800 no-underline hover:underline;
   }
 
-  .prose h2 {
+  & h2 {
     @apply pb-1 border-b border-zinc-200;
   }
-  
+
   /* code */
-  .prose code {
+  & code {
     @apply font-normal text-sm bg-zinc-200 rounded;
     font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
     padding: 0.2rem 0.4rem;
     vertical-align: 0.03em;
   }
   /* @tailwindcss/typography のデフォルトの ` マークを無効化 */
-  .prose code::before,
-  .prose code::after {
-    content: "";
+  & code::before,
+    code::after {
+    content: '';
   }
 
   /* image */
-  .prose img {
-     @apply border border-zinc-200 rounded-lg;
+  & img {
+    @apply border border-zinc-200 rounded-lg;
   }
 
   /* テーブル */
-  .prose :is(table) {
+  & :is(table) {
     /* .prose table と同じ詳細度 (0,2,0) を持つ */
-    @apply block overflow-x-auto;  /* スクロール可能に */
-    @apply -mx-6 px-6;            /* コンテナの幅を調整 */
-    width: calc(100% + 3rem);     /* content-wrapper から頑張って手計算してください */
-    @apply relative;              /* シャドウのための位置指定 */
+    @apply block overflow-x-auto; /* スクロール可能に */
+    @apply -mx-6 px-6; /* コンテナの幅を調整 */
+    width: calc(100% + 3rem); /* content-wrapper から頑張って手計算してください */
+    @apply relative; /* シャドウのための位置指定 */
   }
   /* テーブル: 中身 */
-  .prose table thead {
-    @apply bg-zinc-50 sticky top-0;  /* ヘッダーを固定 */
+  & table thead {
+    @apply bg-zinc-50 sticky top-0; /* ヘッダーを固定 */
   }
-  .prose table th {
+  & table th {
     @apply px-3 text-left align-middle font-bold text-zinc-700 border-b-2 whitespace-nowrap;
   }
-  .prose table td {
+  & table td {
     @apply px-2 text-zinc-600 whitespace-nowrap;
   }
   /* テーブル: スクロールバーのスタイリング */
-  .prose table::-webkit-scrollbar {
+  & table::-webkit-scrollbar {
     @apply px-6 h-1.5;
   }
-  .prose table::-webkit-scrollbar-track {
+  & table::-webkit-scrollbar-track {
     @apply bg-zinc-100;
   }
-  .prose table::-webkit-scrollbar-thumb {
+  & table::-webkit-scrollbar-thumb {
     @apply bg-zinc-300 rounded-full hover:bg-zinc-400;
   }
 
   /* リスト */
-  .prose :where(ul > li):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+  & :where(ul > li):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     padding-inline-start: 0em;
   }
-  .prose :where(ul):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+  & :where(ul):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     padding-inline-start: 1.3rem;
   }
-  .prose :where(li):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+  & :where(li):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     margin-top: 0;
     margin-bottom: 0;
   }
 
-  /* 基本コンテナ */
-  .rlc-container,
-  .prose .rlc-container {
+  /* RLC remark-link-card */
+  & .rlc-container {
     @apply flex justify-between max-h-[90px] my-6
            border border-zinc-200 rounded-lg
            bg-white
@@ -100,135 +112,123 @@
            transition duration-200
            hover:bg-zinc-50 hover:shadow-lg;
   }
-
-  /* 情報部分 */
-  .rlc-info,
-  .prose .rlc-info {
+  & .rlc-info {
     @apply flex flex-col justify-between p-5;
   }
 
-  .rlc-title,
-  .prose .rlc-title {
+  & .rlc-title {
     @apply text-lg font-medium text-zinc-900 leading-relaxed line-clamp-2;
   }
 
-  .rlc-description,
-  .prose .rlc-description {
+  & .rlc-description {
     @apply hidden;
   }
 
-  .rlc-url-container,
-  .prose .rlc-url-container {
+  & .rlc-url-container {
     @apply flex items-center mt-auto;
   }
 
   /* prose内の画像リセット */
-  .prose .rlc-container img,
-  .prose .rlc-url-container img  {
+  & .rlc-container img {
     @apply m-0 border-0 rounded-none;
   }
 
-  .rlc-favicon,
-  .prose .rlc-favicon {
-    @apply w-4 h-4 !mr-1.5 flex-shrink-0;
+  & .rlc-favicon {
+    @apply w-4 h-4 mr-1.5! shrink-0;
   }
 
-  .rlc-url,
-  .prose .rlc-url {
+  & .rlc-url {
     @apply text-sm text-zinc-500 truncate;
   }
 
   /* 画像コンテナ */
-  .rlc-image-container,
-  .prose .rlc-container .rlc-image-container {
+  & .rlc-container .rlc-image-container {
     @apply flex justify-end max-w-64;
   }
 
-  .rlc-image,
-  .prose .rlc-container .rlc-image {
+  & .rlc-container .rlc-image {
     @apply h-full object-cover rounded-r-lg;
   }
+}
 
+/* Base callout styling */
+[data-callout] {
+  @apply my-6 p-4 rounded-lg border
+          flex flex-col gap-2;
+}
 
-  /* Base callout styling */
-  [data-callout] {
-    @apply my-6 p-4 rounded-lg border
-           flex flex-col gap-2;
-  }
+/* Callout title styling */
+[data-callout-title] {
+  @apply font-medium flex items-center gap-2 text-sm;
+}
 
-  /* Callout title styling */
-  [data-callout-title] {
-    @apply font-medium flex items-center gap-2 text-sm;
-  }
+/* Callout title icon */
+[data-callout-title]::before {
+  @apply w-4 h-4;
+  font-family: 'lucide';
+}
 
-  /* Callout title icon */
-  [data-callout-title]::before {
-    @apply w-4 h-4;
-    font-family: 'lucide';
-  }
+/* Callout body styling */
+[data-callout-body] {
+  @apply text-sm;
+}
 
-  /* Callout body styling */
-  [data-callout-body] {
-    @apply text-sm;
-  }
+/* Remove margin from last paragraph in body */
+[data-callout-body] p:last-child {
+  @apply mb-0;
+}
 
-  /* Remove margin from last paragraph in body */
-  [data-callout-body] p:last-child {
-    @apply mb-0;
-  }
+/* Variant: note (デフォルト/情報) */
+[data-callout][data-callout-type="note"] {
+  @apply bg-blue-50 border-blue-200;
+}
+[data-callout][data-callout-type="note"] [data-callout-title] {
+  @apply text-blue-900;
+}
+[data-callout][data-callout-type="note"] [data-callout-title]::before {
+  content: "ℹ️";
+}
 
-  /* Variant: note (デフォルト/情報) */
-  [data-callout][data-callout-type="note"] {
-    @apply bg-blue-50 border-blue-200;
-  }
-  [data-callout][data-callout-type="note"] [data-callout-title] {
-    @apply text-blue-900;
-  }
-  [data-callout][data-callout-type="note"] [data-callout-title]::before {
-    content: "ℹ️";
-  }
+/* Variant: warning (警告) */
+[data-callout][data-callout-type="warning"] {
+  @apply bg-yellow-50 border-yellow-200;
+}
+[data-callout][data-callout-type="warning"] [data-callout-title] {
+  @apply text-yellow-900;
+}
+[data-callout][data-callout-type="warning"] [data-callout-title]::before {
+  content: "⚠️";
+}
 
-  /* Variant: warning (警告) */
-  [data-callout][data-callout-type="warning"] {
-    @apply bg-yellow-50 border-yellow-200;
-  }
-  [data-callout][data-callout-type="warning"] [data-callout-title] {
-    @apply text-yellow-900;
-  }
-  [data-callout][data-callout-type="warning"] [data-callout-title]::before {
-    content: "⚠️";
-  }
+/* Variant: check (成功/チェック) */
+[data-callout][data-callout-type="check"] {
+  @apply bg-green-50 border-green-200;
+}
+[data-callout][data-callout-type="check"] [data-callout-title] {
+  @apply text-green-900;
+}
+[data-callout][data-callout-type="check"] [data-callout-title]::before {
+  content: "✅";
+}
 
-  /* Variant: check (成功/チェック) */
-  [data-callout][data-callout-type="check"] {
-    @apply bg-green-50 border-green-200;
-  }
-  [data-callout][data-callout-type="check"] [data-callout-title] {
-    @apply text-green-900;
-  }
-  [data-callout][data-callout-type="check"] [data-callout-title]::before {
-    content: "✅";
-  }
+/* Variant: danger (危険/エラー) */
+[data-callout][data-callout-type="danger"] {
+  @apply bg-red-50 border-red-200;
+}
+[data-callout][data-callout-type="danger"] [data-callout-title] {
+  @apply text-red-900;
+}
+[data-callout][data-callout-type="danger"] [data-callout-title]::before {
+  content: "🚫";
+}
 
-  /* Variant: danger (危険/エラー) */
-  [data-callout][data-callout-type="danger"] {
-    @apply bg-red-50 border-red-200;
-  }
-  [data-callout][data-callout-type="danger"] [data-callout-title] {
-    @apply text-red-900;
-  }
-  [data-callout][data-callout-type="danger"] [data-callout-title]::before {
-    content: "🚫";
-  }
-
-  /* Variant: tip (ヒント) */
-  [data-callout][data-callout-type="tip"] {
-    @apply bg-purple-50 border-purple-200;
-  }
-  [data-callout][data-callout-type="tip"] [data-callout-title] {
-    @apply text-purple-900;
-  }
-  [data-callout][data-callout-type="tip"] [data-callout-title]::before {
-    content: "💡";
-  }
+/* Variant: tip (ヒント) */
+[data-callout][data-callout-type="tip"] {
+  @apply bg-purple-50 border-purple-200;
+}
+[data-callout][data-callout-type="tip"] [data-callout-title] {
+  @apply text-purple-900;
+}
+[data-callout][data-callout-type="tip"] [data-callout-title]::before {
+  content: "💡";
 }

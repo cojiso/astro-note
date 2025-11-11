@@ -44,7 +44,7 @@
     </svg>
 
     <!-- Top colored strip -->
-    <!-- <div class="h-3 bg-gradient-to-r from-blue-500 to-purple-600"></div> -->
+    <!-- <div class="h-3 bg-linear-to-r from-blue-500 to-purple-600"></div> -->
     
     <div class="p-6 pb-6">
       <!-- Blog title and logo -->
@@ -123,7 +123,7 @@
   </div>
 
   <!-- Bottom section with mask -->
-  <div class="bg-white overflow-hidden mt-[-1px] border-t-2 border-white relative" style="mask: url(#{bottomMaskId}); -webkit-mask: url(#{bottomMaskId})">
+  <div class="bg-white overflow-hidden -mt-px border-t-2 border-white relative" style="mask: url(#{bottomMaskId}); -webkit-mask: url(#{bottomMaskId})">
     <svg width="100%" height="100%" class="absolute">
       <defs>
         <mask id={bottomMaskId}>
@@ -139,10 +139,10 @@
     <div class="px-6 pb-6 pt-1">
       <!-- <div class="bg-gray-50 p-3 rounded-2xl"> -->
       <div 
-        class="p-3 pt-4 rounded-2xl backdrop-blur-sm transition-all duration-1000 relative overflow-hidden"
+        class="p-3 pt-4 rounded-2xl backdrop-blur-xs transition-all duration-1000 relative overflow-hidden"
         style:background-image={natureGradientBackground}
         >
-        <!-- <div class="w-40 h-40 mx-auto bg-white rounded-xl p-3 shadow-sm"> -->
+        <!-- <div class="w-40 h-40 mx-auto bg-white rounded-xl p-3 shadow-xs"> -->
         <div class="w-40 h-40 mx-auto bg-white backdrop-blur-md rounded-xl p-3 shadow-lg">
           <img
             src={qrDataUrl}
