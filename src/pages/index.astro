@@ -80,9 +80,9 @@ const projects = [
       {notes.map((note) => (
         <a 
           href={generateNotePath(note.data.id)}
-          class="flex justify-between items-center group hover:bg-zinc-50 p-1 -mx-2 rounded-sm transition-colors hover:underline hover:text-zinc-500"
+          class="flex justify-between gap-4 items-center group p-1 hover:-mr-2 rounded-sm transition-all hover:text-zinc-500 hover:underline underline-offset-4 decoration-zinc-300"
         >
-          <h3 class="text-base font-medium text-zinc-700 group-hover:text-zinc-500 transition-colors">
+          <h3 class="text-base font-medium text-zinc-700 group-hover:text-zinc-900 transition-colors">
             {note.data.title}
           </h3>
           <time class="text-sm text-zinc-500 font-raleway">
@@ -178,5 +178,6 @@ const projects = [
       About
     </h2>
     <p>本サイトのコンテンツについて、引用部分や第三者の著作物を除き、別段の記載がない限り、私の文章および図表はCC BY 4.0で、ソースコードはMITライセンスで公開します。</p>
+    <p>本サイトはアクセス解析のために<a href="https://www.google.com/policies/privacy/partners/">Google Analytics(Cookie等を使用しユーザーから情報を収集する)</a>を使用しています。</p>
   </section>
 </Layout>
