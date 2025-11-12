@@ -5,7 +5,7 @@ import icon from 'astro-icon';
 import expressiveCode from 'astro-expressive-code';
 import remarkToc from 'remark-toc';
 import remarkBreaks from 'remark-breaks'
-import remarkLinkCard from 'remark-link-card'
+import remarkLinkCard from 'remark-link-card-plus'
 import remarkCallout from "@r4ai/remark-callout";
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';

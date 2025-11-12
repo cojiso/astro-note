@@ -67,8 +67,9 @@
     /* .prose table と同じ詳細度 (0,2,0) を持つ */
     @apply block overflow-x-auto; /* スクロール可能に */
     @apply -mx-6 px-6; /* コンテナの幅を調整 */
-    width: calc(100% + 3rem); /* content-wrapper から頑張って手計算してください */
+    width: calc(100% + 3rem); /* content-wrapper から頑張って手計算 */
     @apply relative; /* シャドウのための位置指定 */
+    @apply pb-1; /* スクロールバーの位置調整 */
   }
   /* テーブル: 中身 */
   & table thead {
@@ -82,7 +83,7 @@
   }
   /* テーブル: スクロールバーのスタイリング */
   & table::-webkit-scrollbar {
-    @apply px-6 h-1.5;
+    @apply h-1;
   }
   & table::-webkit-scrollbar-track {
     @apply bg-zinc-100;
@@ -92,61 +93,78 @@
   }
 
   /* リスト */
-  & :where(ul > li):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  /* & :where(ul > li):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     padding-inline-start: 0em;
-  }
-  & :where(ul):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+  } */
+  /* & :where(ul):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     padding-inline-start: 1.3rem;
+  } */
+  /* & :where(li):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+    margin-top: 0;
+    margin-bottom: 0;
+  } */
+
+  & ul {
+    padding-left: 1.3rem;
+    margin-top: 0.25em;
+    margin-bottom: 0.5em;
   }
-  & :where(li):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+
+  & li {
     margin-top: 0;
     margin-bottom: 0;
   }
 
+  /* & li + li {
+    margin-top: 0.25em;
+  } */
+
   /* RLC remark-link-card */
-  & .rlc-container {
-    @apply flex justify-between max-h-[90px] my-6
+  & .remark-link-card-plus__container {
+    @apply my-6;
+  }
+  & .remark-link-card-plus__card {
+    @apply flex justify-between max-h-[90px]
            border border-zinc-200 rounded-lg
-           bg-white
+           bg-zinc-50
            no-underline hover:no-underline
            transition duration-200
-           hover:bg-zinc-50 hover:shadow-lg;
+           hover:bg-white hover:shadow-lg;
   }
-  & .rlc-info {
+
+  & .remark-link-card-plus__main {
     @apply flex flex-col justify-between p-5;
   }
 
-  & .rlc-title {
+  & .remark-link-card-plus__title {
     @apply text-lg font-medium text-zinc-900 leading-relaxed line-clamp-2;
   }
 
-  & .rlc-description {
+  & .remark-link-card-plus__description {
     @apply hidden;
   }
 
-  & .rlc-url-container {
+  & .remark-link-card-plus__meta {
     @apply flex items-center mt-auto;
   }
-
-  /* prose内の画像リセット */
-  & .rlc-container img {
-    @apply m-0 border-0 rounded-none;
-  }
-
-  & .rlc-favicon {
-    @apply w-4 h-4 mr-1.5! shrink-0;
-  }
-
-  & .rlc-url {
+  
+  & .remark-link-card-plus__url {
     @apply text-sm text-zinc-500 truncate;
   }
-
-  /* 画像コンテナ */
-  & .rlc-container .rlc-image-container {
+  
+  & .remark-link-card-plus__container img {
+    @apply m-0 border-0 rounded-none;
+  }
+  
+  & .remark-link-card-plus__favicon {
+    @apply w-4 h-4 mr-1.5! shrink-0;
+  }
+  
+  & .remark-link-card-plus__container .remark-link-card-plus__thumbnail {
     @apply flex justify-end max-w-64;
   }
 
-  & .rlc-container .rlc-image {
+  & .remark-link-card-plus__container .remark-link-card-plus__image {
     @apply h-full object-cover rounded-r-lg;
   }
 }
