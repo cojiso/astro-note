@@ -1,9 +1,9 @@
 ---
-title: どこでも使いやすいサンセリフ角ゴシック体フォントを探す
+title: OSをまたいで使える角ゴシック体フォントを探す
 id: a1atm978
 public: true
 publishedAt: 2025-10-24
-editedAt: 2025-11-11
+editedAt: 2025-11-12
 description:
 tags:
   - font
@@ -24,7 +24,13 @@ WindowsとmacOSそれぞれの環境で利用可能なフォントの解説や�
 しかしフォント名が変更されうることと、フォント名が変更された結果としてメディアファイルやドキュメントの表示が崩れることについて着目した記事は見当たりませんでした。リリースノートを作成する提案も比較的新しいでしょう。
 また縦方向の平均字面率（JIS 第一水準:2024-09-18）を算出したことは、有効性はともかく、新規性があります。
 ### 背景
-筆者はmacOSを使ってドキュメントを作成することが多く、そのドキュメントをWindows利用者に渡すことがあります。はじめに述べたようにOSをまたぐとフォントが呼び出せず表示が崩れることがあります。フォント埋め込めるPDFで渡すようにしていましたが、WordやExcelなどフォントを埋め込めないファイル形式で渡す必要がある場面もままあり（WindowsのMSOfficeではフォントを埋め込める）、どのようなフォントを選択するべきか日頃から悩んでいました。さらにフォントがフォールバックされた文書は、Windowsで自分で開いてみると文字形が違うだけではなく「ptは変わらないのに何となく文字が小さかったり大きかったりする」のです。このような体験からOSを跨いで安定して扱うことのできるフォントについて調べ始めました。
+筆者はmacOSを使ってドキュメントを作成することが多く、そのドキュメントをWindows利用者に渡すことがあります。はじめに述べたようにOSをまたぐとフォントが呼び出せず表示が崩れることがあります。フォントを埋め込めるPDFで渡すようにしていましたが、WordやExcelなどフォントを埋め込めないファイル形式で渡す必要がある場面もままあり[^embedfont]、どのようなフォントを選択するべきか日頃から悩んでいました。
+
+さらにフォントがフォールバックされた文書は、Windowsで自分で開いてみると文字形が違うだけではなく「ptは変わらないのに何となく文字が小さかったり大きかったりする」のです。
+
+このような体験からOSを跨いで安定して扱うことのできるフォントについて調べ始めました。
+
+[^embedfont]: なおWindows版のMSOfficeではフォントを埋め込める
 ![](attachments/a1atm978-frame.png)
 ### 今回扱うフォント
 * UDデジタル教科書体
@@ -47,14 +53,14 @@ WindowsとmacOSそれぞれの環境で利用可能なフォントの解説や�
 	* TBUDゴシック
 	* 小塚ゴシック
 ### 今回のフォント選定の基準
-- **名前**：複数のOS環境でも同じ名前で呼び出せる
-- **読みやすさ**：読みやすい
-- **ライセンス**：OSやソフトウェア側で解決されている。もしくはSILなど可用性の高いライセンスで配布されている。
-- **費用**：追加の支払いが発生しない
-- **OS**：OSやソフトウェアにデフォルトで入っていること。特にWindows環境には標準搭載されており、フォント導入の負担がないこと
-- **言語**：和文に対応している、欧文も含まれている
-- **字形**：数字が等幅（とうはば）であること。経理やデータ分析の際に桁数が揃うことで誤読の可能性を低減できる
-- **出力**：高い画面解像度で作業するときに美しく見える。低解像度下(96dpi)でも読みやすく表示できる。印刷して美しく出力される。
+- **名前:** 複数のOS環境でも同じ名前で呼び出せる
+- **読みやすさ:** 読みやすい
+- **ライセンス:** OSやソフトウェア側で解決されている。もしくはSILなど可用性の高いライセンスで配布されている。
+- **費用:** 追加の支払いが発生しない
+- **OS:** OSやソフトウェアにデフォルトで入っていること。特にWindows環境には標準搭載されており、フォント導入の負担がないこと
+- **言語:** 和文に対応している、欧文も含まれている
+- **字形:** 数字が等幅（とうはば）であること。経理やデータ分析の際に桁数が揃うことで誤読の可能性を低減できる
+- **出力:** 高い画面解像度で作業するときに美しく見える。低解像度下(96dpi)でも読みやすく表示できる。印刷して美しく出力される。
 #### 読みやすいことについて
 シルエットの似た数字の開口部を広く保つことや、同化せず明瞭な濁点と半濁点、見た目を散らして区別しやすい欧文グリフ、隣り合う文字との間に適度な空間が保たれるなど、各社がUDとつけたフォントは読みやすさが強く意識されている。なおデザイン書体を除いて、いずれのフォントはUDと名打たれていなくとも読みやすさは考慮されている。
 
@@ -110,17 +116,17 @@ WindowsとmacOSそれぞれの環境で利用可能なフォントの解説や�
 [^marugo]: 丸ゴシックはやわらかく目にやさしくて、自分用のドキュメントでは丸ゴシックを使うことが多い。しかし共有する資料を丸ゴシックで書いたら社会性や常識を疑われかねないので、無難に角ゴシックを選択する。印刷せずディスプレイ閲覧のみにもかかわらず慣習で明朝体が指定するケースはよくあるが仕方がない
 ### それぞれのフォントが何を満たしているかのテーブル
 
-| 書体名              | Windows標準? [^wcf] | macOS標準? | MSOffice標準? [^msocf] | フリー? [^gff]                                                             | 書体名ゆれ                                                                | プロポーショナル数字   | 文字セット範囲                                   | デザイナー                                  | メーカー                      | ライセンス       | 平均字面率 |
-| ---------------- | ----------------- | -------- | -------------------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------ | ----------------------------------------- | -------------------------------------- | ------------------------- | ----------- | ----- |
-| UDデジタル教科書体       | ○  [^muddw]       | ×        | ○                    | [△](https://www.morisawa.co.jp/products/fonts/bizplus/lineup/) [^muddf] | UD Digi Kyokasho \[N,NK,NP,ProN]\[-RB] [^muddf2]                     | ○ [^muddpn]  | Adobe-Japan1-4                            | 高田裕美, 他                                | タイプバンク, モリサワ              | 配布者毎        | -     |
-| BIZ UDPゴシック      | ○ [^mbw]          | ×        | ×                    | [○](https://fonts.google.com/specimen/BIZ+UDPGothic)                    | BIZ UD\[P]Gothic                                                     | △ [^bizgpn]  | Windows-31J+JIS X 0213:2004+独自 [^bizmoji] | 不明                                     | モリサワ                      | SIL OFL 1.1 | 0.936 |
-| Noto Sans JP     | ○ [^gnw]          | ×        | ×                    | [○](https://fonts.google.com/noto/specimen/Noto+Sans+JP)                | Noto Sans \[JP(Japanese), CJK JP], 源ノ角ゴシック（Source Han Sans）[^notofn] | ○  [^notopn] | Pan-CJK 65,535文字                          | 西塚涼子, Paul D. Hunt, 他 [^notodesign]    | Adobe, イワタ, Google        | SIL OFL 1.1 | 0.906 |
-| IBM Plex Sans JP | ×                 | ×        | ×                    | [○](https://fonts.google.com/specimen/IBM+Plex+Sans+JP)                 | -                                                                    | ○            | Adobe-Japan1-7 [^ibmmoji]                 | Mike Abbink, 他, 和文は不明 [^ibmdesign]     | IBM, Bold Monday, Sandoll | SIL OFL 1.1 | 0.901 |
-| LINE Seed        | ×                 | ×        | ×                    | [○](https://seed.line.me)                                               | LINE Seed JP\[\_A]\[\_OTF,\_TTF]                                     | △            | Adobe-Japan1-3 [^linemoji]                | 藤田重信, 森田隼矢, 他                          | LINE, フォントワークス            | SIL OFL 1.1 | 0.897 |
-| M PLUS           | ×                 | ×        | ×                    | [○](https://fonts.google.com/specimen/M+PLUS+1)                         | M PLUS \[1,1p,2,1 Code], M+ \[BITMAP FONTS] [^mpfn]                  | ○            | JIS第一水準＋一部の第二水準漢字まで [^mplusmoji]          | 森下浩司                                   | -                         | SIL OFL 1.1 | 0.892 |
-| さわらびゴシック         | ×                 | ×        | ×                    | [○](https://fonts.google.com/specimen/Sawarabi+Gothic)                  | Sawarabi Gothic                                                      | ○            | JIS第一水準＋第二水準約半数 [^sawarabimoji]           | mshio                                  | -                         | SIL OFL 1.1 | 0.894 |
-| 遊ゴシック            | ○                 | ○        | ○                    | ×                                                                       | Yu Gothic, 游ゴシック\[体]                                                 | ○            | Adobe-Japan1-6                            | 鳥海修, 他                                 | 字游工房                      | 配布者毎        | -     |
-| メイリオ             | ○                 | ×        | ○                    | ×                                                                       | Meiryo \[UI]                                                         | ○            | JIS X 0213:2004＋独自 [^mairyomoji]          | 河野英一, Matthew Carter, 坂本達, 鈴木竹治, 植田由紀子 | マイクロソフト, C&G, アーフィック      | 配布者毎        | -     |
+| 書体名              | Windows標準 [^wcf] | macOS標準 | MSOffice標準[^msocf] | フリー [^gff]                                                              | 書体名ゆれ                                                                | P数字          | 文字セット範囲                                   | デザイナー                                  | メーカー                      | ライセンス       | 平均字面率 |
+| ---------------- | ---------------- | ------- | ------------------ | ----------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------ | ----------------------------------------- | -------------------------------------- | ------------------------- | ----------- | ----- |
+| UDデジタル教科書体       | ○  [^muddw]      | ×       | ○                  | [△](https://www.morisawa.co.jp/products/fonts/bizplus/lineup/) [^muddf] | UD Digi Kyokasho \[N,NK,NP,ProN]\[-RB] [^muddf2]                     | ○ [^muddpn]  | Adobe-Japan1-4                            | 高田裕美, 他                                | タイプバンク, モリサワ              | 配布者毎        | -     |
+| BIZ UDPゴシック      | ○ [^mbw]         | ×       | ×                  | [○](https://fonts.google.com/specimen/BIZ+UDPGothic)                    | BIZ UD\[P]Gothic                                                     | △ [^bizgpn]  | Windows-31J+JIS X 0213:2004+独自 [^bizmoji] | 不明                                     | モリサワ                      | SIL OFL 1.1 | 0.936 |
+| Noto Sans JP     | ○ [^gnw]         | ×       | ×                  | [○](https://fonts.google.com/noto/specimen/Noto+Sans+JP)                | Noto Sans \[JP(Japanese), CJK JP], 源ノ角ゴシック(Source Han Sans)[^notofn] | ○  [^notopn] | Pan-CJK 65,535文字                          | 西塚涼子, Paul D. Hunt, 他 [^notodesign]    | Adobe, イワタ, Google        | SIL OFL 1.1 | 0.906 |
+| IBM Plex Sans JP | ×                | ×       | ×                  | [○](https://fonts.google.com/specimen/IBM+Plex+Sans+JP)                 | -                                                                    | ○            | Adobe-Japan1-7 [^ibmmoji]                 | Mike Abbink, 他, 和文は不明 [^ibmdesign]     | IBM, Bold Monday, Sandoll | SIL OFL 1.1 | 0.901 |
+| LINE Seed        | ×                | ×       | ×                  | [○](https://seed.line.me)                                               | LINE Seed JP\[\_A]\[\_OTF,\_TTF]                                     | △            | Adobe-Japan1-3 [^linemoji]                | 藤田重信, 森田隼矢, 他                          | LINE, フォントワークス            | SIL OFL 1.1 | 0.897 |
+| M PLUS           | ×                | ×       | ×                  | [○](https://fonts.google.com/specimen/M+PLUS+1)                         | M PLUS \[1,1p,2,1 Code], M+ \[BITMAP FONTS] [^mpfn]                  | ○            | JIS第一水準＋一部の第二水準漢字まで [^mplusmoji]          | 森下浩司                                   | -                         | SIL OFL 1.1 | 0.892 |
+| さわらびゴシック         | ×                | ×       | ×                  | [○](https://fonts.google.com/specimen/Sawarabi+Gothic)                  | Sawarabi Gothic                                                      | ○            | JIS第一水準＋第二水準約半数 [^sawarabimoji]           | mshio                                  | -                         | SIL OFL 1.1 | 0.894 |
+| 遊ゴシック            | ○                | ○       | ○                  | ×                                                                       | Yu Gothic, 游ゴシック\[体]                                                 | ○            | Adobe-Japan1-6                            | 鳥海修, 他                                 | 字游工房                      | 配布者毎        | -     |
+| メイリオ             | ○                | ×       | ○                  | ×                                                                       | Meiryo \[UI]                                                         | ○            | JIS X 0213:2004＋独自 [^mairyomoji]          | 河野英一, Matthew Carter, 坂本達, 鈴木竹治, 植田由紀子 | マイクロソフト, C&G, アーフィック      | 配布者毎        | -     |
 [^wcf]: [Font List Windows 11 - Typography｜Microsoft Learn](https://learn.microsoft.com/en-us/typography/fonts/windows_11_font_list)
 [^gff]: [Browse Fonts - Google Fonts](https://fonts.google.com)で配布されているフォントは、全てGoogle Sheet, Docs, Slide で利用することができる。なおメイリオは使えるもののPDF化の際にMS Pゴシックに変換される：[パワポ慣れしている人ほど知ってほしい！Google Slidesで失敗しないフォントの選び方 ｜プレゼンデザイン](https://ppt.design4u.jp/how-to-choose-the-best-fonts-for-google-slides-2024/)
 [^muddw]: UDデジタル教科書体は`Windows 10 Fall Creators Update` 以降に標準採用：[モリサワ「Windows 10 Fall Creators Update」での「UDデジタル教科書体」正式採用を発表｜ニュース&プレスリリース｜企業情報｜株式会社モリサワ](https://www.morisawa.co.jp/about/news/3681)
