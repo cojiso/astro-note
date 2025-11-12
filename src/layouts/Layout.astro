@@ -32,25 +32,40 @@ const title = pageTitle
   : siteConfig.siteName;
 
 const description = pageDescription ?? siteConfig.siteDescription;
-
-const lightFaviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgb(63 98 18)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><path d="M10.4 21.9a10 10 0 0 0 9.941-15.416"/><path d="M13.5 2.1a10 10 0 0 0-9.841 15.416"/></svg>`;
-const darkFaviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgb(132 204 22)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><path d="M10.4 21.9a10 10 0 0 0 9.941-15.416"/><path d="M13.5 2.1a10 10 0 0 0-9.841 15.416"/></svg>`;
-const lightFaviconData = `data:image/svg+xml;base64,${btoa(lightFaviconSvg)}`;
-const darkFaviconData = `data:image/svg+xml;base64,${btoa(darkFaviconSvg)}`;
 ---
 
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href={lightFaviconData} media="(prefers-color-scheme: light)" />
-    <link rel="icon" type="image/svg+xml" href={darkFaviconData} media="(prefers-color-scheme: dark)" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="generator" content={Astro.generator} />
-  </head>
-  <body class="min-h-screen flex flex-col bg-zinc-50 text-zinc-900">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google Tag Manager -->
+  <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KTN3TQZ9');</script>
+  <!-- End Google Tag Manager -->
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta property="og:site_name" content={siteConfig.siteName}>
+  <meta property="og:image" content="/ogimage.avif">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon-light.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="apple-touch-icon" href="/touch-icon.png">
+
+  <meta name="generator" content={Astro.generator} />
+</head>
+
+<body class="min-h-screen flex flex-col bg-zinc-50 text-zinc-900">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTN3TQZ9"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <!-- 22.5+142+640+23+22.5 -->
   <header class="w-full flex h-14 items-center px-6">
@@ -135,7 +150,7 @@ const darkFaviconData = `data:image/svg+xml;base64,${btoa(darkFaviconSvg)}`;
     </div>
   </footer>
 
-  </body>
+</body>
 </html>
 
 <style>
