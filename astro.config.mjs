@@ -49,6 +49,7 @@ export default defineConfig({
     ],
   },
   build: {
+    format: "file",
     assets: '_assets'
   },
   trailingSlash: 'never',
