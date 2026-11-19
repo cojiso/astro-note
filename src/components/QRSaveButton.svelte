@@ -12,7 +12,7 @@
   export let pagePublished: Date | undefined = undefined;
   export let pageEdited: Date | undefined = undefined;
   export let pageTags: string[] | undefined = undefined;
-  export let siteName: string[] | undefined = undefined;
+  export let siteName: string | undefined = undefined;
 
   let currentUrl = '';
   let qrDataUrl = '';
