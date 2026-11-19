@@ -20,7 +20,7 @@ export default defineConfig({
     // @ts-ignore
     plugins: [tailwindcss()],
     ssr: {
-      noExternal: ['@iconify/svelte', 'lucide-svelte']
+      noExternal: ['lucide-svelte']
     }
   },
   integrations: [

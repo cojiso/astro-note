@@ -5,7 +5,6 @@
   import QRCode from 'qrcode';
   import QRPreviewCard from './QRPreviewCard.svelte';
   // import { Icon } from 'astro-icon/components';
-  // import Icon from '@iconify/svelte';
   import { Orbit } from 'lucide-svelte';
 
   export let pageTitle: string | undefined = undefined;
