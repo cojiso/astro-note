@@ -21,7 +21,7 @@ export default defineConfig({
     // @ts-ignore
     plugins: [tailwindcss()],
     ssr: {
-      noExternal: ['lucide-svelte']
+      noExternal: ['@lucide/svelte']
     }
   },
   integrations: [
