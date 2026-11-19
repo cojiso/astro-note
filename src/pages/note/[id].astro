@@ -1,7 +1,7 @@
 ---
 // src/pages/note/[id].astro
 // import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { formatDate } from '../../lib/note';
 
@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 }
 
 const { note } = Astro.props;
-const { Content } = await note.render();
+const { Content } = await render(note);
 ---
 
 <Layout 

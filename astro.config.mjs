@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';
 import expressiveCode from 'astro-expressive-code';
@@ -29,24 +30,26 @@ export default defineConfig({
     svelte()
   ],
   markdown: {
-    remarkPlugins: [
-      remarkToc,
-      remarkBreaks,
-      remarkLinkCard,
-      remarkCallout,
-    ],
-    rehypePlugins: [
-      rehypeSlug, 
-      rehypeAutolinkHeadings,
-      rehypeRaw,
-      [
-        rehypeExternalLinks,
-        { 
-          target: '_blank',
-          rel: ['noopener', 'noreferrer'],
-        },
+    processor: unified({
+      remarkPlugins: [
+        remarkToc,
+        remarkBreaks,
+        remarkLinkCard,
+        remarkCallout,
       ],
-    ],
+      rehypePlugins: [
+        rehypeSlug,
+        rehypeAutolinkHeadings,
+        rehypeRaw,
+        [
+          rehypeExternalLinks,
+          {
+            target: '_blank',
+            rel: ['noopener', 'noreferrer'],
+          },
+        ],
+      ],
+    }),
   },
   build: {
     format: "file",

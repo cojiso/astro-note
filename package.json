@@ -11,13 +11,14 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",
-    "@astrojs/svelte": "^7.2.5",
+    "@astrojs/markdown-remark": "^7.3.9",
+    "@astrojs/svelte": "^9.1.6",
     "@astrojs/ts-plugin": "^1.11.0",
     "@r4ai/remark-callout": "^0.6.2",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.20",
-    "astro": "^5.18.2",
-    "astro-expressive-code": "^0.37.1",
+    "astro": "^7.4.12",
+    "astro-expressive-code": "^0.44.4",
     "astro-icon": "^1.2.0",
     "html-to-image": "^1.11.13",
     "lucide-svelte": "^0.454.0",
@@ -34,7 +35,7 @@
     "svelte": "^5.58.0",
     "svelte-copy": "^2.0.0",
     "tailwindcss": "^4.3.5",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.156",
