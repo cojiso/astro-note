@@ -10,10 +10,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "0.9.5",
+    "@astrojs/check": "^0.9.12",
     "@astrojs/mdx": "^4.3.10",
     "@astrojs/svelte": "^7.2.2",
-    "@astrojs/ts-plugin": "1.10.5",
+    "@astrojs/ts-plugin": "^1.11.0",
     "@fontsource-variable/raleway": "^5.1.0",
     "@fontsource/dosis": "^5.1.0",
     "@fontsource/inter": "^5.1.0",
