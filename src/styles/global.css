@@ -17,6 +17,9 @@
 @layer base {
   :root {
     font-size: 15px;
+    /* 日本語の組版: 小書き仮名や長音の行頭を禁止し、行頭の開き括弧の空きを詰める */
+    line-break: strict;
+    text-spacing-trim: trim-start;
     --content-padding: 1.5rem; /* tailwind-6 */
   }
 
@@ -30,6 +33,19 @@
 
   a {
     @apply no-underline hover:no-underline;
+  }
+
+  /* 日本語の改行: 見出しは文節で折り返して行の長さを揃え、本文は最終行の1文字残りを防ぐ */
+  h1,
+  h2,
+  h3,
+  h4 {
+    word-break: auto-phrase;
+    text-wrap: balance;
+  }
+  p,
+  li {
+    text-wrap: pretty;
   }
 }
 
