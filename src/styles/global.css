@@ -266,24 +266,40 @@
 
   /* テーブル */
   & :is(table) {
-    /* .prose table と同じ詳細度 (0,2,0) を持つ */
+    /* 詳細度は (0,1,1) で、プラグインの .prose :where(table)（(0,1,0)）に勝つ */
     @apply block overflow-x-auto; /* スクロール可能に */
-    @apply -mx-8 px-8; /* コンテナの幅を調整 */
+    @apply -mx-8 px-8; /* 本文の左右の余白まで広げて、スクロールしたときに端まで使えるようにする */
     width: calc(100% + var(--spacing) * 16); /* -mx-8 の左右ぶん広げる */
-    @apply relative; /* シャドウのための位置指定 */
     @apply pb-3; /* スクロールバーの位置調整 */
     font-size: var(--text-sm);
     line-height: calc(24 * 9 / 120); /* 24px */
+    /* 罫線をセルごとに持たせる。collapse だと隣の罫線と太さを半分ずつ分け合い、行の高さが 0.5〜1px ずれる */
+    border-collapse: separate;
+    border-spacing: 0;
   }
   /* テーブル: 中身 */
   & table thead {
     @apply bg-slate-2 sticky top-0; /* ヘッダーを固定 */
   }
+  /* セルは行 24px + 上 6px + 下 6px = 36px。罫線の太さは padding から引いて、罫線込みで 36px にする */
   & table th {
-    @apply px-3 text-left align-middle font-bold text-slate-12 border-b-2 whitespace-nowrap;
+    /* 見出しの上下の線（表の上の線と見出しの下の線）は、どちらも 2px で既定の罫線の色にする */
+    @apply px-3 text-left align-middle font-bold text-slate-12 border-t-2 border-b-2 whitespace-nowrap;
+    padding-top: calc(var(--spacing) * 2 - 2px);
+    padding-bottom: calc(var(--spacing) * 2 - 2px);
   }
   & table td {
-    @apply px-3 text-slate-11 whitespace-nowrap;
+    @apply px-3 pt-2 text-slate-11 whitespace-nowrap;
+    padding-bottom: calc(var(--spacing) * 2 - 1px);
+    /* separate では行（tr）の罫線が描かれないので、プラグインの行の区切り線をセルの下線として付ける。最後の行の線は表の下の線になる */
+    border-bottom: 1px solid var(--tw-prose-td-borders);
+  }
+  /* 外側の列は、セルの文字を本文の左端・右端に揃える（プラグインの :first-child / :last-child と同じ） */
+  & table :is(th, td):first-child {
+    padding-left: 0;
+  }
+  & table :is(th, td):last-child {
+    padding-right: 0;
   }
   /* テーブル: スクロールバーのスタイリング */
   & table::-webkit-scrollbar {
