@@ -136,7 +136,7 @@ const pageUrl = new URL(
     >
       <div class="flex items-center gap-5">
         <a
-          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(pageTitle ? `${pageTitle} | ${siteConfig.siteName}` : siteConfig.siteName)}`}
+          href={`https://x.com/intent/post?url=${encodeURIComponent(pageUrl)}${pageTitle ? `&text=${encodeURIComponent(`「${pageTitle}」`)}` : ''}`}
           target="_blank"
           rel="noopener noreferrer"
           class="p-3 group"
