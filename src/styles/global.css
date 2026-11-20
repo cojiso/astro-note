@@ -111,6 +111,39 @@
   @apply font-display text-xs leading-6 px-3 py-1 bg-slate-3 text-lime-12 rounded-full;
 }
 
+/* ホバーと押したときに重ねる色。2 枚重ね、ホバーで 1 枚、押すともう 1 枚。色は Radix の透過色 gray-a3（地の色の段。2 枚重ねると a4 と a5 の間）。ページの地（gray-2）と同じ色みのない灰色で、濃さだけを変える。時間と曲線は 0.2s cubic-bezier(0.4, 0, 0.6, 1) */
+/* outer: 色だけを inset で要素の外へ 9px はみ出させ、中身は列の端に揃えたままにする。角丸ははみ出しと同じ 9px で、中身の角を中心にした弧になる */
+/* 角丸はどこでも 9px にそろえる。角丸のあるカードでも、角丸 + 9px（同心）ではなく 9px にする。15px との差は小さく、一つの値の方が揃って見える */
+/* --hover-overlay-y で上下のはみ出しを替える。隙間なく並べる一覧の行は上下を 0 にして、押せる範囲と色を揃える */
+@utility hover-overlay {
+  position: relative;
+
+  &::before,
+  &::after {
+    position: absolute;
+    inset: var(--hover-overlay-y, calc(var(--spacing) * -3)) calc(var(--spacing) * -3);
+    border-radius: var(--radius-xl);
+    background: var(--color-gray-a3);
+    opacity: 0;
+    scale: 0.99;
+    transition:
+      opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1),
+      scale 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+    content: "";
+    pointer-events: none;
+  }
+
+  &:hover::before,
+  &:hover::after {
+    scale: 1;
+  }
+
+  &:hover::before,
+  &:hover:active::after {
+    opacity: 1;
+  }
+}
+
 /* @tailwindcss/typography は Tailwind 既定の gray を値で埋め込んでいるので、Radix の slate に差し替える */
 /* プラグインの .prose は同じ詳細度で @layer utilities の後ろに出るので、@utility の中に書くと負ける。レイヤーの外に書いて勝たせる */
 .prose {
