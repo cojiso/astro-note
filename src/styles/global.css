@@ -22,6 +22,14 @@
   /* UI の余白は 3px × フィボナッチ数（spacing 1 / 2 / 3 / 5 / 8 / 13 / 21 = 3 / 6 / 9 / 15 / 24 / 39 / 63px）だけを使う */
   --spacing: calc(3rem / 15);
 
+  /* 角丸も 3px × フィボナッチ数にする。入れ子では「内側 + 間の余白 = 外側」にすると角の曲線が同心になる */
+  --radius-*: initial;
+  --radius-sm: calc(var(--spacing) * 1); /* 3px */
+  --radius-lg: calc(var(--spacing) * 2); /* 6px */
+  --radius-xl: calc(var(--spacing) * 3); /* 9px */
+  --radius-2xl: calc(var(--spacing) * 5); /* 15px */
+  --radius-3xl: calc(var(--spacing) * 8); /* 24px */
+
   --text-*: initial;
   --text-xs: calc(8rem / 10); /* 12px */
   --text-xs--line-height: calc(21 * 10 / 120); /* 21px */
@@ -207,7 +215,7 @@
 
   /* code */
   & code {
-    @apply font-normal text-sm bg-slate-5 rounded;
+    @apply font-normal text-sm bg-slate-5 rounded-sm;
     font-family:
       SFMono-Regular,
       Consolas,
