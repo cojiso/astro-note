@@ -1,0 +1,309 @@
+---
+// src/components/QRCardDialog.astro
+// ページのカードを QR コード付きの画像として保存するダイアログ。開閉はブラウザに任せ(Layout.astro のボタンの command / commandfor と closedby)、QR コードはビルド時に作る。スクリプトは保存日と時間帯の色を入れ、保存するときに html-to-image を読み込むだけ。
+import { Icon } from 'astro-icon/components'
+import QRCode from 'qrcode'
+import { formatDate } from '../lib/note'
+
+interface Props {
+  pageUrl: string
+  pageTitle?: string
+  pageDescription?: string
+  pagePublished?: Date
+  pageEdited?: Date
+  pageTags?: string[]
+  siteName: string
+}
+
+const {
+  pageUrl,
+  pageTitle,
+  pageDescription,
+  pagePublished,
+  pageEdited,
+  pageTags,
+  siteName,
+} = Astro.props
+
+const qrSvg = await QRCode.toString(pageUrl, { type: 'svg', margin: 1 })
+const filename = pageTitle?.slice(0, 50) || 'page'
+---
+
+<dialog
+  id="qr-card"
+  closedby="any"
+  aria-label="Save page card"
+  class="m-auto w-[min(24rem,calc(100%-2rem))] overflow-visible bg-transparent p-0"
+>
+  <button
+    type="button"
+    command="close"
+    commandfor="qr-card"
+    class="fixed top-4 right-4 p-2 text-slate-7 hover:text-slate-5"
+    aria-label="Close dialog"
+  >
+    <Icon name="lucide:x" class="w-6 h-6" aria-hidden="true" />
+  </button>
+
+  <!-- 画像にするカード -->
+  <div data-card data-filename={filename} class="relative w-full">
+    <!-- Top section with mask -->
+    <div
+      class="top bg-white overflow-hidden relative"
+      style="mask: url(#qr-card-top-mask); -webkit-mask: url(#qr-card-top-mask)"
+    >
+      <svg width="100%" height="100%" class="absolute" aria-hidden="true">
+        <defs>
+          <mask id="qr-card-top-mask">
+            <rect width="100%" height="100%" fill="white" />
+            <circle cx="0" cy="100%" r="12" fill="black" />
+            <circle cx="100%" cy="100%" r="12" fill="black" />
+          </mask>
+        </defs>
+      </svg>
+
+      <div class="p-6 pb-6">
+        <!-- Blog title and logo -->
+        <div class="flex items-center gap-2 mb-6">
+          <!-- カードのアイコンは is:inline で <use> を使わず中身を書き出す。html-to-image はカードの外(ヘッダーのアイコンなど)への参照を描けない -->
+          <Icon
+            is:inline
+            name="lucide:orbit"
+            class="w-6 h-6 text-lime-11"
+            aria-hidden="true"
+          />
+          <span class="text-xl font-bold font-display text-slate-11"
+            >{siteName}</span
+          >
+        </div>
+
+        <!-- Page Title section -->
+        <h3 class="font-bold text-xl text-slate-12 mb-4">
+          {pageTitle || 'Untitled Page'}
+        </h3>
+
+        <!-- Description -->
+        {pageDescription && (
+          <p class="text-sm text-slate-11 mb-6">{pageDescription}</p>
+        )}
+
+        <!-- Tags -->
+        {pageTags && pageTags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-6">
+            {pageTags.slice(0, 3).map((tag) => (
+              <span class="px-2 bg-slate-3 rounded-full text-xs font-display text-slate-12">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <!-- Dates section with adjusted grid layout -->
+        <div class="border-t border-slate-3 pt-4">
+          <div
+            class="grid grid-rows-[auto_1fr] grid-cols-[1fr_auto_1fr] gap-4"
+          >
+            <!-- Published/Updated header -->
+            <div class="text-sm text-slate-11 text-center">公開/更新</div>
+
+            <!-- Arrow header (empty for alignment) -->
+            <div></div>
+
+            <!-- Save header -->
+            <div class="text-sm text-slate-11 text-center">保存</div>
+
+            <!-- Published/Updated dates -->
+            <div class="font-mono text-sm">
+              {pagePublished && (
+                <div class="text-slate-12 text-center leading-tight">
+                  {formatDate(pagePublished)}
+                </div>
+              )}
+              {pageEdited &&
+                pageEdited.getTime() !== pagePublished?.getTime() && (
+                  <div class="flex justify-center items-center gap-2 text-slate-12 leading-tight">
+                    <span class="text-slate-9">↪︎</span>
+                    <span>{formatDate(pageEdited)}</span>
+                  </div>
+                )}
+            </div>
+
+            <!-- Arrow -->
+            <div class="flex justify-center items-center text-slate-7 px-2">
+              <Icon
+                is:inline
+                name="lucide:arrow-right"
+                class="h-8 w-8"
+                aria-hidden="true"
+              />
+            </div>
+
+            <!-- Save date: 開いた日をスクリプトが入れる -->
+            <div
+              data-save-date
+              class="font-mono text-slate-12 text-center flex items-center justify-center"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom section with mask -->
+    <div
+      class="bottom bg-white overflow-hidden -mt-px border-t-2 border-white relative"
+      style="mask: url(#qr-card-bottom-mask); -webkit-mask: url(#qr-card-bottom-mask)"
+    >
+      <svg width="100%" height="100%" class="absolute" aria-hidden="true">
+        <defs>
+          <mask id="qr-card-bottom-mask">
+            <rect width="100%" height="100%" fill="white" />
+            <circle cx="0" cy="0" r="12" fill="black" />
+            <circle cx="100%" cy="0" r="12" fill="black" />
+          </mask>
+        </defs>
+      </svg>
+
+      <!-- QR code section -->
+      <div class="px-6 pb-6 pt-0">
+        <!-- 時間帯の色はスクリプトが入れる -->
+        <div
+          data-nature
+          class="nature p-4 rounded-2xl backdrop-blur-xs transition-all duration-1000 relative overflow-hidden"
+        >
+          <div
+            role="img"
+            aria-label="Page QR Code"
+            class="w-40 h-40 mx-auto bg-white backdrop-blur-md rounded-xl p-4 shadow-lg [&>svg]:size-full"
+            set:html={qrSvg}
+          />
+          <div
+            class="text-center mt-4 font-mono text-xs text-white/90 drop-shadow-md"
+          >
+            {pageUrl}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- アクションボタン -->
+  <div class="mt-6 flex justify-center gap-4">
+    <button
+      type="button"
+      command="close"
+      commandfor="qr-card"
+      class="px-4 py-2 text-base text-slate-7 hover:text-slate-5"
+    >
+      戻る
+    </button>
+    <button
+      type="button"
+      data-save
+      class="flex items-center gap-2 px-4 py-2 text-base bg-lime-9 text-lime-12 rounded-lg hover:bg-lime-10"
+    >
+      <Icon name="lucide:download" class="w-5 h-5" aria-hidden="true" />
+      画像を保存
+    </button>
+  </div>
+</dialog>
+
+<script>
+import { generateNatureGradient, getCurrentColorScheme } from './colorScheme'
+
+const dialog = document.querySelector<HTMLDialogElement>('dialog#qr-card')
+const card = dialog?.querySelector<HTMLElement>('[data-card]')
+
+const formatDate = (date: Date) =>
+  `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`
+
+// 保存日と時間帯の色は、開いたときのものにする
+dialog?.addEventListener('beforetoggle', (event) => {
+  if (event.newState !== 'open') return
+  const saveDate = dialog.querySelector<HTMLElement>('[data-save-date]')
+  if (saveDate) saveDate.textContent = formatDate(new Date())
+  const nature = dialog.querySelector<HTMLElement>('[data-nature]')
+  if (nature) {
+    nature.style.backgroundImage = generateNatureGradient(
+      getCurrentColorScheme().colors,
+    )
+  }
+})
+
+dialog
+  ?.querySelector<HTMLButtonElement>('[data-save]')
+  ?.addEventListener('click', async () => {
+    if (!card) return
+    try {
+      const { toPng } = await import('html-to-image')
+      const dataUrl = await toPng(card, { quality: 0.95, pixelRatio: 2 })
+      const link = document.createElement('a')
+      link.href = dataUrl
+      link.download = `${card.dataset.filename}-${new Date().toISOString().split('T')[0]}.png`
+      link.click()
+      setTimeout(() => dialog.close(), 500)
+    } catch (err) {
+      console.error('Failed to save image:', err)
+    }
+  })
+</script>
+
+<style>
+/* 開閉と背景をフェードさせる。display と overlay は閉じるフェードの終わりで切り替える(overlay は Chromium のみで、他では閉じるフェードが省かれる) */
+dialog {
+  opacity: 0;
+  transition:
+    opacity 0.15s ease-out,
+    display 0.15s allow-discrete,
+    overlay 0.15s allow-discrete;
+}
+
+dialog[open] {
+  opacity: 1;
+}
+
+/* 黒はカードの色を邪魔しない 50% のまま、透けて見える本文をぼかす */
+dialog::backdrop {
+  background: rgb(0 0 0 / 50%);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition:
+    opacity 0.15s ease-out,
+    display 0.15s allow-discrete,
+    overlay 0.15s allow-discrete;
+}
+
+dialog[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  dialog[open],
+  dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* Ensure mask works across browsers */
+@supports (-webkit-mask: url()) or (mask: url()) {
+  /* Top section: 上部のみ角丸 */
+  .top {
+    border-radius: 1.5rem 1.5rem 0 0;
+  }
+
+  /* Bottom section: 下部のみ角丸 */
+  .bottom {
+    border-radius: 0 0 1.5rem 1.5rem;
+  }
+}
+
+.nature::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(10px);
+  opacity: 0.5;
+  z-index: -1;
+  transform: scale(1.1);
+}
+</style>

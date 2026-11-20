@@ -4,7 +4,7 @@ import '../styles/global.css'
 import { Font } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 import CopyButton from '../components/CopyButton.svelte'
-import QRSaveButton from '../components/QRSaveButton.svelte'
+import QRCardDialog from '../components/QRCardDialog.astro'
 
 const siteConfig = {
   siteName: 'orbit.supply',
@@ -27,6 +27,12 @@ const title = pageTitle
   : siteConfig.siteName
 
 const description = pageDescription ?? siteConfig.siteDescription
+
+// build.format が 'file' なので Astro.url は .html で終わる。Workers は .html を外した URL で配信する（/index.html は /）
+const pageUrl = new URL(
+  Astro.url.pathname.replace(/(index)?\.html$/, ''),
+  Astro.site,
+).toString()
 ---
 
 <!DOCTYPE html>
@@ -101,20 +107,19 @@ const description = pageDescription ?? siteConfig.siteDescription
 
       {/* 右側エリア - 大画面で左寄せ、小画面で右寄せ */}
       <div class="flex-1 flex justify-end min-[858px]:justify-start">
-        <QRSaveButton
-          client:idle
+        <button
+          type="button"
+          command="show-modal"
+          commandfor="qr-card"
+          aria-haspopup="dialog"
+          aria-label="Save page card"
           class="group py-2 pl-2"
-          pageTitle={pageTitle}
-          pagePublished={pagePublished}
-          pageEdited={pageEdited}
-          pageTags={pageTags}
-          siteName={siteConfig.siteName}
         >
           <Icon
             name="lucide:qr-code"
             class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
           />
-        </QRSaveButton>
+        </button>
       </div>
     </header>
 
@@ -127,7 +132,7 @@ const description = pageDescription ?? siteConfig.siteDescription
     >
       <div class="flex items-center gap-4">
         <a
-          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(Astro.url.toString())}&text=${encodeURIComponent(pageTitle ? `${pageTitle} | ${siteConfig.siteName}` : siteConfig.siteName)}`}
+          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(pageTitle ? `${pageTitle} | ${siteConfig.siteName}` : siteConfig.siteName)}`}
           target="_blank"
           rel="noopener noreferrer"
           class="p-2 group"
@@ -149,20 +154,19 @@ const description = pageDescription ?? siteConfig.siteDescription
             slot="feedback-icon"
           />
         </CopyButton>
-        <QRSaveButton
-          client:idle
+        <button
+          type="button"
+          command="show-modal"
+          commandfor="qr-card"
+          aria-haspopup="dialog"
+          aria-label="Save page card"
           class="p-2 group"
-          pageTitle={pageTitle}
-          pagePublished={pagePublished}
-          pageEdited={pageEdited}
-          pageTags={pageTags}
-          siteName={siteConfig.siteName}
         >
           <Icon
             name="lucide:qr-code"
             class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
           />
-        </QRSaveButton>
+        </button>
       </div>
       <div class="text-sm text-slate-11 font-display">
         <a
@@ -173,6 +177,15 @@ const description = pageDescription ?? siteConfig.siteDescription
         </a>
       </div>
     </footer>
+
+    <QRCardDialog
+      pageUrl={pageUrl}
+      pageTitle={pageTitle}
+      pagePublished={pagePublished}
+      pageEdited={pageEdited}
+      pageTags={pageTags}
+      siteName={siteConfig.siteName}
+    />
   </body>
 </html>
 
