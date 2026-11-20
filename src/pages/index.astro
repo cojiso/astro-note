@@ -1,9 +1,11 @@
 ---
 // src/pages/index.astro
-import Layout from '../layouts/Layout.astro';
-import { getAllPublicNotes, formatDate, generateNotePath } from '../lib/note';
-import { Icon } from 'astro-icon/components';
-// import { 
+
+import { Icon } from 'astro-icon/components'
+import Layout from '../layouts/Layout.astro'
+import { formatDate, generateNotePath, getAllPublicNotes } from '../lib/note'
+
+// import {
 //   Github,
 //   FileText,
 //   Library,
@@ -12,73 +14,78 @@ import { Icon } from 'astro-icon/components';
 //   ArrowUpRight
 // } from '@lucide/svelte';
 
-const notes = await getAllPublicNotes();
+const notes = await getAllPublicNotes()
 
 const links = [
-  { 
-    name: "GitHub",
-    url: "https://github.com/cojiso",
-    icon: "lucide:github"
-  }
-];
+  {
+    name: 'GitHub',
+    url: 'https://github.com/cojiso',
+    icon: 'lucide:github',
+  },
+]
 
 const projects = [
   {
-    title: "orbit.supply",
-    description: "Blog, Link in Bio, Portfolio",
-    url: "https://orbit.supply",
-    status: "active", // active, beta, archived
-    tech: ["Astro", "TypeScript", "Tailwind", "Cloudflare Pages", "Lucide Icons"],
-    lastUpdated: "2024-10",
-    icon: "lucide:file-text",
+    title: 'orbit.supply',
+    description: 'Blog, Link in Bio, Portfolio',
+    url: 'https://orbit.supply',
+    status: 'active', // active, beta, archived
+    tech: [
+      'Astro',
+      'TypeScript',
+      'Tailwind',
+      'Cloudflare Pages',
+      'Lucide Icons',
+    ],
+    lastUpdated: '2024-10',
+    icon: 'lucide:file-text',
   },
   {
-    title: "NDC Scroll",
-    description: "NDC9の表示探索Webツール",
-    url: "https://ndc-scroll.orbit.supply",
-    status: "active",
-    tech: ["Svelte", "TypeScript", "Cloudflare Pages"],
-    lastUpdated: "2024-10",
-    icon: "lucide:library", // サービスのアイコン
+    title: 'NDC Scroll',
+    description: 'NDC9の表示探索Webツール',
+    url: 'https://ndc-scroll.orbit.supply',
+    status: 'active',
+    tech: ['Svelte', 'TypeScript', 'Cloudflare Pages'],
+    lastUpdated: '2024-10',
+    icon: 'lucide:library', // サービスのアイコン
   },
   {
-    title: "RDF Map",
-    description: "ジャパンサーチのデータを表示するMapツール",
-    url: "https://rdf-map.orbit.supply/kamakura",
-    status: "archived",
-    tech: ["Svelte", "Leaflet", "Virtuoso", "GCE", "Cloudflare Pages"],
-    lastUpdated: "2023-11",
-    icon: "lucide:map-pinned",
+    title: 'RDF Map',
+    description: 'ジャパンサーチのデータを表示するMapツール',
+    url: 'https://rdf-map.orbit.supply/kamakura',
+    status: 'archived',
+    tech: ['Svelte', 'Leaflet', 'Virtuoso', 'GCE', 'Cloudflare Pages'],
+    lastUpdated: '2023-11',
+    icon: 'lucide:map-pinned',
   },
   {
-    title: "新古書店横断検索",
-    description: "unitrad-uiをフォークし書店検索機能を追加したもの",
-    url: "https://b.orbit.supply",
-    status: "active",
-    tech: ["Svelte", "unitrad-ui", "GCR"],
-    lastUpdated: "2025-09",
-    icon: "lucide:book-alert",
+    title: '新古書店横断検索',
+    description: 'unitrad-uiをフォークし書店検索機能を追加したもの',
+    url: 'https://b.orbit.supply',
+    status: 'active',
+    tech: ['Svelte', 'unitrad-ui', 'GCR'],
+    lastUpdated: '2025-09',
+    icon: 'lucide:book-alert',
   },
   {
-    title: "cReturn",
-    description: "どんなサイトでも、Enterで改行、Ctrl+Enterで送信できる、Chrome拡張機能",
-    url: "https://chromewebstore.google.com/detail/creturn/dpfkfjilfchkjcohjfmdnlmecgbpakfd",
-    status: "active",
-    tech: ["WXT", "React", "Chrome Extensions"],
-    lastUpdated: "2025-08",
-    icon: "lucide:chromium",
-  }
-];
+    title: 'cReturn',
+    description:
+      'どんなサイトでも、Enterで改行、Ctrl+Enterで送信できる、Chrome拡張機能',
+    url: 'https://chromewebstore.google.com/detail/creturn/dpfkfjilfchkjcohjfmdnlmecgbpakfd',
+    status: 'active',
+    tech: ['WXT', 'React', 'Chrome Extensions'],
+    lastUpdated: '2025-08',
+    icon: 'lucide:chromium',
+  },
+]
 ---
 
 <Layout>
   <section class="mb-12">
-    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">
-      Notes
-    </h2>
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">Notes</h2>
     <div class="space-y-4">
       {notes.map((note) => (
-        <a 
+        <a
           href={generateNotePath(note.data.id)}
           class="flex justify-between gap-4 items-center group p-1 hover:-mr-2 rounded-sm transition-all hover:text-zinc-500 hover:underline underline-offset-4 decoration-zinc-300"
         >
@@ -99,14 +106,18 @@ const projects = [
     </h2>
     <div class="grid gap-3 md:grid-cols-2">
       {projects.map((project) => (
-        <a 
+        <a
           href={project.url}
           class="flex gap-3 p-4 border rounded-lg bg-white transition-all hover:shadow-lg group"
           target="_blank"
           rel="noopener noreferrer"
         >
           <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100">
-            <Icon name={project.icon} size={20} class="text-zinc-600 group-hover:text-zinc-900" />
+            <Icon
+              name={project.icon}
+              size={20}
+              class="text-zinc-600 group-hover:text-zinc-900"
+            />
           </div>
           <div class="flex-1">
             <div class="flex items-center gap-2">
@@ -118,22 +129,29 @@ const projects = [
                   {project.status === 'beta' ? 'Beta' : 'Archived'}
                 </span>
               )}
-              <Icon 
-                name={project.status === 'archived' ? "lucide:x" : "lucide:arrow-up-right"}
-                size={16} 
+              <Icon
+                name={
+                  project.status === 'archived'
+                    ? 'lucide:x'
+                    : 'lucide:arrow-up-right'
+                }
+                size={16}
                 class:list={[
-                  "ml-auto transition-colors",
+                  'ml-auto transition-colors',
                   {
-                    "text-lime-500 group-hover:text-lime-700": project.status === 'active',
-                    "text-amber-500 group-hover:text-amber-700": project.status === 'beta',
-                    "text-red-400 group-hover:text-red-600": project.status === 'archived'
-                  }
+                    'text-lime-500 group-hover:text-lime-700':
+                      project.status === 'active',
+                    'text-amber-500 group-hover:text-amber-700':
+                      project.status === 'beta',
+                    'text-red-400 group-hover:text-red-600':
+                      project.status === 'archived',
+                  },
                 ]}
               />
             </div>
             <p class="text-sm text-zinc-600 mt-1">{project.description}</p>
             <div class="mt-3 flex flex-wrap gap-2">
-              {project.tech.map(tech => (
+              {project.tech.map((tech) => (
                 <span class="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-600 rounded-full">
                   {tech}
                 </span>
@@ -146,9 +164,7 @@ const projects = [
   </section>
 
   <section class="mb-12">
-    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">
-      Links
-    </h2>
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">Links</h2>
     <div class="grid gap-3">
       {links.map(({ name, url, icon }) => (
         <a
@@ -158,15 +174,19 @@ const projects = [
           rel="noopener noreferrer"
         >
           <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100 transition-colors">
-            <Icon name={icon} size={20} class="text-zinc-600 group-hover:text-zinc-900" />
+            <Icon
+              name={icon}
+              size={20}
+              class="text-zinc-600 group-hover:text-zinc-900"
+            />
           </div>
           <span class="text-base font-medium text-zinc-800 group-hover:text-zinc-900">
             {name}
           </span>
-          <Icon 
-            name="lucide:arrow-up-right" 
-            size={16} 
-            class="ml-auto text-zinc-400 group-hover:text-zinc-600 transition-colors" 
+          <Icon
+            name="lucide:arrow-up-right"
+            size={16}
+            class="ml-auto text-zinc-400 group-hover:text-zinc-600 transition-colors"
           />
         </a>
       ))}
@@ -174,10 +194,16 @@ const projects = [
   </section>
 
   <section class="prose">
-    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">
-      About
-    </h2>
-    <p>本サイトのコンテンツについて、引用部分や第三者の著作物を除き、別段の記載がない限り、私の文章および図表はCC BY 4.0で、ソースコードはMITライセンスで公開します。</p>
-    <p>本サイトはアクセス解析のために<a href="https://www.google.com/policies/privacy/partners/">Google Analytics(Cookie等を使用しユーザーから情報を収集する)</a>を使用しています。</p>
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">About</h2>
+    <p>
+      本サイトのコンテンツについて、引用部分や第三者の著作物を除き、別段の記載がない限り、私の文章および図表はCC
+      BY 4.0で、ソースコードはMITライセンスで公開します。
+    </p>
+    <p>
+      本サイトはアクセス解析のために<a
+        href="https://www.google.com/policies/privacy/partners/"
+        >Google Analytics(Cookie等を使用しユーザーから情報を収集する)</a
+      >を使用しています。
+    </p>
   </section>
 </Layout>

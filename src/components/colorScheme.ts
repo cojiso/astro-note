@@ -1,13 +1,13 @@
 // src/lib/colorScheme.ts
 export interface TimeColorScheme {
-  id: string;
-  startHour: number;
+  id: string
+  startHour: number
   colors: {
-    sky: string[];      // 空の4色のグラデーション
-    ground: string[];   // 地面の2色
-    effects: string[];  // 光と影の2色
-    description: string;  // 時間帯の説明
-  };
+    sky: string[] // 空の4色のグラデーション
+    ground: string[] // 地面の2色
+    effects: string[] // 光と影の2色
+    description: string // 時間帯の説明
+  }
 }
 
 export const timeColorSchemes: TimeColorScheme[] = [
@@ -19,18 +19,18 @@ export const timeColorSchemes: TimeColorScheme[] = [
         '#2E3440', // 最も暗い空
         '#3B4252', // 夜空から明け方へ
         '#434C5E', // 明け方の空
-        '#4C566A'  // 薄明の空
+        '#4C566A', // 薄明の空
       ],
       ground: [
         '#D8DEE9', // 明るい地平線
-        '#E5E9F0'  // より明るい地面
+        '#E5E9F0', // より明るい地面
       ],
       effects: [
         '#E5B676', // 街灯の温かみのある弱い光
-        '#2B2F3B'  // ぼんやりとした街灯に染まる闇
+        '#2B2F3B', // ぼんやりとした街灯に染まる闇
       ],
-      description: '夜明け前: 暗い青から薄明るい青へ'
-    }
+      description: '夜明け前: 暗い青から薄明るい青へ',
+    },
   },
   {
     id: 'morning',
@@ -40,18 +40,18 @@ export const timeColorSchemes: TimeColorScheme[] = [
         '#81A1C1', // 朝方の空
         '#88C0D0', // 明るい朝空
         '#8FBCBB', // さらに明るい空
-        '#5E81AC'  // 澄んだ青空
+        '#5E81AC', // 澄んだ青空
       ],
       ground: [
         '#A3BE8C', // 朝露の地面
-        '#B9D39C'  // 明るい草地
+        '#B9D39C', // 明るい草地
       ],
       effects: [
         '#EBCB8B', // 朝日
-        '#5B7DBA'  // 朝霧
+        '#5B7DBA', // 朝霧
       ],
-      description: '朝: 青みがかった水色からクリアな青へ'
-    }
+      description: '朝: 青みがかった水色からクリアな青へ',
+    },
   },
   {
     id: 'lateMorning',
@@ -61,18 +61,18 @@ export const timeColorSchemes: TimeColorScheme[] = [
         '#88C0D0', // 明るい空
         '#81A1C1', // やや深い空
         '#5E81AC', // 深まる青空
-        '#5171A1'  // 濃い青空
+        '#5171A1', // 濃い青空
       ],
       ground: [
         '#EBCB8B', // 明るい地面
-        '#E1B86B'  // 陽光を受けた地面
+        '#E1B86B', // 陽光を受けた地面
       ],
       effects: [
         '#E5E9F0', // モダニズム建築の壁面に差す光
-        '#4C566A'  // コントラストの強い影
+        '#4C566A', // コントラストの強い影
       ],
-      description: '昼前: 澄んだ青から深い青へ'
-    }
+      description: '昼前: 澄んだ青から深い青へ',
+    },
   },
   {
     id: 'noon',
@@ -82,18 +82,18 @@ export const timeColorSchemes: TimeColorScheme[] = [
         '#81A1C1', // 明るい空
         '#7191B1', // やや深い空
         '#6181A1', // 深い空
-        '#5E81AC'  // 濃い青空
+        '#5E81AC', // 濃い青空
       ],
       ground: [
         '#A3BE8C', // 緑の地面
-        '#98B37E'  // 深い緑地
+        '#98B37E', // 深い緑地
       ],
       effects: [
         '#EBCB8B', // 強い日差し
-        '#596773'  // やや淡い影
+        '#596773', // やや淡い影
       ],
-      description: '真昼: 深い青から鮮やかな青へ'
-    }
+      description: '真昼: 深い青から鮮やかな青へ',
+    },
   },
   {
     id: 'afternoon',
@@ -103,18 +103,18 @@ export const timeColorSchemes: TimeColorScheme[] = [
         '#81A1C1', // 午後の空
         '#8FBCBB', // 柔らかな空
         '#88C0D0', // 明るい空
-        '#7DB5C5'  // 傾く陽の空
+        '#7DB5C5', // 傾く陽の空
       ],
       ground: [
         '#D08770', // 温かな地面
-        '#C57B63'  // 深い地面色
+        '#C57B63', // 深い地面色
       ],
       effects: [
         '#EBCB8B', // 西日
-        '#4C566A'  // 長い影
+        '#4C566A', // 長い影
       ],
-      description: '午後: 青から黄みの青へ'
-    }
+      description: '午後: 青から黄みの青へ',
+    },
   },
   {
     id: 'sunset',
@@ -124,18 +124,18 @@ export const timeColorSchemes: TimeColorScheme[] = [
         '#81A1C1', // 夕方の空
         '#B48EAD', // 紫がかる空
         '#D08770', // オレンジの空
-        '#BF616A'  // 赤みの空
+        '#BF616A', // 赤みの空
       ],
       ground: [
         '#A3BE8C', // 緑の地面
-        '#98B37E'  // 深い緑地
+        '#98B37E', // 深い緑地
       ],
       effects: [
         '#EBCB8B', // 夕陽
-        '#3F4557'  // 影の中に残る昼の名残
+        '#3F4557', // 影の中に残る昼の名残
       ],
-      description: '夕暮れ: 青から橙へのグラデーション'
-    }
+      description: '夕暮れ: 青から橙へのグラデーション',
+    },
   },
   {
     id: 'evening',
@@ -145,18 +145,18 @@ export const timeColorSchemes: TimeColorScheme[] = [
         '#4C566A', // 宵の空
         '#434C5E', // 暮れゆく空
         '#3B4252', // 暗い夜空
-        '#2E3440'  // より暗い夜空
+        '#2E3440', // より暗い夜空
       ],
       ground: [
         '#B48EAD', // 薄紫の地面
-        '#A97D9C'  // 深い紫の地面
+        '#A97D9C', // 深い紫の地面
       ],
       effects: [
         '#5E81AC', // 月明かり
-        '#2E3440'  // 夜の影
+        '#2E3440', // 夜の影
       ],
-      description: '宵の時間: 暗い青からより暗い青へ'
-    }
+      description: '宵の時間: 暗い青からより暗い青へ',
+    },
   },
   {
     id: 'night',
@@ -166,30 +166,37 @@ export const timeColorSchemes: TimeColorScheme[] = [
         '#2E3440', // 最も暗い空
         '#2B3038', // より暗い夜空
         '#272B33', // 暗い夜空
-        '#232830'  // 漆黒の空
+        '#232830', // 漆黒の空
       ],
       ground: [
         '#3B4252', // 暗い地面
-        '#363D47'  // より暗い地面
+        '#363D47', // より暗い地面
       ],
       effects: [
         '#4C566A', // わずかな光
-        '#1D2128'  // 深い闇
+        '#1D2128', // 深い闇
       ],
-      description: '深夜: 濃紺から黒みの青へ'
-    }
-  }
-];
+      description: '深夜: 濃紺から黒みの青へ',
+    },
+  },
+]
 
 export function getCurrentColorScheme(): TimeColorScheme {
-  const hour = new Date().getHours();
+  const hour = new Date().getHours()
   // const hour = 10;
   // 時間の逆順でソートした配列から最初にマッチするものを探す
-  const sortedSchemes = [...timeColorSchemes].sort((a, b) => b.startHour - a.startHour);
-  return sortedSchemes.find(scheme => hour >= scheme.startHour) ?? timeColorSchemes[0];
+  const sortedSchemes = [...timeColorSchemes].sort(
+    (a, b) => b.startHour - a.startHour,
+  )
+  return (
+    sortedSchemes.find((scheme) => hour >= scheme.startHour) ??
+    timeColorSchemes[0]
+  )
 }
 
-export function generateNatureGradient(colors: TimeColorScheme['colors']): string {
+export function generateNatureGradient(
+  colors: TimeColorScheme['colors'],
+): string {
   const svg = `
     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -254,7 +261,7 @@ export function generateNatureGradient(colors: TimeColorScheme['colors']): strin
       <circle cx="0" cy="100%" r="120%" fill="url(#softGradient3)" opacity="0.2" />
       <circle cx="100%" cy="0" r="120%" fill="url(#softGradient1)" opacity="0.2" />
     </svg>
-  `;
-  
-  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+  `
+
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
 }

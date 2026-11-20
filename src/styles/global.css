@@ -1,15 +1,15 @@
 /* src/styles/global.css */
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@plugin '@tailwindcss/typography';
-@plugin '@tailwindcss/forms';
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
 
-@source '../**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}';
+@source "../**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}";
 
 @theme {
   --font-sans:
-    Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-dosis: Dosis, Verdana, sans-serif;
   --font-raleway: Raleway, Verdana, sans-serif;
 }
@@ -17,10 +17,14 @@
 @layer base {
   :root {
     font-size: 15px;
-    --content-padding: 1.5rem;  /* tailwind-6 */
+    --content-padding: 1.5rem; /* tailwind-6 */
   }
 
-  *, ::after, ::before, ::backdrop, ::file-selector-button {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
 
@@ -47,14 +51,19 @@
   /* code */
   & code {
     @apply font-normal text-sm bg-zinc-200 rounded;
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    font-family:
+      SFMono-Regular,
+      Consolas,
+      Liberation Mono,
+      Menlo,
+      monospace;
     padding: 0.2rem 0.4rem;
     vertical-align: 0.03em;
   }
   /* @tailwindcss/typography のデフォルトの ` マークを無効化 */
   & code::before,
-    code::after {
-    content: '';
+  code::after {
+    content: "";
   }
 
   /* image */
@@ -124,12 +133,7 @@
     @apply my-6;
   }
   & .remark-link-card-plus__card {
-    @apply flex justify-between max-h-[90px]
-           border border-zinc-200 rounded-lg
-           bg-zinc-50
-           no-underline hover:no-underline
-           transition duration-200
-           hover:bg-white hover:shadow-lg;
+    @apply flex justify-between max-h-[90px] border border-zinc-200 rounded-lg bg-zinc-50 no-underline hover:no-underline transition duration-200 hover:bg-white hover:shadow-lg;
   }
 
   & .remark-link-card-plus__main {
@@ -147,19 +151,19 @@
   & .remark-link-card-plus__meta {
     @apply flex items-center mt-auto;
   }
-  
+
   & .remark-link-card-plus__url {
     @apply text-sm text-zinc-500 truncate;
   }
-  
+
   & .remark-link-card-plus__container img {
     @apply m-0 border-0 rounded-none;
   }
-  
+
   & .remark-link-card-plus__favicon {
     @apply w-4 h-4 mr-1.5! shrink-0;
   }
-  
+
   & .remark-link-card-plus__container .remark-link-card-plus__thumbnail {
     @apply flex justify-end max-w-64;
   }
@@ -171,8 +175,7 @@
 
 /* Base callout styling */
 [data-callout] {
-  @apply my-6 p-4 rounded-lg border
-          flex flex-col gap-2;
+  @apply my-6 p-4 rounded-lg border flex flex-col gap-2;
 }
 
 /* Callout title styling */
@@ -183,7 +186,7 @@
 /* Callout title icon */
 [data-callout-title]::before {
   @apply w-4 h-4;
-  font-family: 'lucide';
+  font-family: "lucide";
 }
 
 /* Callout body styling */
