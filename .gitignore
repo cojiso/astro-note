@@ -27,10 +27,3 @@ mise.local.toml
 
 # jetbrains setting folder
 .idea/
-
-# obsidian folder
-src/content/note/.*
-src/content/note/_*.md
-src/content/note/[✏️✏︎✍️📝🫥]*.md
-src/content/note/_draft
-!src/content/note/_template/*.md

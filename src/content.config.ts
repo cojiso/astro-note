@@ -4,7 +4,11 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const noteCollection = defineCollection({
-  loader: glob({ pattern: ['**/*.md', '!**/_*', '!**/_*/**'], base: './src/content/note' }),
+  // Notes live in a separate repository (an Obsidian vault) checked out next to this one. Files starting with a draft emoji are never published.
+  loader: glob({
+    pattern: ['**/*.md', '!**/_*', '!**/_*/**', '!**/✏*', '!**/✍*', '!**/📝*', '!**/🫥*'],
+    base: process.env.NOTE_DIR ?? '../note',
+  }),
   schema: z.object({
     id: z.string(),
     title: z.string(),
