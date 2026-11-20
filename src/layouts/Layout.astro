@@ -75,7 +75,7 @@ const description = pageDescription ?? siteConfig.siteDescription
     <meta name="generator" content={Astro.generator}>
   </head>
 
-  <body class="min-h-screen flex flex-col bg-zinc-50 text-zinc-900">
+  <body class="min-h-screen flex flex-col bg-gray-2 text-slate-12">
     <!-- Google Tag Manager (noscript) -->
     <!-- biome-ignore format: Google Tag Manager の公式スニペットをそのまま貼る -->
     <!-- biome-ignore lint/a11y/useIframeTitle: Google Tag Manager の公式スニペットをそのまま貼る -->
@@ -88,9 +88,9 @@ const description = pageDescription ?? siteConfig.siteDescription
       {/* 左側エリア - 大画面で右寄せ、小画面で左寄せ */}
       <div class="flex-1 flex justify-start min-[858px]:justify-end">
         <a href="/" class="flex items-center gap-2 group hover:no-underline">
-          <Icon name="lucide:orbit" class="w-6 h-6 text-lime-800 icons" />
+          <Icon name="lucide:orbit" class="w-6 h-6 text-lime-11 icons" />
           <span
-            class="text-xl font-bold font-display text-zinc-600 hover:text-zinc-800 "
+            class="text-xl font-bold font-display text-slate-11 hover:text-slate-12 "
             >{siteConfig.siteName}</span
           >
         </a>
@@ -112,7 +112,7 @@ const description = pageDescription ?? siteConfig.siteDescription
         >
           <Icon
             name="lucide:qr-code"
-            class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700"
+            class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
           />
         </QRSaveButton>
       </div>
@@ -135,17 +135,17 @@ const description = pageDescription ?? siteConfig.siteDescription
         >
           <Icon
             name="lucide:twitter"
-            class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700"
+            class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
           />
         </a>
         <CopyButton client:idle class="p-2 group relative">
           <Icon
             name="lucide:link-2"
-            class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700"
+            class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
           />
           <Icon
             name="lucide:circle-check"
-            class="w-4 h-4 text-lime-600"
+            class="w-4 h-4 text-lime-8"
             slot="feedback-icon"
           />
         </CopyButton>
@@ -160,14 +160,14 @@ const description = pageDescription ?? siteConfig.siteDescription
         >
           <Icon
             name="lucide:qr-code"
-            class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700"
+            class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
           />
         </QRSaveButton>
       </div>
-      <div class="text-sm text-zinc-600 font-display">
+      <div class="text-sm text-slate-11 font-display">
         <a
           href="/"
-          class="text-zinc-600 hover:text-zinc-800 hover:no-underline"
+          class="text-slate-11 hover:text-slate-12 hover:no-underline"
         >
           © {new Date().getFullYear()} {siteConfig.siteName}
         </a>

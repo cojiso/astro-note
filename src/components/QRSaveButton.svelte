@@ -81,7 +81,7 @@ const saveImage = async () => {
       <!-- Close button -->
       <button
         type="button"
-        class="fixed top-4 right-4 p-2 text-zinc-300 hover:text-zinc-200 z-10"
+        class="fixed top-4 right-4 p-2 text-slate-7 hover:text-slate-5 z-10"
         on:click={closeModal}
         aria-label="Close dialog"
       >
@@ -119,7 +119,7 @@ const saveImage = async () => {
             slot="blog-icon"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6 text-lime-800"
+            class="w-6 h-6 text-lime-11"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -140,14 +140,14 @@ const saveImage = async () => {
       <div class="mt-6 flex justify-center gap-3">
         <button
           type="button"
-          class="px-4 py-2 text-sm text-zinc-300 hover:text-zinc-200"
+          class="px-4 py-2 text-sm text-slate-7 hover:text-slate-5"
           on:click={closeModal}
         >
           Cancel
         </button>
         <button
           type="button"
-          class="px-4 py-2 text-sm bg-lime-600 text-white rounded-lg hover:bg-lime-700"
+          class="px-4 py-2 text-sm bg-lime-9 text-lime-12 rounded-lg hover:bg-lime-10"
           on:click={saveImage}
         >
           Save Image

@@ -1,5 +1,6 @@
 /* src/styles/global.css */
 @import "tailwindcss";
+@import "./radix-colors.css";
 
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/forms";
@@ -28,7 +29,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    border-color: var(--color-slate-5, currentcolor);
   }
 
   a {
@@ -60,20 +61,52 @@
   @apply mx-auto w-full max-w-[640px] px-6;
 }
 
+/* @tailwindcss/typography は Tailwind 既定の gray を値で埋め込んでいるので、Radix の slate に差し替える */
+/* プラグインの .prose は同じ詳細度で @layer utilities の後ろに出るので、@utility の中に書くと負ける。レイヤーの外に書いて勝たせる */
+.prose {
+  /* 本文: 以前の gray-700（明度 37%）に合わせる。Radix には 11（50%）と 12（24%）の間の段がないので、OKLab で半々に混ぜる */
+  --tw-prose-body: color-mix(
+    in oklab,
+    var(--color-slate-11),
+    var(--color-slate-12)
+  );
+  --tw-prose-headings: var(--color-slate-12);
+  --tw-prose-lead: var(--color-slate-11);
+  --tw-prose-links: var(--color-slate-12);
+  --tw-prose-bold: var(--color-slate-12);
+  --tw-prose-counters: var(--color-slate-11);
+  --tw-prose-bullets: var(--color-slate-6);
+  --tw-prose-hr: var(--color-slate-4);
+  --tw-prose-quotes: var(--color-slate-12);
+  --tw-prose-quote-borders: var(--color-slate-4);
+  --tw-prose-captions: var(--color-slate-11);
+  --tw-prose-kbd: var(--color-slate-12);
+  --tw-prose-kbd-shadows: color-mix(
+    in oklab,
+    var(--color-slate-12) 10%,
+    transparent
+  );
+  --tw-prose-code: var(--color-slate-12);
+  --tw-prose-pre-code: var(--color-slate-5);
+  --tw-prose-pre-bg: var(--color-slate-12);
+  --tw-prose-th-borders: var(--color-slate-6);
+  --tw-prose-td-borders: var(--color-slate-4);
+}
+
 @utility prose {
   @apply wrap-break-word;
 
   & a {
-    @apply text-lime-800 no-underline hover:underline;
+    @apply text-lime-11 no-underline hover:underline;
   }
 
   & h2 {
-    @apply pb-1 border-b border-zinc-200;
+    @apply pb-1 border-b border-slate-5;
   }
 
   /* code */
   & code {
-    @apply font-normal text-sm bg-zinc-200 rounded;
+    @apply font-normal text-sm bg-slate-5 rounded;
     font-family:
       SFMono-Regular,
       Consolas,
@@ -91,7 +124,7 @@
 
   /* image */
   & img {
-    @apply border border-zinc-200 rounded-lg;
+    @apply border border-slate-5 rounded-lg;
   }
 
   /* テーブル */
@@ -105,23 +138,23 @@
   }
   /* テーブル: 中身 */
   & table thead {
-    @apply bg-zinc-50 sticky top-0; /* ヘッダーを固定 */
+    @apply bg-slate-2 sticky top-0; /* ヘッダーを固定 */
   }
   & table th {
-    @apply px-3 text-left align-middle font-bold text-zinc-700 border-b-2 whitespace-nowrap;
+    @apply px-3 text-left align-middle font-bold text-slate-12 border-b-2 whitespace-nowrap;
   }
   & table td {
-    @apply px-2 text-zinc-600 whitespace-nowrap;
+    @apply px-2 text-slate-11 whitespace-nowrap;
   }
   /* テーブル: スクロールバーのスタイリング */
   & table::-webkit-scrollbar {
     @apply h-1;
   }
   & table::-webkit-scrollbar-track {
-    @apply bg-zinc-100;
+    @apply bg-slate-3;
   }
   & table::-webkit-scrollbar-thumb {
-    @apply bg-zinc-300 rounded-full hover:bg-zinc-400;
+    @apply bg-slate-7 rounded-full hover:bg-slate-9;
   }
 
   /* リスト */
@@ -156,7 +189,7 @@
     @apply my-6;
   }
   & .remark-link-card-plus__card {
-    @apply flex justify-between max-h-[90px] border border-zinc-200 rounded-lg bg-zinc-50 no-underline hover:no-underline transition duration-200 hover:bg-white hover:shadow-lg;
+    @apply flex justify-between max-h-[90px] border border-slate-5 rounded-lg bg-slate-2 no-underline hover:no-underline transition duration-200 hover:bg-white hover:shadow-lg;
   }
 
   & .remark-link-card-plus__main {
@@ -164,7 +197,7 @@
   }
 
   & .remark-link-card-plus__title {
-    @apply text-lg font-medium text-zinc-900 leading-relaxed line-clamp-2;
+    @apply text-lg font-medium text-slate-12 leading-relaxed line-clamp-2;
   }
 
   & .remark-link-card-plus__description {
@@ -176,7 +209,7 @@
   }
 
   & .remark-link-card-plus__url {
-    @apply text-sm text-zinc-500 truncate;
+    @apply text-sm text-slate-11 truncate;
   }
 
   & .remark-link-card-plus__container img {
@@ -223,10 +256,10 @@
 
 /* Variant: note (デフォルト/情報) */
 [data-callout][data-callout-type="note"] {
-  @apply bg-blue-50 border-blue-200;
+  @apply bg-blue-2 border-blue-6;
 }
 [data-callout][data-callout-type="note"] [data-callout-title] {
-  @apply text-blue-900;
+  @apply text-blue-12;
 }
 [data-callout][data-callout-type="note"] [data-callout-title]::before {
   content: "ℹ️";
@@ -234,10 +267,10 @@
 
 /* Variant: warning (警告) */
 [data-callout][data-callout-type="warning"] {
-  @apply bg-yellow-50 border-yellow-200;
+  @apply bg-yellow-2 border-yellow-6;
 }
 [data-callout][data-callout-type="warning"] [data-callout-title] {
-  @apply text-yellow-900;
+  @apply text-yellow-12;
 }
 [data-callout][data-callout-type="warning"] [data-callout-title]::before {
   content: "⚠️";
@@ -245,10 +278,10 @@
 
 /* Variant: check (成功/チェック) */
 [data-callout][data-callout-type="check"] {
-  @apply bg-green-50 border-green-200;
+  @apply bg-green-2 border-green-6;
 }
 [data-callout][data-callout-type="check"] [data-callout-title] {
-  @apply text-green-900;
+  @apply text-green-12;
 }
 [data-callout][data-callout-type="check"] [data-callout-title]::before {
   content: "✅";
@@ -256,10 +289,10 @@
 
 /* Variant: danger (危険/エラー) */
 [data-callout][data-callout-type="danger"] {
-  @apply bg-red-50 border-red-200;
+  @apply bg-red-2 border-red-6;
 }
 [data-callout][data-callout-type="danger"] [data-callout-title] {
-  @apply text-red-900;
+  @apply text-red-12;
 }
 [data-callout][data-callout-type="danger"] [data-callout-title]::before {
   content: "🚫";
@@ -267,10 +300,10 @@
 
 /* Variant: tip (ヒント) */
 [data-callout][data-callout-type="tip"] {
-  @apply bg-purple-50 border-purple-200;
+  @apply bg-purple-2 border-purple-6;
 }
 [data-callout][data-callout-type="tip"] [data-callout-title] {
-  @apply text-purple-900;
+  @apply text-purple-12;
 }
 [data-callout][data-callout-type="tip"] [data-callout-title]::before {
   content: "💡";

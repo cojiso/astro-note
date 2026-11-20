@@ -27,7 +27,7 @@ onMount(() => {
   <slot />
   {#if showFeedback}
     <span
-      class="absolute -top-12 left-1/2 -translate-x-1/2 px-4 py-2 bg-zinc-50 shadow-[0_4px_12px_rgba(0,0,0,0.08)] text-zinc-600 text-sm rounded-lg flex items-center gap-1.5 whitespace-nowrap"
+      class="absolute -top-12 left-1/2 -translate-x-1/2 px-4 py-2 bg-slate-2 shadow-[0_4px_12px_rgba(0,0,0,0.08)] text-slate-11 text-sm rounded-lg flex items-center gap-1.5 whitespace-nowrap"
     >
       <slot name="feedback-icon" />
       Copied!

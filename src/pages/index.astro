@@ -73,17 +73,17 @@ const projects = [
 
 <Layout>
   <section class="mb-12">
-    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">Notes</h2>
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-slate-5">Notes</h2>
     <div class="space-y-4">
       {notes.map((note) => (
         <a
           href={generateNotePath(note.data.id)}
-          class="flex justify-between gap-4 items-center group p-1 hover:-mr-2 rounded-sm transition-all hover:text-zinc-500 hover:underline underline-offset-4 decoration-zinc-300"
+          class="flex justify-between gap-4 items-center group p-1 hover:-mr-2 rounded-sm transition-all hover:text-slate-11 hover:underline underline-offset-4 decoration-slate-7"
         >
-          <h3 class="text-base font-medium text-zinc-700 group-hover:text-zinc-900 transition-colors">
+          <h3 class="text-base font-medium text-slate-12 transition-colors">
             {note.data.title}
           </h3>
-          <time class="text-sm text-zinc-500 font-display">
+          <time class="text-sm text-slate-11 font-display">
             {formatDate(note.data.publishedAt)}
           </time>
         </a>
@@ -92,7 +92,7 @@ const projects = [
   </section>
 
   <section class="mb-12">
-    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-slate-5">
       Projects
     </h2>
     <div class="grid gap-3 md:grid-cols-2">
@@ -103,20 +103,20 @@ const projects = [
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100">
+          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-3">
             <Icon
               name={project.icon}
               size={20}
-              class="text-zinc-600 group-hover:text-zinc-900"
+              class="text-slate-11 group-hover:text-slate-12"
             />
           </div>
           <div class="flex-1">
             <div class="flex items-center gap-2">
-              <h3 class="text-base font-medium text-zinc-800 group-hover:text-zinc-900">
+              <h3 class="text-base font-medium text-slate-12">
                 {project.title}
               </h3>
               {(project.status === 'beta' || project.status === 'archived') && (
-                <span class="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-500 rounded-full">
+                <span class="text-xs px-2 py-0.5 bg-slate-3 text-slate-11 rounded-full">
                   {project.status === 'beta' ? 'Beta' : 'Archived'}
                 </span>
               )}
@@ -130,20 +130,20 @@ const projects = [
                 class:list={[
                   'ml-auto transition-colors',
                   {
-                    'text-lime-500 group-hover:text-lime-700':
+                    'text-lime-8 group-hover:text-lime-11':
                       project.status === 'active',
-                    'text-amber-500 group-hover:text-amber-700':
+                    'text-amber-8 group-hover:text-amber-11':
                       project.status === 'beta',
-                    'text-red-400 group-hover:text-red-600':
+                    'text-red-8 group-hover:text-red-11':
                       project.status === 'archived',
                   },
                 ]}
               />
             </div>
-            <p class="text-sm text-zinc-600 mt-1">{project.description}</p>
+            <p class="text-sm text-slate-11 mt-1">{project.description}</p>
             <div class="mt-3 flex flex-wrap gap-2">
               {project.tech.map((tech) => (
-                <span class="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-600 rounded-full">
+                <span class="text-xs px-2 py-0.5 bg-slate-3 text-slate-11 rounded-full">
                   {tech}
                 </span>
               ))}
@@ -155,7 +155,7 @@ const projects = [
   </section>
 
   <section class="mb-12">
-    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">Links</h2>
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-slate-5">Links</h2>
     <div class="grid gap-3">
       {links.map(({ name, url, icon }) => (
         <a
@@ -164,20 +164,18 @@ const projects = [
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-100 transition-colors">
+          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-3 transition-colors">
             <Icon
               name={icon}
               size={20}
-              class="text-zinc-600 group-hover:text-zinc-900"
+              class="text-slate-11 group-hover:text-slate-12"
             />
           </div>
-          <span class="text-base font-medium text-zinc-800 group-hover:text-zinc-900">
-            {name}
-          </span>
+          <span class="text-base font-medium text-slate-12">{name}</span>
           <Icon
             name="lucide:arrow-up-right"
             size={16}
-            class="ml-auto text-zinc-400 group-hover:text-zinc-600 transition-colors"
+            class="ml-auto text-slate-9 group-hover:text-slate-11 transition-colors"
           />
         </a>
       ))}
@@ -185,7 +183,7 @@ const projects = [
   </section>
 
   <section class="prose">
-    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-zinc-200">About</h2>
+    <h2 class="text-xl font-bold mb-6 pb-1 border-b border-slate-5">About</h2>
     <p>
       本サイトのコンテンツについて、引用部分や第三者の著作物を除き、別段の記載がない限り、私の文章および図表はCC
       BY 4.0で、ソースコードはMITライセンスで公開します。

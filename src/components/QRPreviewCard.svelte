@@ -55,27 +55,27 @@ onMount(() => {
     </svg>
 
     <!-- Top colored strip -->
-    <!-- <div class="h-3 bg-linear-to-r from-blue-500 to-purple-600"></div> -->
+    <!-- <div class="h-3 bg-linear-to-r from-blue-9 to-purple-9"></div> -->
 
     <div class="p-6 pb-6">
       <!-- Blog title and logo -->
       <div class="flex items-center gap-2 mb-6">
         <slot name="blog-icon">
-          <div class="w-6 h-6 bg-lime-800 rounded-full"></div>
+          <div class="w-6 h-6 bg-lime-11 rounded-full"></div>
         </slot>
-        <span class="text-xl font-bold font-display text-zinc-600"
+        <span class="text-xl font-bold font-display text-slate-11"
           >{siteName}</span
         >
       </div>
 
       <!-- Page Title section -->
-      <h3 class="font-bold text-xl text-gray-800 mb-4">
+      <h3 class="font-bold text-xl text-slate-12 mb-4">
         {pageTitle || 'Untitled Page'}
       </h3>
 
       <!-- Description -->
       {#if pageDescription}
-        <p class="text-sm text-gray-600 mb-6">
+        <p class="text-sm text-slate-11 mb-6">
           {pageDescription}
         </p>
       {/if}
@@ -85,7 +85,7 @@ onMount(() => {
         <div class="flex flex-wrap gap-2 mb-6">
           {#each pageTags.slice(0, 3) as tag}
             <span
-              class="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700"
+              class="px-3 py-1 bg-slate-3 rounded-full text-xs text-slate-12"
             >
               {tag}
             </span>
@@ -94,39 +94,39 @@ onMount(() => {
       {/if}
 
       <!-- Dates section with adjusted grid layout -->
-      <div class="border-t border-gray-100 pt-4">
+      <div class="border-t border-slate-3 pt-4">
         <div
           class="grid grid-rows-[auto_1fr] grid-cols-[1fr_auto_1fr] gap-x-4 gap-y-3"
         >
           <!-- Published/Updated header -->
-          <div class="text-sm text-gray-500 text-center">公開/更新</div>
+          <div class="text-sm text-slate-11 text-center">公開/更新</div>
 
           <!-- Arrow header (empty for alignment) -->
           <div class=""></div>
 
           <!-- Save header -->
-          <div class="text-sm text-gray-500 text-center">保存</div>
+          <div class="text-sm text-slate-11 text-center">保存</div>
 
           <!-- Published/Updated dates -->
           <div class="font-mono text-sm">
             {#if pagePublished}
-              <div class="text-gray-800 text-center leading-tight">
+              <div class="text-slate-12 text-center leading-tight">
                 {formatDate(pagePublished)}
               </div>
             {/if}
             {#if pageEdited &&
               pageEdited.getTime() !== pagePublished?.getTime()}
               <div
-                class="flex justify-center items-center gap-1 text-gray-800 leading-tight mt-1"
+                class="flex justify-center items-center gap-1 text-slate-12 leading-tight mt-1"
               >
-                <span class="text-gray-400">↪︎</span>
+                <span class="text-slate-9">↪︎</span>
                 <span>{formatDate(pageEdited)}</span>
               </div>
             {/if}
           </div>
 
           <!-- Arrow -->
-          <div class="flex justify-center items-center text-gray-300 px-2">
+          <div class="flex justify-center items-center text-slate-7 px-2">
             <svg
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +143,7 @@ onMount(() => {
 
           <!-- Save date -->
           <div
-            class="font-mono text-gray-800 text-center flex items-center justify-center"
+            class="font-mono text-slate-12 text-center flex items-center justify-center"
           >
             {formatDate(new Date())}
           </div>
@@ -170,7 +170,7 @@ onMount(() => {
     <!-- QR code section -->
     {#if qrDataUrl}
       <div class="px-6 pb-6 pt-1">
-        <!-- <div class="bg-gray-50 p-3 rounded-2xl"> -->
+        <!-- <div class="bg-slate-2 p-3 rounded-2xl"> -->
         <div
           class="p-3 pt-4 rounded-2xl backdrop-blur-xs transition-all duration-1000 relative overflow-hidden"
           style:background-image={natureGradientBackground}
@@ -181,7 +181,7 @@ onMount(() => {
           >
             <img src={qrDataUrl} alt="Page QR Code" class="w-full h-full">
           </div>
-          <!-- <div class="text-center mt-3 font-mono text-xs text-gray-500"> -->
+          <!-- <div class="text-center mt-3 font-mono text-xs text-slate-11"> -->
           <div
             class="text-center mt-3 font-mono text-xs text-white/90 drop-shadow-md"
           >
