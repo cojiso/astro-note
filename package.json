@@ -11,7 +11,8 @@
     "astro": "astro",
     "lint": "biome check",
     "lint:fix": "biome check --write",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "gen:colors": "node scripts/gen-radix-colors.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.6.8",
     "@iconify-json/lucide": "^1.2.156",
+    "@radix-ui/colors": "^3.0.0",
     "@tailwindcss/vite": "^4.3.5",
     "@types/node": "^26.6.6",
     "@types/qrcode": "^1.5.6",
