@@ -279,27 +279,28 @@
   }
   /* テーブル: 中身 */
   & table thead {
-    @apply bg-slate-2 sticky top-0; /* ヘッダーを固定 */
+    @apply sticky top-0; /* ヘッダーを固定 */
   }
   /* セルは行 24px + 上 6px + 下 6px = 36px。罫線の太さは padding から引いて、罫線込みで 36px にする */
   & table th {
-    /* 見出しの上下の線（表の上の線と見出しの下の線）は、どちらも 2px で既定の罫線の色にする */
-    @apply px-3 text-left align-middle font-bold text-slate-12 border-t-2 border-b-2 whitespace-nowrap;
-    padding-top: calc(var(--spacing) * 2 - 2px);
-    padding-bottom: calc(var(--spacing) * 2 - 2px);
+    /* 背景はインラインコードやピルと同じ。角丸を付けるため thead ではなくセルに塗る */
+    @apply px-3 pt-2 bg-slate-3 text-left align-middle font-bold text-slate-12 whitespace-nowrap;
+    padding-bottom: calc(var(--spacing) * 2 - 1px);
+    /* 見出しの行は背景で区切るので、下線は行の区切り線と同じにする */
+    border-bottom: 1px solid var(--tw-prose-td-borders);
+  }
+  /* 見出しの行の帯の 4 隅を丸める */
+  & table th:first-child {
+    @apply rounded-l-lg;
+  }
+  & table th:last-child {
+    @apply rounded-r-lg;
   }
   & table td {
     @apply px-3 pt-2 text-slate-11 whitespace-nowrap;
     padding-bottom: calc(var(--spacing) * 2 - 1px);
     /* separate では行（tr）の罫線が描かれないので、プラグインの行の区切り線をセルの下線として付ける。最後の行の線は表の下の線になる */
     border-bottom: 1px solid var(--tw-prose-td-borders);
-  }
-  /* 外側の列は、セルの文字を本文の左端・右端に揃える（プラグインの :first-child / :last-child と同じ） */
-  & table :is(th, td):first-child {
-    padding-left: 0;
-  }
-  & table :is(th, td):last-child {
-    padding-right: 0;
   }
   /* テーブル: スクロールバーのスタイリング */
   & table::-webkit-scrollbar {
