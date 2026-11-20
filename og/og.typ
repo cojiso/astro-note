@@ -1,8 +1,14 @@
 // 記事の共有用の画像（OGP）。src/pages/og/[id].webp.ts が記事ごとに typst で描く
-// 入力: title（記事の題名）、tags（タグの JSON 配列）
+// 入力: title（記事の題名を BudouX で文節に区切った JSON 配列）、tags（タグの JSON 配列）
 // X の大きな画像のカード（summary_large_image）に合わせて 2:1。X は左下（下から 27〜65px ほど）に題名の札を重ね、長い題名ほど右へ伸ばすので、その帯には何も置かない
 
-#let title = sys.inputs.at("title", default: "タイトル")
+// 文節の中の字の間にワードジョイナー（U+2060）を挟み、文節の境目でだけ折る。box で包むと、和欧文間のアキや約物の詰めが文節の境目で効かなくなる
+// 1 行（60px で約 17 字）より長い文節は、はみ出さないよう区切らずにふつうに折る
+#let title = (
+  json(bytes(sys.inputs.at("title", default: "[\"タイトル\"]")))
+    .map(phrase => if phrase.clusters().len() > 16 { phrase } else { phrase.clusters().join("\u{2060}") })
+    .join()
+)
 #let tags = json(bytes(sys.inputs.at("tags", default: "[]")))
 
 // 色はサイトの Radix のトークン（src/styles/radix-colors.css）から

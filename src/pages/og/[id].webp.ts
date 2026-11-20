@@ -7,10 +7,14 @@ import { existsSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { promisify } from 'node:util'
 import type { APIRoute, GetStaticPaths } from 'astro'
+import { loadDefaultJapaneseParser } from 'budoux'
 import sharp from 'sharp'
 import { getAllPublicNotes } from '../../lib/note'
 
 const run = promisify(execFile)
+
+// typst は日本語を 1 字ごとにどこでも折るので、BudouX で文節に区切って渡し、og.typ で文節の中を折らせない
+const budoux = loadDefaultJapaneseParser()
 
 // フォントは git に入れず、無ければ Google Fonts から og/fonts に取ってくる（git の外）。typst は TTF と OTF しか読まないので、woff2 しかない npm のフォントは使えない
 // URL はバージョン付きで固定する。CSS API に毎回問い合わせると、フォントの更新で画像の見た目が知らないうちに変わる
@@ -61,7 +65,7 @@ export const GET: APIRoute = async ({ props }) => {
       '--font-path=og/fonts',
       '--ppi=72',
       '--format=png',
-      `--input=title=${title}`,
+      `--input=title=${JSON.stringify(budoux.parse(title))}`,
       `--input=tags=${JSON.stringify(tags)}`,
       'og/og.typ',
       '-',
