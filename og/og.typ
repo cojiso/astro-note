@@ -41,7 +41,8 @@
     fill: slate-1,
   )),
 )
-#set text(font: ("Raleway", "Noto Sans JP"), lang: "ja", fill: slate-12)
+// Raleway は既定の数字がオールドスタイル（高さが小文字に揃う）で小さく見えるので、タグやロゴの数字はライニング数字にする
+#set text(font: ("Raleway", "Noto Sans JP"), lang: "ja", fill: slate-12, number-type: "lining")
 
 // 文字の大きさと行送りもサイトと同じ列から（120 ÷ n px、行送りは 3px の倍数、src/styles/global.css）
 // 1 行の高さを行送りちょうどにする。和文の字面の中心（ベースラインの 0.38em 上）を行の真ん中に置き、上下に半分ずつ振る
@@ -57,7 +58,8 @@
 // 題名。text-5xl で 4 行に収まらない長い題名は text-4xl にする
 #let title-width = 1200pt - inset * 2
 #let title-block(t) = block(width: title-width, {
-  set text(..t, weight: 700)
+  // 題名は欧文も Noto Sans JP で組む。Raleway と混ぜると、欧文の字形と太さが和文から浮く
+  set text(..t, font: "Noto Sans JP", weight: 700)
   set par(leading: 0pt, justify: false)
   title
 })
