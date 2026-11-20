@@ -25,7 +25,11 @@ export default defineConfig({
     }
   },
   integrations: [
-    expressiveCode({themes: ['plastic'],}), 
+    expressiveCode({
+      themes: ['plastic'],
+      // Map language names used in notes to bundled grammars
+      shiki: { langAlias: { jsonld: 'json', formula: 'txt' } },
+    }),
     icon(), 
     svelte()
   ],
