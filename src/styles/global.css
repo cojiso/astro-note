@@ -16,31 +16,31 @@
 }
 
 /* 文字サイズは調和数列の 8 倍（1rem × 8/n）にする。参考: https://standard.shiftbrain.com/blog/music-math-typography */
-/* rem が 15px なので各サイズは 120/n px になる。行送りは 4px の倍数 L に揃え、比率 L ÷ (120/n) = L × n / 120 で書く */
+/* rem が 15px なので各サイズは 120/n px になる。行送りは 3px の倍数 L に揃え、比率 L ÷ (120/n) = L × n / 120 で書く */
 @theme {
-  /* 余白の単位を 4px にする。rem が 15px なので 0.25rem（3.75px）のままだと 4px／8px の格子に乗らない */
-  /* UI の余白は 8px × フィボナッチ数（spacing 2 / 4 / 6 / 10 / 16 / 26 = 8 / 16 / 24 / 40 / 64 / 104px）だけを使う */
-  --spacing: calc(4rem / 15);
+  /* 余白の単位を 3px（0.2rem）にする。rem の 15px を割り切れ、12 / 15 / 24 / 30 / 60 / 120px の文字サイズとも揃う */
+  /* UI の余白は 3px × フィボナッチ数（spacing 1 / 2 / 3 / 5 / 8 / 13 / 21 = 3 / 6 / 9 / 15 / 24 / 39 / 63px）だけを使う */
+  --spacing: calc(3rem / 15);
 
   --text-*: initial;
   --text-xs: calc(8rem / 10); /* 12px */
-  --text-xs--line-height: calc(20 * 10 / 120); /* 20px */
+  --text-xs--line-height: calc(21 * 10 / 120); /* 21px */
   --text-sm: calc(8rem / 9); /* 13.33px */
-  --text-sm--line-height: calc(20 * 9 / 120); /* 20px */
+  --text-sm--line-height: calc(21 * 9 / 120); /* 21px */
   --text-base: 1rem; /* 15px */
   --text-base--line-height: calc(24 * 8 / 120); /* 24px */
   --text-lg: calc(8rem / 7); /* 17.14px */
-  --text-lg--line-height: calc(28 * 7 / 120); /* 28px */
+  --text-lg--line-height: calc(27 * 7 / 120); /* 27px */
   --text-xl: calc(8rem / 6); /* 20px */
-  --text-xl--line-height: calc(28 * 6 / 120); /* 28px */
+  --text-xl--line-height: calc(27 * 6 / 120); /* 27px */
   --text-2xl: calc(8rem / 5); /* 24px */
-  --text-2xl--line-height: calc(32 * 5 / 120); /* 32px */
+  --text-2xl--line-height: calc(33 * 5 / 120); /* 33px */
   --text-3xl: calc(8rem / 4); /* 30px */
-  --text-3xl--line-height: calc(40 * 4 / 120); /* 40px */
+  --text-3xl--line-height: calc(39 * 4 / 120); /* 39px */
   --text-4xl: calc(8rem / 3); /* 40px */
   --text-4xl--line-height: calc(48 * 3 / 120); /* 48px */
   --text-5xl: calc(8rem / 2); /* 60px */
-  --text-5xl--line-height: calc(64 * 2 / 120); /* 64px */
+  --text-5xl--line-height: calc(63 * 2 / 120); /* 63px */
   --text-6xl: calc(8rem / 1); /* 120px */
   --text-6xl--line-height: 1; /* 120px */
 }
@@ -88,16 +88,16 @@
 }
 
 @utility content-wrapper {
-  @apply mx-auto w-full max-w-[640px] px-6;
+  @apply mx-auto w-full max-w-[640px] px-8;
 }
 
 /* @tailwindcss/typography は Tailwind 既定の gray を値で埋め込んでいるので、Radix の slate に差し替える */
 /* プラグインの .prose は同じ詳細度で @layer utilities の後ろに出るので、@utility の中に書くと負ける。レイヤーの外に書いて勝たせる */
 .prose {
-  /* 本文の行送り: 15px に 28px（4px の倍数）。プラグインの既定は 1.75（26.25px） */
-  line-height: calc(28 * 8 / 120);
-  /* 本文の縦の余白は行送り（28px）を単位にし、半行（14px）まで刻む */
-  --prose-line: calc(var(--spacing) * 7);
+  /* 本文の行送り: 15px に 30px（3px の倍数で、半行も 15px と格子に乗る）。プラグインの既定は 1.75（26.25px） */
+  line-height: calc(30 * 8 / 120);
+  /* 本文の縦の余白は行送り（30px）を単位にし、半行（15px）まで刻む */
+  --prose-line: calc(var(--spacing) * 10);
   /* 段落などのブロックの下の余白は半行。1 行だと日本語の短い段落が間延びし、見出しの前の空きとの差も小さくなる */
   --prose-gap: calc(var(--prose-line) / 2);
   /* 本文: 以前の gray-700（明度 37%）に合わせる。Radix には 11（50%）と 12（24%）の間の段がないので、OKLab で半々に混ぜる */
@@ -137,7 +137,7 @@
   }
 
   & h2 {
-    @apply pb-2 border-b border-slate-5;
+    @apply pb-3 border-b border-slate-5;
   }
 
   /* 縦の余白: ブロックは下にだけ --prose-gap をあけ、見出しは上を広く下を半行にする。上下の余白が相殺し合うので、見出しの前は見出しの上の余白になる */
@@ -147,8 +147,8 @@
     margin-bottom: var(--prose-gap);
   }
   & > h2:not([class]) {
-    /* 行 32px + padding + 下線 1px を 42px（半行の 3 倍）にして、下線のぶん格子からずれないようにする */
-    padding-bottom: calc(var(--spacing) * 2 + 1px);
+    /* 行 30px + padding + 下線 1px を 45px（半行の 3 倍）にして、下線のぶん格子からずれないようにする */
+    padding-bottom: calc(var(--prose-line) / 2 - 1px);
     margin-top: calc(var(--prose-line) * 2);
     margin-bottom: calc(var(--prose-line) / 2);
   }
@@ -183,14 +183,18 @@
 
   /* 見出しと小さい文字をテーマのスケールに合わせる。プラグインは em で独自の大きさを持つため */
   /* :not([class]) で markdown 由来の見出しだけに当て、text-* を直接付けた見出し（記事タイトルなど）はそちらを優先する */
+  /* 見出しの行送りは本文と同じ 1 行（30px）にして、半行の格子に乗せる */
   & h2:not([class]) {
     @apply text-2xl;
+    line-height: var(--prose-line);
   }
   & h3:not([class]) {
     @apply text-xl;
+    line-height: var(--prose-line);
   }
   & h4:not([class]) {
     @apply text-lg;
+    line-height: var(--prose-line);
   }
   & figcaption {
     @apply text-sm;
@@ -205,7 +209,7 @@
       Liberation Mono,
       Menlo,
       monospace;
-    @apply px-2 py-0;
+    @apply px-3 py-0;
     vertical-align: 0.03em;
   }
   /* @tailwindcss/typography のデフォルトの ` マークを無効化 */
@@ -229,10 +233,10 @@
   & :is(table) {
     /* .prose table と同じ詳細度 (0,2,0) を持つ */
     @apply block overflow-x-auto; /* スクロール可能に */
-    @apply -mx-6 px-6; /* コンテナの幅を調整 */
-    width: calc(100% + var(--spacing) * 12); /* -mx-6 の左右ぶん広げる */
+    @apply -mx-8 px-8; /* コンテナの幅を調整 */
+    width: calc(100% + var(--spacing) * 16); /* -mx-8 の左右ぶん広げる */
     @apply relative; /* シャドウのための位置指定 */
-    @apply pb-2; /* スクロールバーの位置調整 */
+    @apply pb-3; /* スクロールバーの位置調整 */
     font-size: var(--text-sm);
     line-height: calc(24 * 9 / 120); /* 24px */
   }
@@ -241,10 +245,10 @@
     @apply bg-slate-2 sticky top-0; /* ヘッダーを固定 */
   }
   & table th {
-    @apply px-2 text-left align-middle font-bold text-slate-12 border-b-2 whitespace-nowrap;
+    @apply px-3 text-left align-middle font-bold text-slate-12 border-b-2 whitespace-nowrap;
   }
   & table td {
-    @apply px-2 text-slate-11 whitespace-nowrap;
+    @apply px-3 text-slate-11 whitespace-nowrap;
   }
   /* テーブル: スクロールバーのスタイリング */
   & table::-webkit-scrollbar {
@@ -291,7 +295,7 @@
   }
 
   & .remark-link-card-plus__main {
-    @apply flex flex-col justify-between p-4;
+    @apply flex flex-col justify-between p-5;
   }
 
   & .remark-link-card-plus__title {
@@ -315,11 +319,11 @@
   }
 
   & .remark-link-card-plus__favicon {
-    @apply w-4 h-4 mr-2! shrink-0;
+    @apply w-5 h-5 mr-3! shrink-0;
   }
 
   & .remark-link-card-plus__container .remark-link-card-plus__thumbnail {
-    @apply flex justify-end max-w-64;
+    @apply flex justify-end max-w-85;
   }
 
   & .remark-link-card-plus__container .remark-link-card-plus__image {
@@ -329,19 +333,19 @@
 
 /* Base callout styling */
 [data-callout] {
-  @apply p-4 rounded-lg border flex flex-col gap-2;
+  @apply p-5 rounded-lg border flex flex-col gap-3;
   /* 記事中に置くので、段落と同じく下に --prose-gap をあける */
   margin-block: 0 var(--prose-gap, calc(var(--spacing) * 6));
 }
 
 /* Callout title styling */
 [data-callout-title] {
-  @apply font-medium flex items-center gap-2 text-sm;
+  @apply font-medium flex items-center gap-3 text-sm;
 }
 
 /* Callout title icon */
 [data-callout-title]::before {
-  @apply w-4 h-4;
+  @apply w-5 h-5;
 }
 
 /* Callout body styling */

@@ -90,11 +90,11 @@ const pageUrl = new URL(
     <!-- End Google Tag Manager (noscript) -->
 
     <!-- 22.5+142+640+23+22.5 -->
-    <header class="w-full flex h-14 items-center px-6">
+    <header class="w-full flex h-19 items-center px-8">
       {/* 左側エリア - 大画面で右寄せ、小画面で左寄せ */}
       <div class="flex-1 flex justify-start min-[858px]:justify-end">
-        <a href="/" class="flex items-center gap-2 group hover:no-underline">
-          <Icon name="lucide:orbit" class="w-6 h-6 text-lime-11 icons" />
+        <a href="/" class="flex items-center gap-3 group hover:no-underline">
+          <Icon name="lucide:orbit" class="w-8 h-8 text-lime-11 icons" />
           <span
             class="text-xl font-bold font-display text-slate-11 hover:text-slate-12 "
             >{siteConfig.siteName}</span
@@ -113,44 +113,44 @@ const pageUrl = new URL(
           commandfor="qr-card"
           aria-haspopup="dialog"
           aria-label="Save page card"
-          class="group py-2 pl-2"
+          class="group py-3 pl-3"
         >
           <Icon
             name="lucide:qr-code"
-            class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
+            class="w-8 h-8 text-slate-11 group-hover:text-slate-12"
           />
         </button>
       </div>
     </header>
 
-    <main class="content-wrapper mt-6">
+    <main class="content-wrapper mt-8">
       <slot />
     </main>
 
     <footer
-      class="mt-auto py-10 content-wrapper flex flex-col items-center gap-4"
+      class="mt-auto py-13 content-wrapper flex flex-col items-center gap-5"
     >
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-5">
         <a
           href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(pageTitle ? `${pageTitle} | ${siteConfig.siteName}` : siteConfig.siteName)}`}
           target="_blank"
           rel="noopener noreferrer"
-          class="p-2 group"
+          class="p-3 group"
           aria-label="Tweet"
         >
           <Icon
             name="lucide:twitter"
-            class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
+            class="w-8 h-8 text-slate-11 group-hover:text-slate-12"
           />
         </a>
-        <CopyButton class="p-2 group relative">
+        <CopyButton class="p-3 group relative">
           <Icon
             name="lucide:link-2"
-            class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
+            class="w-8 h-8 text-slate-11 group-hover:text-slate-12"
           />
           <Icon
             name="lucide:circle-check"
-            class="w-4 h-4 text-lime-8"
+            class="w-5 h-5 text-lime-8"
             slot="feedback-icon"
           />
         </CopyButton>
@@ -160,11 +160,11 @@ const pageUrl = new URL(
           commandfor="qr-card"
           aria-haspopup="dialog"
           aria-label="Save page card"
-          class="p-2 group"
+          class="p-3 group"
         >
           <Icon
             name="lucide:qr-code"
-            class="w-6 h-6 text-slate-11 group-hover:text-slate-12"
+            class="w-8 h-8 text-slate-11 group-hover:text-slate-12"
           />
         </button>
       </div>

@@ -39,10 +39,10 @@ const filename = pageTitle?.slice(0, 50) || 'page'
     type="button"
     command="close"
     commandfor="qr-card"
-    class="fixed top-4 right-4 p-2 text-slate-7 hover:text-slate-5"
+    class="fixed top-5 right-5 p-3 text-slate-7 hover:text-slate-5"
     aria-label="Close dialog"
   >
-    <Icon name="lucide:x" class="w-6 h-6" aria-hidden="true" />
+    <Icon name="lucide:x" class="w-8 h-8" aria-hidden="true" />
   </button>
 
   <!-- 画像にするカード -->
@@ -62,14 +62,14 @@ const filename = pageTitle?.slice(0, 50) || 'page'
         </defs>
       </svg>
 
-      <div class="p-6 pb-6">
+      <div class="p-8 pb-8">
         <!-- Blog title and logo -->
-        <div class="flex items-center gap-2 mb-6">
+        <div class="flex items-center gap-3 mb-8">
           <!-- カードのアイコンは is:inline で <use> を使わず中身を書き出す。html-to-image はカードの外(ヘッダーのアイコンなど)への参照を描けない -->
           <Icon
             is:inline
             name="lucide:orbit"
-            class="w-6 h-6 text-lime-11"
+            class="w-8 h-8 text-lime-11"
             aria-hidden="true"
           />
           <span class="text-xl font-bold font-display text-slate-11"
@@ -78,20 +78,20 @@ const filename = pageTitle?.slice(0, 50) || 'page'
         </div>
 
         <!-- Page Title section -->
-        <h3 class="font-bold text-xl text-slate-12 mb-4">
+        <h3 class="font-bold text-xl text-slate-12 mb-5">
           {pageTitle || 'Untitled Page'}
         </h3>
 
         <!-- Description -->
         {pageDescription && (
-          <p class="text-sm text-slate-11 mb-6">{pageDescription}</p>
+          <p class="text-sm text-slate-11 mb-8">{pageDescription}</p>
         )}
 
         <!-- Tags -->
         {pageTags && pageTags.length > 0 && (
-          <div class="flex flex-wrap gap-2 mb-6">
+          <div class="flex flex-wrap gap-3 mb-8">
             {pageTags.slice(0, 3).map((tag) => (
-              <span class="px-2 bg-slate-3 rounded-full text-xs font-display text-lime-12">
+              <span class="px-3 bg-slate-3 rounded-full text-xs font-display text-lime-12">
                 {tag}
               </span>
             ))}
@@ -99,9 +99,9 @@ const filename = pageTitle?.slice(0, 50) || 'page'
         )}
 
         <!-- Dates section with adjusted grid layout -->
-        <div class="border-t border-slate-3 pt-4">
+        <div class="border-t border-slate-3 pt-5">
           <div
-            class="grid grid-rows-[auto_1fr] grid-cols-[1fr_auto_1fr] gap-4"
+            class="grid grid-rows-[auto_1fr] grid-cols-[1fr_auto_1fr] gap-5"
           >
             <!-- Published/Updated header -->
             <div class="text-sm text-slate-11 text-center">公開/更新</div>
@@ -121,7 +121,7 @@ const filename = pageTitle?.slice(0, 50) || 'page'
               )}
               {pageEdited &&
                 pageEdited.getTime() !== pagePublished?.getTime() && (
-                  <div class="flex justify-center items-center gap-2 text-slate-12 leading-tight">
+                  <div class="flex justify-center items-center gap-3 text-slate-12 leading-tight">
                     <span class="text-slate-9">↪︎</span>
                     <span>{formatDate(pageEdited)}</span>
                   </div>
@@ -129,11 +129,11 @@ const filename = pageTitle?.slice(0, 50) || 'page'
             </div>
 
             <!-- Arrow -->
-            <div class="flex justify-center items-center text-slate-7 px-2">
+            <div class="flex justify-center items-center text-slate-7 px-3">
               <Icon
                 is:inline
                 name="lucide:arrow-right"
-                class="h-8 w-8"
+                class="h-11 w-11"
                 aria-hidden="true"
               />
             </div>
@@ -164,20 +164,20 @@ const filename = pageTitle?.slice(0, 50) || 'page'
       </svg>
 
       <!-- QR code section -->
-      <div class="px-6 pb-6 pt-0">
+      <div class="px-8 pb-8 pt-0">
         <!-- 時間帯の色はスクリプトが入れる -->
         <div
           data-nature
-          class="nature p-4 rounded-2xl backdrop-blur-xs transition-all duration-1000 relative overflow-hidden"
+          class="nature p-5 rounded-2xl backdrop-blur-xs transition-all duration-1000 relative overflow-hidden"
         >
           <div
             role="img"
             aria-label="Page QR Code"
-            class="w-40 h-40 mx-auto bg-white backdrop-blur-md rounded-xl p-4 shadow-lg [&>svg]:size-full"
+            class="w-53 h-53 mx-auto bg-white backdrop-blur-md rounded-xl p-5 shadow-lg [&>svg]:size-full"
             set:html={qrSvg}
           />
           <div
-            class="text-center mt-4 font-mono text-xs text-white/90 drop-shadow-md"
+            class="text-center mt-5 font-mono text-xs text-white/90 drop-shadow-md"
           >
             {pageUrl}
           </div>
@@ -187,21 +187,21 @@ const filename = pageTitle?.slice(0, 50) || 'page'
   </div>
 
   <!-- アクションボタン -->
-  <div class="mt-6 flex justify-center gap-4">
+  <div class="mt-8 flex justify-center gap-5">
     <button
       type="button"
       command="close"
       commandfor="qr-card"
-      class="px-4 py-2 text-base text-slate-7 hover:text-slate-5"
+      class="px-5 py-3 text-base text-slate-7 hover:text-slate-5"
     >
       戻る
     </button>
     <button
       type="button"
       data-save
-      class="flex items-center gap-2 px-4 py-2 text-base bg-lime-9 text-lime-12 rounded-lg hover:bg-lime-10"
+      class="flex items-center gap-3 px-5 py-3 text-base bg-lime-9 text-lime-12 rounded-lg hover:bg-lime-10"
     >
-      <Icon name="lucide:download" class="w-5 h-5" aria-hidden="true" />
+      <Icon name="lucide:download" class="w-7 h-7" aria-hidden="true" />
       画像を保存
     </button>
   </div>
