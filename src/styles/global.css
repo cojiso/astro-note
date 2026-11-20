@@ -230,6 +230,12 @@
     @apply text-lg;
     line-height: var(--prose-line);
   }
+  /* 脚注の見出し（astro.config.mjs で「脚注」にしている）は記事の h2 と同じ箱にする。上の余白は脚注の節の 2 行に任せる */
+  & > .footnotes > h2:not([class]) {
+    padding-bottom: calc(var(--prose-line) / 2 - 1px);
+    margin-top: 0;
+    margin-bottom: calc(var(--prose-line) / 2);
+  }
   & figcaption {
     @apply text-sm;
   }
@@ -339,6 +345,18 @@
   & li {
     margin-top: 0;
     margin-bottom: 0;
+  }
+  /* 脚注の各項目は li > p で、p に段落の余白（1.25em）が付くので消し、項目の間は段落の間と同じ半行にする */
+  & > .footnotes li > p {
+    margin-block: 0;
+  }
+  & > .footnotes li + li {
+    margin-top: var(--prose-gap);
+  }
+  /* 本文に戻るリンクのアイコン（astro.config.mjs で Lucide の corner-right-up にしている）。preflight で svg が block になるので、文字と同じ行に並べる */
+  & > .footnotes .data-footnote-backref svg {
+    display: inline-block;
+    vertical-align: -0.125em;
   }
 
   /* & li + li {
