@@ -47,21 +47,8 @@ const filename = pageTitle?.slice(0, 50) || 'page'
 
   <!-- 画像にするカード -->
   <div data-card data-filename={filename} class="relative w-full">
-    <!-- Top section with mask -->
-    <div
-      class="top bg-white overflow-hidden relative"
-      style="mask: url(#qr-card-top-mask); -webkit-mask: url(#qr-card-top-mask)"
-    >
-      <svg width="100%" height="100%" class="absolute" aria-hidden="true">
-        <defs>
-          <mask id="qr-card-top-mask">
-            <rect width="100%" height="100%" fill="white" />
-            <circle cx="0" cy="100%" r="12" fill="black" />
-            <circle cx="100%" cy="100%" r="12" fill="black" />
-          </mask>
-        </defs>
-      </svg>
-
+    <!-- 上半分: 下の両端に切り欠き -->
+    <div class="top bg-white rounded-t-3xl">
       <div class="p-8 pb-8">
         <!-- Blog title and logo -->
         <div class="flex items-center gap-3 mb-8">
@@ -91,18 +78,14 @@ const filename = pageTitle?.slice(0, 50) || 'page'
         {pageTags && pageTags.length > 0 && (
           <div class="flex flex-wrap gap-3 mb-8">
             {pageTags.slice(0, 3).map((tag) => (
-              <span class="pill">
-                {tag}
-              </span>
+              <span class="pill">{tag}</span>
             ))}
           </div>
         )}
 
         <!-- Dates section with adjusted grid layout -->
         <div class="border-t border-slate-3 pt-5">
-          <div
-            class="grid grid-rows-[auto_1fr] grid-cols-[1fr_auto_1fr] gap-5"
-          >
+          <div class="grid grid-rows-[auto_1fr] grid-cols-[1fr_auto_1fr] gap-5">
             <!-- Published/Updated header -->
             <div class="text-sm text-slate-11 text-center">公開/更新</div>
 
@@ -148,21 +131,8 @@ const filename = pageTitle?.slice(0, 50) || 'page'
       </div>
     </div>
 
-    <!-- Bottom section with mask -->
-    <div
-      class="bottom bg-white overflow-hidden -mt-px border-t-2 border-white relative"
-      style="mask: url(#qr-card-bottom-mask); -webkit-mask: url(#qr-card-bottom-mask)"
-    >
-      <svg width="100%" height="100%" class="absolute" aria-hidden="true">
-        <defs>
-          <mask id="qr-card-bottom-mask">
-            <rect width="100%" height="100%" fill="white" />
-            <circle cx="0" cy="0" r="12" fill="black" />
-            <circle cx="100%" cy="0" r="12" fill="black" />
-          </mask>
-        </defs>
-      </svg>
-
+    <!-- 下半分: 上の両端に切り欠き。1px 上に重ねて、継ぎ目に背景が透けるのを防ぐ -->
+    <div class="bottom bg-white rounded-b-3xl -mt-px pt-[2px]">
       <!-- QR code section -->
       <div class="px-8 pb-8 pt-0">
         <!-- 時間帯の色はスクリプトが入れる -->
@@ -283,17 +253,45 @@ dialog[open]::backdrop {
   }
 }
 
-/* Ensure mask works across browsers */
-@supports (-webkit-mask: url()) or (mask: url()) {
-  /* Top section: 上部のみ角丸 */
-  .top {
-    border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
-  }
+/*
+ * 切符のように、上下の継ぎ目の両端を半径 --notch の半円で切り欠く。左右の円をそれぞれマスクにし、重なる所だけを残す
+ * 下半分は 1px 上に重ねているので、円の中心も 1px 下げて上半分の円とそろえる
+ */
+[data-card] {
+  --notch: 12px;
+}
 
-  /* Bottom section: 下部のみ角丸 */
-  .bottom {
-    border-radius: 0 0 var(--radius-3xl) var(--radius-3xl);
-  }
+.top,
+.bottom {
+  mask-composite: intersect;
+}
+
+.top {
+  mask-image:
+    radial-gradient(
+      var(--notch) at 0 100%,
+      #0000 calc(var(--notch) - 0.5px),
+      #000 var(--notch)
+    ),
+    radial-gradient(
+      var(--notch) at 100% 100%,
+      #0000 calc(var(--notch) - 0.5px),
+      #000 var(--notch)
+    );
+}
+
+.bottom {
+  mask-image:
+    radial-gradient(
+      var(--notch) at 0 1px,
+      #0000 calc(var(--notch) - 0.5px),
+      #000 var(--notch)
+    ),
+    radial-gradient(
+      var(--notch) at 100% 1px,
+      #0000 calc(var(--notch) - 0.5px),
+      #000 var(--notch)
+    );
 }
 
 .nature::before {
