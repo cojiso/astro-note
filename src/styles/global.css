@@ -91,6 +91,11 @@
   @apply mx-auto w-full max-w-[640px] px-8;
 }
 
+/* タグなどのピル型バッジ。高さは 24px（行 18px + 上下 3px） */
+@utility pill {
+  @apply font-display text-xs leading-6 px-3 py-1 bg-slate-3 text-lime-12 rounded-full;
+}
+
 /* @tailwindcss/typography は Tailwind 既定の gray を値で埋め込んでいるので、Radix の slate に差し替える */
 /* プラグインの .prose は同じ詳細度で @layer utilities の後ろに出るので、@utility の中に書くと負ける。レイヤーの外に書いて勝たせる */
 .prose {
