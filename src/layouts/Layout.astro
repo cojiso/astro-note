@@ -17,10 +17,18 @@ interface Props {
   pagePublished?: Date
   pageEdited?: Date
   pageTags?: string[]
+  /** 共有用の画像のパス（サイトのルートから）。ないページはサイト共通の画像 */
+  pageImage?: string
 }
 
-const { pageTitle, pageDescription, pagePublished, pageEdited, pageTags } =
-  Astro.props
+const {
+  pageTitle,
+  pageDescription,
+  pagePublished,
+  pageEdited,
+  pageTags,
+  pageImage = '/ogimage.avif',
+} = Astro.props
 
 const title = pageTitle
   ? `${pageTitle} | ${siteConfig.siteName}`
@@ -64,7 +72,7 @@ const pageUrl = new URL(
     <meta property="og:site_name" content={siteConfig.siteName}>
     <meta
       property="og:image"
-      content={new URL('/ogimage.avif', Astro.site).toString()}
+      content={new URL(pageImage, Astro.site).toString()}
     >
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="/favicon.ico" sizes="32x32">

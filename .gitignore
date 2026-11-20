@@ -5,6 +5,8 @@ dist/
 .astro/
 # wrangler local state
 .wrangler/
+# fonts for the share images, downloaded by src/pages/og/[id].webp.ts
+/og/fonts/
 
 # dependencies
 node_modules/
