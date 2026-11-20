@@ -1,7 +1,6 @@
 // @ts-check
 
 import { unified } from '@astrojs/markdown-remark'
-import svelte from '@astrojs/svelte'
 import remarkCallout from '@r4ai/remark-callout'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, fontProviders } from 'astro/config'
@@ -28,7 +27,6 @@ export default defineConfig({
       shiki: { langAlias: { jsonld: 'json', formula: 'txt' } },
     }),
     icon(),
-    svelte(),
   ],
   markdown: {
     processor: unified({

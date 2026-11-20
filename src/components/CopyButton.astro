@@ -1,0 +1,44 @@
+---
+// src/components/CopyButton.astro
+// 開いているページの URL をコピーし、少しの間 Copied! を出すボタン。
+import type { HTMLAttributes } from 'astro/types'
+
+type Props = HTMLAttributes<'button'>
+
+const props = Astro.props
+---
+
+<button type="button" data-copy-url aria-label="Save page URL" {...props}>
+  <slot />
+  <span
+    data-feedback
+    hidden
+    class="absolute -top-12 left-1/2 -translate-x-1/2 px-4 py-2 bg-slate-2 shadow-[0_4px_12px_rgba(0,0,0,0.08)] text-slate-11 text-sm rounded-lg flex items-center gap-1.5 whitespace-nowrap [&[hidden]]:hidden"
+  >
+    <slot name="feedback-icon" />
+    Copied!
+  </span>
+</button>
+
+<script>
+for (const button of document.querySelectorAll<HTMLButtonElement>(
+  'button[data-copy-url]',
+)) {
+  const feedback = button.querySelector<HTMLElement>('[data-feedback]')
+  let timer: ReturnType<typeof setTimeout> | undefined
+  button.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+    } catch (err) {
+      console.error('Failed to copy URL:', err)
+      return
+    }
+    if (!feedback) return
+    feedback.hidden = false
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      feedback.hidden = true
+    }, 800)
+  })
+}
+</script>
