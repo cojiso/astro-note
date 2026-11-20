@@ -19,9 +19,6 @@ import remarkToc from 'remark-toc'
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
-    ssr: {
-      noExternal: ['@lucide/svelte'],
-    },
   },
   integrations: [
     expressiveCode({

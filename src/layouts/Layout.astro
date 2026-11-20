@@ -2,7 +2,6 @@
 // src/layouts/Layout.astro
 import '../styles/global.css'
 import { Font } from 'astro:assets'
-import { CircleCheck, Link2, Orbit, QrCode } from '@lucide/svelte'
 import { Icon } from 'astro-icon/components'
 import CopyButton from '../components/CopyButton.svelte'
 import QRSaveButton from '../components/QRSaveButton.svelte'
@@ -89,8 +88,7 @@ const description = pageDescription ?? siteConfig.siteDescription
       {/* 左側エリア - 大画面で右寄せ、小画面で左寄せ */}
       <div class="flex-1 flex justify-start min-[858px]:justify-end">
         <a href="/" class="flex items-center gap-2 group hover:no-underline">
-          <!-- <Icon name="lucide:orbit" class="w-6 h-6 text-lime-800 icons" /> -->
-          <Orbit class="w-6 h-6 text-lime-800 icons" />
+          <Icon name="lucide:orbit" class="w-6 h-6 text-lime-800 icons" />
           <span
             class="text-xl font-bold font-display text-zinc-600 hover:text-zinc-800 "
             >{siteConfig.siteName}</span
@@ -112,13 +110,10 @@ const description = pageDescription ?? siteConfig.siteDescription
           pageTags={pageTags}
           siteName={siteConfig.siteName}
         >
-          <!-- <Icon name="lucide:qr-code" class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700" /> -->
-          <QrCode class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700" />
-          <!-- <Icon
-          name="lucide:orbit"
-          class="w-6 h-6 text-lime-800 icons"
-          slot="preview-icon"
-        /> -->
+          <Icon
+            name="lucide:qr-code"
+            class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700"
+          />
         </QRSaveButton>
       </div>
     </header>
@@ -144,10 +139,15 @@ const description = pageDescription ?? siteConfig.siteDescription
           />
         </a>
         <CopyButton client:idle class="p-2 group relative">
-          <!-- <Icon name="lucide:link-2" class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700" /> -->
-          <Link2 class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700" />
-          <!-- <Icon name="lucide:check-circle-2" class="w-4 h-4 text-lime-600" slot="feedback-icon" /> -->
-          <CircleCheck class="w-4 h-4 text-lime-600" slot="feedback-icon" />
+          <Icon
+            name="lucide:link-2"
+            class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700"
+          />
+          <Icon
+            name="lucide:circle-check"
+            class="w-4 h-4 text-lime-600"
+            slot="feedback-icon"
+          />
         </CopyButton>
         <QRSaveButton
           client:idle
@@ -158,13 +158,10 @@ const description = pageDescription ?? siteConfig.siteDescription
           pageTags={pageTags}
           siteName={siteConfig.siteName}
         >
-          <!-- <Icon name="lucide:qr-code" class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700" /> -->
-          <QrCode class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700" />
-          <!-- <Icon
-          name="lucide:orbit"
-          class="w-6 h-6 text-lime-800 icons"
-          slot="preview-icon"
-        /> -->
+          <Icon
+            name="lucide:qr-code"
+            class="w-6 h-6 text-zinc-500 group-hover:text-zinc-700"
+          />
         </QRSaveButton>
       </div>
       <div class="text-sm text-zinc-600 font-display">

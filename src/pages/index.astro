@@ -5,15 +5,6 @@ import { Icon } from 'astro-icon/components'
 import Layout from '../layouts/Layout.astro'
 import { formatDate, generateNotePath, getAllPublicNotes } from '../lib/note'
 
-// import {
-//   Github,
-//   FileText,
-//   Library,
-//   MapPinned,
-//   X,
-//   ArrowUpRight
-// } from '@lucide/svelte';
-
 const notes = await getAllPublicNotes()
 
 const links = [
