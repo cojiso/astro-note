@@ -28,7 +28,7 @@ const { Content } = await render(note)
   pageTags={note.data.tags ?? undefined}
 >
   <article class="prose">
-    <header class="mb-13">
+    <header class="mb-[calc(var(--prose-line)*2)]">
       <h1 class="text-xl font-bold md:text-2xl text-center mb-3">
         {note.data.title}
       </h1>
