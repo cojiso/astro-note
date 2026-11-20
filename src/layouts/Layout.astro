@@ -5,11 +5,7 @@ import { Font } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 import CopyButton from '../components/CopyButton.astro'
 import QRCardDialog from '../components/QRCardDialog.astro'
-
-const siteConfig = {
-  siteName: 'orbit.supply',
-  siteDescription: 'Tech blog about web development and programming',
-} as const
+import { siteConfig } from '../lib/site'
 
 interface Props {
   pageTitle?: string
@@ -27,7 +23,7 @@ const {
   pagePublished,
   pageEdited,
   pageTags,
-  pageImage = '/ogimage.avif',
+  pageImage = '/og.webp',
 } = Astro.props
 
 const title = pageTitle
