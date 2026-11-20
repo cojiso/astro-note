@@ -49,8 +49,8 @@ const { Content } = await render(note)
             </time>
           )}
         </div>
-        <div class="flex gap-3 justify-center font-display text-sm">
-          {note.data.tags?.map((tag) => <span>{tag}</span>)}
+        <div class="flex flex-wrap gap-3 justify-center mt-3">
+          {note.data.tags?.map((tag) => <span class="pill">{tag}</span>)}
         </div>
       </div>
     </header>
