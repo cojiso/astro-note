@@ -154,10 +154,16 @@
   }
 
   /* 縦の余白: ブロックは下にだけ --prose-gap をあけ、見出しは上を広く下を半行にする。上下の余白が相殺し合うので、見出しの前は見出しの上の余白になる */
-  /* プラグインの em 指定（:where で詳細度 (0,1,0)）より強い (0,1,1) 以上で書く */
-  & > :is(p, ul, ol, blockquote, table, dl, .expressive-code) {
+  /* プラグインの指定は :where で詳細度 (0,1,0) なので、ここでの指定はプラグインの > :first-child や h2 + * などにも勝ってしまう。それらは下で個別に戻す */
+  /* markdown 由来の要素だけに当てるため :not([class]) を付け、余白のユーティリティを付けた要素はそちらを優先する */
+  & > :is(p, ul, ol, blockquote, table, dl):not([class]),
+  & > .expressive-code {
     margin-top: 0;
     margin-bottom: var(--prose-gap);
+  }
+  /* 最後の要素の下はあけない（プラグインの > :last-child と同じ） */
+  & > :is(p, ul, ol, blockquote, table, dl, .expressive-code):last-child {
+    margin-bottom: 0;
   }
   & > h2:not([class]) {
     /* 行 30px + padding + 下線 1px を 45px（半行の 3 倍）にして、下線のぶん格子からずれないようにする */
@@ -172,6 +178,14 @@
   & > h4:not([class]) {
     margin-top: var(--prose-line);
     margin-bottom: calc(var(--prose-line) / 2);
+  }
+  /* 見出しの直後の見出しは上をあけず、前の見出しの下の半行だけにする。上の指定がプラグインの h2 + * の margin-top: 0 を打ち消してしまうため */
+  & > :is(h2, h3, h4):not([class]) + :is(h3, h4):not([class]) {
+    margin-top: 0;
+  }
+  /* 先頭の見出しの上はあけない（プラグインの > :first-child と同じ） */
+  & > :is(h2, h3, h4):not([class]):first-child {
+    margin-top: 0;
   }
   & > hr {
     margin-block: calc(var(--prose-line) * 2);
@@ -234,7 +248,10 @@
   /* image */
   & img {
     @apply border border-slate-5 rounded-lg;
-    /* 画像の上下は 1 行。段落の間（半行）より広くして、画像をひとまとまりに見せる。プラグインの既定は 2em（30px） */
+  }
+  /* 段落の中の画像の上下は 1 行。段落の間（半行）より広くして、画像をひとまとまりに見せる。プラグインの既定は 2em（30px） */
+  /* 段落の中だけに絞り、figure や picture の中の画像（プラグインで余白 0）には当てない */
+  & p > img {
     margin-block: var(--prose-line);
   }
   /* 段落の中で改行に挟まれた画像は、直後の <br> が空の行を作って下だけ 1 行広がるので消す */
