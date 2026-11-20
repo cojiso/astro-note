@@ -1,13 +1,20 @@
 // src/content.config.ts
+import { existsSync } from 'node:fs';
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+// Notes live in a separate repository (an Obsidian vault) checked out next to this one. Fail the build instead of publishing a site with no notes.
+const noteDir = process.env.NOTE_DIR ?? '../note';
+if (!existsSync(noteDir)) {
+  throw new Error(`Note directory not found: ${noteDir}. Check out the note repository next to this one, or set NOTE_DIR.`);
+}
+
 const noteCollection = defineCollection({
-  // Notes live in a separate repository (an Obsidian vault) checked out next to this one. Files starting with a draft emoji are never published.
+  // Files starting with a draft emoji are never published.
   loader: glob({
     pattern: ['**/*.md', '!**/_*', '!**/_*/**', '!**/✏*', '!**/✍*', '!**/📝*', '!**/🫥*'],
-    base: process.env.NOTE_DIR ?? '../note',
+    base: noteDir,
   }),
   schema: z.object({
     id: z.string(),
