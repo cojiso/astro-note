@@ -18,6 +18,10 @@
 /* 文字サイズは調和数列の 8 倍（1rem × 8/n）にする。参考: https://standard.shiftbrain.com/blog/music-math-typography */
 /* rem が 15px なので各サイズは 120/n px になる。行送りは 4px の倍数 L に揃え、比率 L ÷ (120/n) = L × n / 120 で書く */
 @theme {
+  /* 余白の単位を 4px にする。rem が 15px なので 0.25rem（3.75px）のままだと 4px／8px の格子に乗らない */
+  /* UI の余白は 8px × フィボナッチ数（spacing 2 / 4 / 6 / 10 / 16 / 26 = 8 / 16 / 24 / 40 / 64 / 104px）だけを使う */
+  --spacing: calc(4rem / 15);
+
   --text-*: initial;
   --text-xs: calc(8rem / 10); /* 12px */
   --text-xs--line-height: calc(20 * 10 / 120); /* 20px */
@@ -48,7 +52,6 @@
     /* 日本語の組版: 小書き仮名や長音の行頭を禁止し、行頭の開き括弧の空きを詰める */
     line-break: strict;
     text-spacing-trim: trim-start;
-    --content-padding: 1.5rem; /* tailwind-6 */
   }
 
   *,
@@ -93,6 +96,10 @@
 .prose {
   /* 本文の行送り: 15px に 28px（4px の倍数）。プラグインの既定は 1.75（26.25px） */
   line-height: calc(28 * 8 / 120);
+  /* 本文の縦の余白は行送り（28px）を単位にし、半行（14px）まで刻む */
+  --prose-line: calc(var(--spacing) * 7);
+  /* 段落などのブロックの下の余白は半行。1 行だと日本語の短い段落が間延びし、見出しの前の空きとの差も小さくなる */
+  --prose-gap: calc(var(--prose-line) / 2);
   /* 本文: 以前の gray-700（明度 37%）に合わせる。Radix には 11（50%）と 12（24%）の間の段がないので、OKLab で半々に混ぜる */
   --tw-prose-body: color-mix(
     in oklab,
@@ -130,7 +137,48 @@
   }
 
   & h2 {
-    @apply pb-1 border-b border-slate-5;
+    @apply pb-2 border-b border-slate-5;
+  }
+
+  /* 縦の余白: ブロックは下にだけ --prose-gap をあけ、見出しは上を広く下を半行にする。上下の余白が相殺し合うので、見出しの前は見出しの上の余白になる */
+  /* プラグインの em 指定（:where で詳細度 (0,1,0)）より強い (0,1,1) 以上で書く */
+  & > :is(p, ul, ol, blockquote, table, dl, .expressive-code) {
+    margin-top: 0;
+    margin-bottom: var(--prose-gap);
+  }
+  & > h2:not([class]) {
+    /* 行 32px + padding + 下線 1px を 42px（半行の 3 倍）にして、下線のぶん格子からずれないようにする */
+    padding-bottom: calc(var(--spacing) * 2 + 1px);
+    margin-top: calc(var(--prose-line) * 2);
+    margin-bottom: calc(var(--prose-line) / 2);
+  }
+  & > h3:not([class]) {
+    margin-top: calc(var(--prose-line) * 1.5);
+    margin-bottom: calc(var(--prose-line) / 2);
+  }
+  & > h4:not([class]) {
+    margin-top: var(--prose-line);
+    margin-bottom: calc(var(--prose-line) / 2);
+  }
+  & > hr {
+    margin-block: calc(var(--prose-line) * 2);
+  }
+  & :is(ul, ol) :is(ul, ol) {
+    margin-block: 0;
+  }
+  & figcaption {
+    margin-top: calc(var(--prose-line) / 2);
+  }
+  /* Expressive Code の枠は figure なので、プラグインの figure の余白（32px）が乗ってしまう */
+  & .expressive-code figure {
+    margin-block: 0;
+  }
+  /* 脚注は本文から 2 行離し、中のリストは余白を持たせない */
+  & > .footnotes {
+    margin-top: calc(var(--prose-line) * 2);
+  }
+  & > .footnotes > ol {
+    margin-block: 0;
   }
 
   /* 見出しと小さい文字をテーマのスケールに合わせる。プラグインは em で独自の大きさを持つため */
@@ -157,7 +205,7 @@
       Liberation Mono,
       Menlo,
       monospace;
-    padding: 0.2rem 0.4rem;
+    @apply px-2 py-0;
     vertical-align: 0.03em;
   }
   /* @tailwindcss/typography のデフォルトの ` マークを無効化 */
@@ -169,6 +217,8 @@
   /* image */
   & img {
     @apply border border-slate-5 rounded-lg;
+    /* 画像の上下は 1 行。段落の間（半行）より広くして、画像をひとまとまりに見せる。プラグインの既定は 2em（30px） */
+    margin-block: var(--prose-line);
   }
 
   /* テーブル */
@@ -176,9 +226,9 @@
     /* .prose table と同じ詳細度 (0,2,0) を持つ */
     @apply block overflow-x-auto; /* スクロール可能に */
     @apply -mx-6 px-6; /* コンテナの幅を調整 */
-    width: calc(100% + 3rem); /* content-wrapper から頑張って手計算 */
+    width: calc(100% + var(--spacing) * 12); /* -mx-6 の左右ぶん広げる */
     @apply relative; /* シャドウのための位置指定 */
-    @apply pb-1; /* スクロールバーの位置調整 */
+    @apply pb-2; /* スクロールバーの位置調整 */
     font-size: var(--text-sm);
     line-height: calc(24 * 9 / 120); /* 24px */
   }
@@ -187,7 +237,7 @@
     @apply bg-slate-2 sticky top-0; /* ヘッダーを固定 */
   }
   & table th {
-    @apply px-3 text-left align-middle font-bold text-slate-12 border-b-2 whitespace-nowrap;
+    @apply px-2 text-left align-middle font-bold text-slate-12 border-b-2 whitespace-nowrap;
   }
   & table td {
     @apply px-2 text-slate-11 whitespace-nowrap;
@@ -217,8 +267,6 @@
 
   & ul {
     padding-left: 1.3rem;
-    margin-top: 0.25em;
-    margin-bottom: 0.5em;
   }
 
   & li {
@@ -232,14 +280,14 @@
 
   /* RLC remark-link-card */
   & .remark-link-card-plus__container {
-    @apply my-6;
+    margin-block: 0 var(--prose-gap);
   }
   & .remark-link-card-plus__card {
     @apply flex justify-between max-h-[90px] border border-slate-5 rounded-lg bg-slate-2 no-underline hover:no-underline transition duration-200 hover:bg-white hover:shadow-lg;
   }
 
   & .remark-link-card-plus__main {
-    @apply flex flex-col justify-between p-5;
+    @apply flex flex-col justify-between p-4;
   }
 
   & .remark-link-card-plus__title {
@@ -263,7 +311,7 @@
   }
 
   & .remark-link-card-plus__favicon {
-    @apply w-4 h-4 mr-1.5! shrink-0;
+    @apply w-4 h-4 mr-2! shrink-0;
   }
 
   & .remark-link-card-plus__container .remark-link-card-plus__thumbnail {
@@ -277,7 +325,9 @@
 
 /* Base callout styling */
 [data-callout] {
-  @apply my-6 p-4 rounded-lg border flex flex-col gap-2;
+  @apply p-4 rounded-lg border flex flex-col gap-2;
+  /* 記事中に置くので、段落と同じく下に --prose-gap をあける */
+  margin-block: 0 var(--prose-gap, calc(var(--spacing) * 6));
 }
 
 /* Callout title styling */
