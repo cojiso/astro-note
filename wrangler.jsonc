@@ -6,6 +6,8 @@
   "workers_dev": false,
   "preview_urls": false,
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    // Unknown paths get dist/404.html with a 404 status
+    "not_found_handling": "404-page"
   }
 }
