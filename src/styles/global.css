@@ -135,7 +135,7 @@
     var(--color-slate-12) 10%,
     transparent
   );
-  --tw-prose-code: var(--color-slate-12);
+  --tw-prose-code: var(--color-lime-12);
   --tw-prose-pre-code: var(--color-slate-5);
   --tw-prose-pre-bg: var(--color-slate-12);
   --tw-prose-th-borders: var(--color-slate-6);
@@ -229,15 +229,20 @@
 
   /* code */
   & code {
-    @apply font-normal text-sm bg-slate-5 rounded-sm;
+    @apply font-normal bg-slate-3 rounded-sm px-2;
+    /* 背景の高さはフォントで決まり約 16px になるので、上下 2.5px ずつ足して 21px（3px の倍数）にする */
+    padding-block: 2.5px;
+    /* 周りの文字に対して sm と base の比（8/9）。em にして、見出しの中でも見出しの大きさについていく */
+    font-size: calc(8em / 9);
     font-family:
       SFMono-Regular,
       Consolas,
       Liberation Mono,
       Menlo,
       monospace;
-    @apply px-3 py-0;
     vertical-align: 0.03em;
+    /* 行をまたいだときも、行ごとに padding と角丸を付ける */
+    box-decoration-break: clone;
   }
   /* @tailwindcss/typography のデフォルトの ` マークを無効化 */
   & code::before,
