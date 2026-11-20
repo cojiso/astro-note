@@ -61,7 +61,10 @@ const pageUrl = new URL(
     <title>{title}</title>
     <meta name="description" content={description}>
     <meta property="og:site_name" content={siteConfig.siteName}>
-    <meta property="og:image" content="/ogimage.avif">
+    <meta
+      property="og:image"
+      content={new URL('/ogimage.avif', Astro.site).toString()}
+    >
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link
