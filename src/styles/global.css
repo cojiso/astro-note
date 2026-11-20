@@ -6,12 +6,12 @@
 
 @source "../**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}";
 
-@theme {
+/* --font-lato と --font-raleway は Astro の Fonts API（astro.config.mjs と Layout の <Font>）が定義する。和文はシステムフォントに落ちる */
+@theme inline {
   --font-sans:
-    Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-dosis: Dosis, Verdana, sans-serif;
-  --font-raleway: Raleway, Verdana, sans-serif;
+    var(--font-lato), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  --font-display: var(--font-raleway);
 }
 
 @layer base {

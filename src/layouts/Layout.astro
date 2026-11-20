@@ -1,6 +1,7 @@
 ---
 // src/layouts/Layout.astro
 import '../styles/global.css'
+import { Font } from 'astro:assets'
 import { CircleCheck, Link2, Orbit, QrCode } from '@lucide/svelte'
 import { Icon } from 'astro-icon/components'
 import CopyButton from '../components/CopyButton.svelte'
@@ -46,6 +47,12 @@ const description = pageDescription ?? siteConfig.siteDescription
   })(window,document,'script','dataLayer','GTM-KTN3TQZ9');</script>
     <!-- End Google Tag Manager -->
 
+    <Font
+      cssVariable="--font-lato"
+      preload={[{ weight: 400, style: 'normal' }]}
+    />
+    <Font cssVariable="--font-raleway" preload />
+
     <title>{title}</title>
     <meta name="description" content={description}>
     <meta property="og:site_name" content={siteConfig.siteName}>
@@ -85,7 +92,7 @@ const description = pageDescription ?? siteConfig.siteDescription
           <!-- <Icon name="lucide:orbit" class="w-6 h-6 text-lime-800 icons" /> -->
           <Orbit class="w-6 h-6 text-lime-800 icons" />
           <span
-            class="text-xl font-bold font-inter text-zinc-600 hover:text-zinc-800 "
+            class="text-xl font-bold font-display text-zinc-600 hover:text-zinc-800 "
             >{siteConfig.siteName}</span
           >
         </a>
@@ -160,7 +167,7 @@ const description = pageDescription ?? siteConfig.siteDescription
         /> -->
         </QRSaveButton>
       </div>
-      <div class="text-sm text-zinc-600 font-inter">
+      <div class="text-sm text-zinc-600 font-display">
         <a
           href="/"
           class="text-zinc-600 hover:text-zinc-800 hover:no-underline"

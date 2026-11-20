@@ -34,7 +34,7 @@ const { Content } = await render(note)
       </h1>
       <div class="flex flex-col text-zinc-500 font-mono md:justify-center">
         <div
-          class="flex justify-center items-center gap-2 font-raleway text-sm"
+          class="flex justify-center items-center gap-2 font-display text-sm"
         >
           {note.data.editedAt &&
           note.data.editedAt.getTime() !== note.data.publishedAt.getTime() ? (
@@ -49,7 +49,7 @@ const { Content } = await render(note)
             </time>
           )}
         </div>
-        <div class="flex gap-2 justify-center font-dosis text-sm">
+        <div class="flex gap-2 justify-center font-display text-sm">
           {note.data.tags?.map((tag) => <span>{tag}</span>)}
         </div>
       </div>

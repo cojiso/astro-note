@@ -4,7 +4,7 @@ import { unified } from '@astrojs/markdown-remark'
 import svelte from '@astrojs/svelte'
 import remarkCallout from '@r4ai/remark-callout'
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig } from 'astro/config'
+import { defineConfig, fontProviders } from 'astro/config'
 import expressiveCode from 'astro-expressive-code'
 import icon from 'astro-icon'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -54,4 +54,24 @@ export default defineConfig({
     assets: '_assets',
   },
   trailingSlash: 'never',
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: 'Lato',
+      cssVariable: '--font-lato',
+      weights: [400, 700],
+      styles: ['normal', 'italic'],
+      subsets: ['latin'],
+      fallbacks: ['sans-serif'],
+    },
+    {
+      provider: fontProviders.google(),
+      name: 'Raleway',
+      cssVariable: '--font-raleway',
+      weights: [400, 700],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['sans-serif'],
+    },
+  ],
 })

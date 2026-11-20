@@ -63,7 +63,7 @@ onMount(() => {
         <slot name="blog-icon">
           <div class="w-6 h-6 bg-lime-800 rounded-full"></div>
         </slot>
-        <span class="text-xl font-bold font-inter text-zinc-600"
+        <span class="text-xl font-bold font-display text-zinc-600"
           >{siteName}</span
         >
       </div>
