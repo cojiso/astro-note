@@ -15,9 +15,36 @@
   --font-display: var(--font-raleway);
 }
 
+/* 文字サイズは調和数列の 8 倍（1rem × 8/n）にする。参考: https://standard.shiftbrain.com/blog/music-math-typography */
+/* rem が 15px なので各サイズは 120/n px になる。行送りは 4px の倍数 L に揃え、比率 L ÷ (120/n) = L × n / 120 で書く */
+@theme {
+  --text-*: initial;
+  --text-xs: calc(8rem / 10); /* 12px */
+  --text-xs--line-height: calc(20 * 10 / 120); /* 20px */
+  --text-sm: calc(8rem / 9); /* 13.33px */
+  --text-sm--line-height: calc(20 * 9 / 120); /* 20px */
+  --text-base: 1rem; /* 15px */
+  --text-base--line-height: calc(24 * 8 / 120); /* 24px */
+  --text-lg: calc(8rem / 7); /* 17.14px */
+  --text-lg--line-height: calc(28 * 7 / 120); /* 28px */
+  --text-xl: calc(8rem / 6); /* 20px */
+  --text-xl--line-height: calc(28 * 6 / 120); /* 28px */
+  --text-2xl: calc(8rem / 5); /* 24px */
+  --text-2xl--line-height: calc(32 * 5 / 120); /* 32px */
+  --text-3xl: calc(8rem / 4); /* 30px */
+  --text-3xl--line-height: calc(40 * 4 / 120); /* 40px */
+  --text-4xl: calc(8rem / 3); /* 40px */
+  --text-4xl--line-height: calc(48 * 3 / 120); /* 48px */
+  --text-5xl: calc(8rem / 2); /* 60px */
+  --text-5xl--line-height: calc(64 * 2 / 120); /* 64px */
+  --text-6xl: calc(8rem / 1); /* 120px */
+  --text-6xl--line-height: 1; /* 120px */
+}
+
 @layer base {
   :root {
-    font-size: 15px;
+    font-size: 93.75%; /* 15px。ブラウザの文字サイズ設定に追従させるため割合で書く */
+    line-height: var(--text-base--line-height); /* 24px。text-* を付けない要素も text-base と同じ行送りにする */
     /* 日本語の組版: 小書き仮名や長音の行頭を禁止し、行頭の開き括弧の空きを詰める */
     line-break: strict;
     text-spacing-trim: trim-start;
@@ -64,6 +91,8 @@
 /* @tailwindcss/typography は Tailwind 既定の gray を値で埋め込んでいるので、Radix の slate に差し替える */
 /* プラグインの .prose は同じ詳細度で @layer utilities の後ろに出るので、@utility の中に書くと負ける。レイヤーの外に書いて勝たせる */
 .prose {
+  /* 本文の行送り: 15px に 28px（4px の倍数）。プラグインの既定は 1.75（26.25px） */
+  line-height: calc(28 * 8 / 120);
   /* 本文: 以前の gray-700（明度 37%）に合わせる。Radix には 11（50%）と 12（24%）の間の段がないので、OKLab で半々に混ぜる */
   --tw-prose-body: color-mix(
     in oklab,
@@ -104,6 +133,21 @@
     @apply pb-1 border-b border-slate-5;
   }
 
+  /* 見出しと小さい文字をテーマのスケールに合わせる。プラグインは em で独自の大きさを持つため */
+  /* :not([class]) で markdown 由来の見出しだけに当て、text-* を直接付けた見出し（記事タイトルなど）はそちらを優先する */
+  & h2:not([class]) {
+    @apply text-2xl;
+  }
+  & h3:not([class]) {
+    @apply text-xl;
+  }
+  & h4:not([class]) {
+    @apply text-lg;
+  }
+  & figcaption {
+    @apply text-sm;
+  }
+
   /* code */
   & code {
     @apply font-normal text-sm bg-slate-5 rounded;
@@ -135,6 +179,8 @@
     width: calc(100% + 3rem); /* content-wrapper から頑張って手計算 */
     @apply relative; /* シャドウのための位置指定 */
     @apply pb-1; /* スクロールバーの位置調整 */
+    font-size: var(--text-sm);
+    line-height: calc(24 * 9 / 120); /* 24px */
   }
   /* テーブル: 中身 */
   & table thead {
