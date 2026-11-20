@@ -44,7 +44,7 @@ onMount(() => {
     class="bg-white overflow-hidden relative"
     style="mask: url(#{topMaskId}); -webkit-mask: url(#{topMaskId})"
   >
-    <svg width="100%" height="100%" class="absolute">
+    <svg width="100%" height="100%" class="absolute" aria-hidden="true">
       <defs>
         <mask id={topMaskId}>
           <rect width="100%" height="100%" fill="white" />
@@ -128,6 +128,7 @@ onMount(() => {
           <!-- Arrow -->
           <div class="flex justify-center items-center text-gray-300 px-2">
             <svg
+              aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               class="h-8 w-8"
               viewBox="0 0 24 24"
@@ -156,7 +157,7 @@ onMount(() => {
     class="bg-white overflow-hidden -mt-px border-t-2 border-white relative"
     style="mask: url(#{bottomMaskId}); -webkit-mask: url(#{bottomMaskId})"
   >
-    <svg width="100%" height="100%" class="absolute">
+    <svg width="100%" height="100%" class="absolute" aria-hidden="true">
       <defs>
         <mask id={bottomMaskId}>
           <rect width="100%" height="100%" fill="white" />

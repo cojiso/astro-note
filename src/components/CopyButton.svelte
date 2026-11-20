@@ -13,6 +13,7 @@ onMount(() => {
 </script>
 
 <button
+  type="button"
   use:copy={{
     text: currentUrl,
     onCopy: () => {

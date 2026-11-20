@@ -186,7 +186,6 @@
 /* Callout title icon */
 [data-callout-title]::before {
   @apply w-4 h-4;
-  font-family: "lucide";
 }
 
 /* Callout body styling */

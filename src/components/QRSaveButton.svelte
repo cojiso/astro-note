@@ -16,7 +16,6 @@ export let siteName: string | undefined = undefined
 
 let currentUrl = ''
 let qrDataUrl = ''
-let modalOpen = false
 let dialogEl: HTMLDialogElement
 let triggerBtn: HTMLButtonElement
 let cardEl: HTMLDivElement
@@ -32,12 +31,10 @@ onMount(async () => {
 
 const openModal = () => {
   dialogEl?.showModal()
-  modalOpen = true
 }
 
 const closeModal = () => {
   dialogEl?.close()
-  modalOpen = false
   triggerBtn?.focus()
 }
 
@@ -67,6 +64,7 @@ const saveImage = async () => {
 </script>
 
 <button
+  type="button"
   bind:this={triggerBtn}
   on:click={openModal}
   aria-haspopup="dialog"
@@ -90,6 +88,7 @@ const saveImage = async () => {
         aria-label="Close dialog"
       >
         <svg
+          aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
