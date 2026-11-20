@@ -49,6 +49,13 @@
   }
 }
 
+/* ページ間の遷移をクロスフェードにする */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
 @utility content-wrapper {
   @apply mx-auto w-full max-w-[640px] px-6;
 }
