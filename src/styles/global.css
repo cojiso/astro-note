@@ -62,6 +62,11 @@
     text-spacing-trim: trim-start;
   }
 
+  /* 中の要素から cqw で body の幅（スクロールバーを除いた画面の幅）を参照できるようにする。vw はスクロールバーの幅を含み、Windows などで横にはみ出すため */
+  body {
+    container-type: inline-size;
+  }
+
   *,
   ::after,
   ::before,
@@ -97,6 +102,8 @@
 
 @utility content-wrapper {
   @apply mx-auto w-full max-w-[640px] px-8;
+  /* 画面の左端から本文の左端までの距離。中の要素を画面の端まで広げるときに使う（cqw は body の幅） */
+  --bleed: calc((100cqw - min(640px, 100cqw)) / 2 + var(--spacing) * 8);
 }
 
 /* タグなどのピル型バッジ。高さは 24px（行 18px + 上下 3px） */
@@ -268,9 +275,13 @@
   & :is(table) {
     /* 詳細度は (0,1,1) で、プラグインの .prose :where(table)（(0,1,0)）に勝つ */
     @apply block overflow-x-auto; /* スクロール可能に */
-    @apply -mx-8 px-8; /* 本文の左右の余白まで広げて、スクロールしたときに端まで使えるようにする */
-    width: calc(100% + var(--spacing) * 16); /* -mx-8 の左右ぶん広げる */
-    @apply pb-3; /* スクロールバーの位置調整 */
+    /* 箱は画面の左右の端まで広げて、横にスクロールしたときに端まで流れるようにする。中身は padding で本文の左右の端から始める */
+    /* prose は max-width: 65ch で本文の列より狭く左寄せなので、右は画面の右端までの残り（100cqw - --bleed - 100%）だけ広げる */
+    width: auto;
+    margin-left: calc(-1 * var(--bleed));
+    margin-right: calc(100% + var(--bleed) - 100cqw);
+    padding-inline: var(--bleed);
+    @apply pb-2; /* 重なって出るスクロールバーが最後の行にかからないための余白 */
     font-size: var(--text-sm);
     line-height: calc(24 * 9 / 120); /* 24px */
     /* 罫線をセルごとに持たせる。collapse だと隣の罫線と太さを半分ずつ分け合い、行の高さが 0.5〜1px ずれる */
@@ -302,15 +313,11 @@
     /* separate では行（tr）の罫線が描かれないので、プラグインの行の区切り線をセルの下線として付ける。最後の行の線は表の下の線になる */
     border-bottom: 1px solid var(--tw-prose-td-borders);
   }
-  /* テーブル: スクロールバーのスタイリング */
-  & table::-webkit-scrollbar {
-    @apply h-1;
-  }
-  & table::-webkit-scrollbar-track {
-    @apply bg-slate-3;
-  }
-  & table::-webkit-scrollbar-thumb {
-    @apply bg-slate-7 rounded-full hover:bg-slate-9;
+  /* テーブル: スクロールバー。::-webkit-scrollbar は使わず、標準の指定で色だけ変える */
+  /* ::-webkit-scrollbar を指定すると Chrome や Safari は常に表示するバーに切り替わるため、OS の標準の出し入れ（スクロール中だけ表示）を残す */
+  & table {
+    scrollbar-color: var(--color-slate-3) transparent; /* つまみ（見出しの行の背景と同じ）・レール */
+    scrollbar-width: thin;
   }
 
   /* リスト */
