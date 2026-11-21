@@ -23,3 +23,8 @@ export function formatDate(date: Date): string {
 export function generateNotePath(id: string): string {
   return `/note/${id}`
 }
+
+// タグはノートに空白をハイフンにして書き、読み込むときに空白へ戻している（src/content.config.ts）。URL にはノートに書いたままの形を使う
+export function generateTagPath(tag: string): string {
+  return `/tag/${tag.replaceAll(' ', '-')}`
+}

@@ -1,0 +1,36 @@
+---
+// src/pages/tag/[tag].astro
+// タグごとのページ。そのタグの付いたノートを新しい順に並べる
+
+import type { CollectionEntry } from 'astro:content'
+import type { GetStaticPaths } from 'astro'
+import NoteList from '../../components/NoteList.astro'
+import Layout from '../../layouts/Layout.astro'
+import { getAllPublicNotes } from '../../lib/note'
+
+export const getStaticPaths = (async () => {
+  const notes = await getAllPublicNotes()
+  const tags = new Set(notes.flatMap((note) => note.data.tags ?? []))
+  return [...tags].map((tag) => ({
+    params: { tag: tag.replaceAll(' ', '-') },
+    props: {
+      tag,
+      notes: notes.filter((note) => note.data.tags?.includes(tag)),
+    },
+  }))
+}) satisfies GetStaticPaths
+
+const { tag, notes } = Astro.props as {
+  tag: string
+  notes: CollectionEntry<'note'>[]
+}
+---
+
+<Layout pageTitle={tag}>
+  <section class="mb-13">
+    <h2 class="text-xl font-bold mb-5 pb-3 border-b border-slate-5">
+      <span class="text-slate-9">Tag:</span> {tag}
+    </h2>
+    <NoteList notes={notes} />
+  </section>
+</Layout>
