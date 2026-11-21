@@ -28,8 +28,9 @@ const { Content } = await render(note)
   pageTags={note.data.tags ?? undefined}
   pageImage={`/og/${note.data.id}.webp`}
 >
-  <article class="prose">
-    <header class="mb-[calc(var(--prose-line)*2)]">
+  <article>
+    <!-- 記事の導入。本文用の prose の外に置き、題名・日付・タグは自前のクラスで組む -->
+    <header class="mb-20">
       <h1 class="text-xl font-bold md:text-2xl text-center mb-3">
         {note.data.title}
       </h1>
@@ -59,6 +60,8 @@ const { Content } = await render(note)
         </div>
       </div>
     </header>
-    <Content />
+    <div class="prose">
+      <Content />
+    </div>
   </article>
 </Layout>
