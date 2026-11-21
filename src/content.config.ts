@@ -36,7 +36,11 @@ const noteCollection = defineCollection({
     editedAt: z.date().nullable().optional(),
     description: z.string().nullable().optional(),
     image: z.string().nullable().optional(),
-    tags: z.array(z.string()).nullable().optional(),
+    // Tags are written as the display text with spaces replaced by hyphens (Obsidian tags cannot contain spaces), e.g. Google-Cloud → "Google Cloud".
+    tags: z
+      .array(z.string().transform((tag) => tag.replaceAll('-', ' ')))
+      .nullable()
+      .optional(),
     category: z.string().nullable().optional(),
     lang: z.string().nullable().optional(),
   }),
