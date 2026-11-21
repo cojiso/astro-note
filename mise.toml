@@ -1,2 +1,4 @@
 [tools]
+node = "lts"
 bun = "1"
+typst = "0.15"
