@@ -2,8 +2,9 @@
 // src/pages/index.astro
 
 import { Icon } from 'astro-icon/components'
+import NoteList from '../components/NoteList.astro'
 import Layout from '../layouts/Layout.astro'
-import { formatDate, generateNotePath, getAllPublicNotes } from '../lib/note'
+import { getAllPublicNotes } from '../lib/note'
 
 const notes = await getAllPublicNotes()
 
@@ -74,21 +75,7 @@ const projects = [
 <Layout>
   <section class="mb-13">
     <h2 class="text-xl font-bold mb-5 pb-3 border-b border-slate-5">Notes</h2>
-    <div>
-      {notes.map((note) => (
-        <a
-          href={generateNotePath(note.data.id)}
-          class="hover-overlay [--hover-overlay-y:0] flex justify-between gap-5 items-center py-5"
-        >
-          <h3 class="text-base font-medium text-slate-12 transition-colors">
-            {note.data.title}
-          </h3>
-          <time class="text-sm text-slate-11 font-display">
-            {formatDate(note.data.publishedAt)}
-          </time>
-        </a>
-      ))}
-    </div>
+    <NoteList notes={notes} />
   </section>
 
   <section class="mb-13">
