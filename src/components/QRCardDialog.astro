@@ -8,25 +8,25 @@ import { formatDate } from '../lib/note'
 interface Props {
   pageUrl: string
   pageTitle?: string
-  pageDescription?: string
   pagePublished?: Date
   pageEdited?: Date
   pageTags?: string[]
   siteName: string
+  siteDescription: string
 }
 
 const {
   pageUrl,
   pageTitle,
-  pageDescription,
   pagePublished,
   pageEdited,
   pageTags,
   siteName,
+  siteDescription,
 } = Astro.props
 
 const qrSvg = await QRCode.toString(pageUrl, { type: 'svg', margin: 1 })
-const filename = pageTitle?.slice(0, 50) || 'page'
+const filename = pageTitle?.slice(0, 50) ?? siteName
 ---
 
 <dialog
@@ -64,15 +64,10 @@ const filename = pageTitle?.slice(0, 50) || 'page'
           >
         </div>
 
-        <!-- Page Title section -->
+        <!-- ページのタイトル。トップページのようにタイトルのないページはサイトの説明 -->
         <h3 class="font-bold text-xl text-slate-12 mb-5">
-          {pageTitle || 'Untitled Page'}
+          {pageTitle ?? siteDescription}
         </h3>
-
-        <!-- Description -->
-        {pageDescription && (
-          <p class="text-sm text-slate-11 mb-8">{pageDescription}</p>
-        )}
 
         <!-- Tags -->
         {pageTags && pageTags.length > 0 && (
@@ -83,51 +78,51 @@ const filename = pageTitle?.slice(0, 50) || 'page'
           </div>
         )}
 
-        <!-- Dates section with adjusted grid layout -->
-        <div class="border-t border-slate-3 pt-5">
-          <div class="grid grid-rows-[auto_1fr] grid-cols-[1fr_auto_1fr] gap-5">
-            <!-- Published/Updated header -->
-            <div class="text-sm text-slate-11 text-center">公開/更新</div>
+        <!-- 公開日から保存日まで。公開日のないページ(トップページなど)は出さない -->
+        {pagePublished && (
+          <div class="border-t border-slate-3 pt-5">
+            <div class="grid grid-rows-[auto_1fr] grid-cols-[1fr_auto_1fr] gap-5">
+              <!-- Published/Updated header -->
+              <div class="text-sm text-slate-11 text-center">公開/更新</div>
 
-            <!-- Arrow header (empty for alignment) -->
-            <div></div>
+              <!-- Arrow header (empty for alignment) -->
+              <div></div>
 
-            <!-- Save header -->
-            <div class="text-sm text-slate-11 text-center">保存</div>
+              <!-- Save header -->
+              <div class="text-sm text-slate-11 text-center">保存</div>
 
-            <!-- Published/Updated dates -->
-            <div class="font-mono text-sm">
-              {pagePublished && (
+              <!-- Published/Updated dates -->
+              <div class="font-mono text-sm">
                 <div class="text-slate-12 text-center leading-tight">
                   {formatDate(pagePublished)}
                 </div>
-              )}
-              {pageEdited &&
-                pageEdited.getTime() !== pagePublished?.getTime() && (
-                  <div class="flex justify-center items-center gap-3 text-slate-12 leading-tight">
-                    <span class="text-slate-9">↪︎</span>
-                    <span>{formatDate(pageEdited)}</span>
-                  </div>
-                )}
-            </div>
+                {pageEdited &&
+                  pageEdited.getTime() !== pagePublished.getTime() && (
+                    <div class="flex justify-center items-center gap-3 text-slate-12 leading-tight">
+                      <span class="text-slate-9">↪︎</span>
+                      <span>{formatDate(pageEdited)}</span>
+                    </div>
+                  )}
+              </div>
 
-            <!-- Arrow -->
-            <div class="flex justify-center items-center text-slate-7 px-3">
-              <Icon
-                is:inline
-                name="lucide:arrow-right"
-                class="h-11 w-11"
-                aria-hidden="true"
-              />
-            </div>
+              <!-- Arrow -->
+              <div class="flex justify-center items-center text-slate-7 px-3">
+                <Icon
+                  is:inline
+                  name="lucide:arrow-right"
+                  class="h-11 w-11"
+                  aria-hidden="true"
+                />
+              </div>
 
-            <!-- Save date: 開いた日をスクリプトが入れる -->
-            <div
-              data-save-date
-              class="font-mono text-slate-12 text-center flex items-center justify-center"
-            ></div>
+              <!-- Save date: 開いた日をスクリプトが入れる -->
+              <div
+                data-save-date
+                class="font-mono text-slate-12 text-center flex items-center justify-center"
+              ></div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
 
