@@ -16,7 +16,6 @@
   "dependencies": {
     "@astrojs/check": "^0.9.12",
     "@astrojs/markdown-remark": "^7.3.9",
-    "@astrojs/ts-plugin": "^1.11.0",
     "@r4ai/remark-callout": "^0.6.2",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.20",
@@ -34,7 +33,6 @@
     "remark-link-card-plus": "^0.9.0",
     "remark-toc": "^9.0.0",
     "sharp": "^0.35.5",
-    "sqids": "^0.3.0",
     "tailwindcss": "^4.3.5",
     "typescript": "^6.0.3"
   },
