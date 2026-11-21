@@ -56,7 +56,8 @@
 @layer base {
   :root {
     font-size: 93.75%; /* 15px。ブラウザの文字サイズ設定に追従させるため割合で書く */
-    line-height: var(--text-base--line-height); /* 24px。text-* を付けない要素も text-base と同じ行送りにする */
+    /* 24px。text-* を付けない要素も text-base と同じ行送りにする */
+    line-height: var(--text-base--line-height);
     /* 日本語の組版: 小書き仮名や長音の行頭を禁止し、行頭の開き括弧の空きを詰める */
     line-break: strict;
     text-spacing-trim: trim-start;
@@ -122,7 +123,8 @@
   &::before,
   &::after {
     position: absolute;
-    inset: var(--hover-overlay-y, calc(var(--spacing) * -3)) calc(var(--spacing) * -3);
+    inset: var(--hover-overlay-y, calc(var(--spacing) * -3))
+      calc(var(--spacing) * -3);
     border-radius: var(--radius-xl);
     background: var(--color-gray-a3);
     opacity: 0;
