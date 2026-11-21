@@ -1,6 +1,6 @@
 // src/lib/og.ts
 // 共有用の画像（OGP）を描く。og/og.typ を typst で PNG に描き、sharp で WebP にする（X は AVIF を読まない）
-// typst のコマンドが要る。CI では deploy のワークフローで入れる
+// typst のコマンドが要る。mise.toml で入れ、CI も mise-action で同じものを入れる
 
 import { execFile } from 'node:child_process'
 import { existsSync } from 'node:fs'
