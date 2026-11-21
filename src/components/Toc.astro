@@ -1,0 +1,277 @@
+---
+// src/components/Toc.astro
+// 記事の目次。ヘッダーのボタンで開く popover で、JS を使わずに開け閉めする（開いているかはブラウザが持つ）
+// ボタンは popovertarget で開け閉めする。開いているかをブラウザがボタンの aria-expanded として読み上げに伝える
+// popover="manual" なので、外側を押しても Esc でも閉じず、ボタンでだけ閉じる。開いたままでも本文をスクロールしたり押したりできる
+// 現在地は JS を使わず、スクロール駆動アニメーション（見出しごとの view-timeline）で示す。対応していないブラウザ（Firefox）では示さないだけで、目次としては使える
+import type { MarkdownHeading } from 'astro'
+import { Icon } from 'astro-icon/components'
+
+interface Props {
+  headings: MarkdownHeading[]
+}
+
+// h2 と h3 だけを出す。脚注の見出し（footnote-label）は本文の見出しではないので外す
+const items = Astro.props.headings.filter(
+  (heading) =>
+    heading.depth >= 2 &&
+    heading.depth <= 3 &&
+    heading.slug !== 'footnote-label',
+)
+
+const timelineName = (index: number) => `--toc-${index}`
+
+// 見出しの id を CSS の属性セレクタの文字列に入れる。< もエスケープして </style> で閉じられないようにする
+const cssString = (value: string) =>
+  `"${value.replaceAll('\\', '\\\\').replaceAll('"', '\\"').replaceAll('<', '\\3c ')}"`
+
+// 見出しにタイムラインの名前を付け、目次の項目から参照できるように body まで名前の届く範囲を広げる
+// view-timeline-inset の上を「現在地に切り替える線」（--toc-reading-line）にして、見出しの上端がその線に来たときをタイムラインの始まり（exit 0%）にする
+const timelineCss = [
+  `body { timeline-scope: ${items.map((_, index) => timelineName(index)).join(', ')}; }`,
+  ...items.map(
+    (heading, index) =>
+      `[id=${cssString(heading.slug)}] { view-timeline: ${timelineName(index)} block; view-timeline-inset: var(--toc-reading-line) 0; }`,
+  ),
+].join('\n')
+
+// 項目ごとに、自分の見出しと次の見出しのタイムラインを渡す。最後の項目には次がないので渡さない（CSS の :last-child で次のアニメーションを外す）
+const itemStyle = (heading: MarkdownHeading, index: number) => ({
+  '--depth': heading.depth - 2,
+  '--toc-self': timelineName(index),
+  ...(index + 1 < items.length && {
+    '--toc-following': timelineName(index + 1),
+  }),
+})
+---
+
+{items.length > 0 && (
+  <>
+    <style is:inline set:html={timelineCss} />
+    <button
+      type="button"
+      popovertarget="toc"
+      aria-label="目次"
+      class="group py-3 pl-3"
+    >
+      <Icon
+        name="lucide:text-align-start"
+        class="w-8 h-8 text-slate-11 group-hover:text-slate-12"
+      />
+    </button>
+    <nav id="toc" popover="manual" class="toc-popover" aria-label="目次">
+      <div class="toc-scroll">
+        <ol>
+          {items.map((heading, index) => (
+            <li class="toc-item" style={itemStyle(heading, index)}>
+              <a href={`#${heading.slug}`} class="toc-link hover-overlay inner">
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </nav>
+  </>
+)}
+
+<style>
+/* 見出しを読み始めたら 1 になる。整数にして、アニメーションの途中でも 0 か 1 のどちらかにする */
+@property --toc-passed {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 0;
+}
+/* 次の見出しを読み始めたら 1 になる */
+@property --toc-next-passed {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes toc-passed {
+  from {
+    --toc-passed: 0;
+  }
+  to {
+    --toc-passed: 1;
+  }
+}
+@keyframes toc-next-passed {
+  from {
+    --toc-next-passed: 0;
+  }
+  to {
+    --toc-next-passed: 1;
+  }
+}
+
+/* 見出しへ飛んだとき、固定のヘッダー（54px）と 1 行ぶんをあけて、画面の上から 78px に止める。飛び方は既定のまま一瞬にする。滑らかにすると、長い記事で遠くへ飛ぶときに待たされる */
+/* 現在地に切り替える線は画面の上から 135px。飛んだ見出しが必ず現在地になるように止まる位置（78px）より下に置き、h2 のすぐ下の h3 は越えないように、その h3 の上端（78 + h2 の箱 45 + 余白 15 = 138px）より上に置く */
+/* h3 のすぐ下に h3 が続くと、下の h3 は 123px に来て線を越える。公開しているノートにはその並びがない */
+:global(:root:has(#toc)) {
+  scroll-padding-top: calc(var(--spacing) * (18 + 8));
+  --toc-reading-line: calc(var(--spacing) * 45);
+}
+
+/* ヘッダーのボタンの並び（Layout の --header-actions）のすぐ下に開き、左端を QR のアイコンの左端（ボタンの padding 9px の内側）に揃える */
+/* 右に入りきらない幅では、画面の右端から 24px（ヘッダーの左右の余白と同じ）に寄せる。左へは入りきるだけずれ、本文に重なるのも最小で済む */
+/* ボタンが画面の右に寄る狭い画面（901px 未満）では、目次のアイコンの右端もヘッダーの余白の内側（画面の右から 24px）にあるので、箱の右端はアイコンの右端と揃う */
+/* ヘッダーが固定されない狭い画面では、ボタンと一緒にスクロールで上へ消える */
+@position-try --toc-align-right {
+  left: auto;
+  right: 0;
+}
+.toc-popover {
+  position-anchor: --header-actions;
+  position-try-fallbacks: --toc-align-right;
+  inset: auto;
+  top: anchor(bottom);
+  /* 下端は画面の下から 24px で止める。高さは中身に合わせ（popover の既定の fit-content）、上限を max-height で決める。短い目次は中身の高さのまま、長い目次はここまで伸びて中をスクロールする */
+  /* 上端はボタンの並びの下端で、ページの一番上では画面の上から 48px（高さ 54px のヘッダーの中で、高さ 42px の並びを上下中央に置いた下端）。上限は画面の高さから 48px と下の 24px を引いた高さ */
+  /* bottom と stretch（-webkit-fill-available）で上限を決める書き方は Safari と Firefox では効かず、箱が画面の下にはみ出した。はみ出すと右へ寄せる位置にしても入りきらないので、最初の位置のまま右にもはみ出す */
+  max-height: calc(100dvh - var(--spacing) * (16 + 8));
+  left: calc(anchor(left) + var(--spacing) * 3);
+  /* 幅は 1 行の文字数で決める。ic は全角 1 文字（「水」）の幅で、下の font-size（13.33px）に対して決まる。18 字に左右の padding（24px ずつ）と枠（1px ずつ）を足す */
+  width: calc(18ic + var(--spacing) * 16 + 2px);
+  max-width: calc(100vw - var(--spacing) * 16);
+  /* 右に 24px の margin を持たせる。入りきるかの判定は margin も含むので、画面の右端との間が 24px 未満になる幅では右へ寄せる位置に切り替わり、そこでも右端から 24px あく */
+  margin: 0 calc(var(--spacing) * 8) 0 0;
+  /* 箱は 2 重にする。外のこの箱は枠と背景だけを持ち、スクロールは中の .toc-scroll がする。中の箱を右へはみ出させて、スクロールバーを枠線の上に乗せるため */
+  /* はみ出した中の箱を切らないように overflow は visible にする（popover の既定は auto） */
+  padding: 0;
+  overflow: visible;
+  border: 1px solid var(--color-slate-5);
+  border-radius: var(--radius-xl);
+  background: var(--color-gray-1);
+  color: inherit;
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+
+  /* 開くときは上から少し降りてきて、閉じるときは逆に戻る。display と overlay も待たせて、消えきってから最前面を外す */
+  opacity: 0;
+  translate: 0 calc(var(--spacing) * -1);
+  transition:
+    opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1),
+    translate 0.2s cubic-bezier(0.4, 0, 0.6, 1),
+    display 0.2s allow-discrete,
+    overlay 0.2s allow-discrete;
+
+  /* 開いているときは flex の縦並びにして、中の箱が外の箱の高さの上限（max-height）の中に縮むようにする */
+  /* display は開いているときだけ書く。閉じているときにも書くと、popover の既定の display: none を上書きして、閉じても消えなくなる */
+  &:popover-open {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    translate: 0;
+  }
+}
+@starting-style {
+  .toc-popover:popover-open {
+    opacity: 0;
+    translate: 0 calc(var(--spacing) * -1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toc-popover {
+    transition: none;
+  }
+}
+
+/* 中のスクロールする箱。右へ 4.75px はみ出させて、スクロールバーのつまみの中心を外の箱の枠線（1px）の中心に合わせる */
+/* 4.75px はスクリーンショットで測った値: つまみの右端から枠線までのすき間 1.5px + つまみの幅（5.5px）の半分 2.75px + 枠線の幅の半分 0.5px */
+/* 細いスクロールバーの太さは OS とブラウザで違い、CSS からは読み取れないので、ほかの環境では少しずれることがある */
+/* 上下は外の枠の内側いっぱいまで広げ、スクロールした文字は枠のところで切れるようにする */
+/* 右上と右下の角は丸めて、スクロールバーが外の枠の角の曲線から外へはみ出さないように切る。丸めの中心を外の枠の角丸の中心に合わせるため、横は 9 - 1 + 4.75 = 12.75px、縦は 9 - 1 = 8px の楕円にする（1px は枠線） */
+/* 「目次」の見出しは出さない。ボタンで開く箱なので何の箱かは分かり、読み上げには nav の aria-label で伝える */
+.toc-scroll {
+  --toc-scrollbar-shift: 4.75px;
+
+  min-height: 0;
+  margin-right: calc(-1 * var(--toc-scrollbar-shift));
+  /* 上下左右とも 24px。左右は、項目のホバーの色（枠から 15px）と、その中の文字の余白（9px）を足した幅。右ははみ出したぶんを足す */
+  padding: calc(var(--spacing) * 8)
+    calc(var(--spacing) * 8 + var(--toc-scrollbar-shift))
+    calc(var(--spacing) * 8) calc(var(--spacing) * 8);
+  border-top-right-radius: calc(
+      var(--radius-xl) -
+      1px +
+      var(--toc-scrollbar-shift)
+    )
+    calc(var(--radius-xl) - 1px);
+  border-bottom-right-radius: calc(
+      var(--radius-xl) -
+      1px +
+      var(--toc-scrollbar-shift)
+    )
+    calc(var(--radius-xl) - 1px);
+  overflow-y: auto;
+  /* スクロールバーは記事のテーブルと同じ色と細さにする。つまみはテーブルの見出しの行の背景（slate-3）、レールは透明 */
+  scrollbar-color: var(--color-slate-3) transparent;
+  scrollbar-width: thin;
+}
+
+.toc-item {
+  position: relative;
+
+  /* 読み始めた瞬間に切り替える。範囲を 1% にして、間を補うアニメーションは見せない */
+  animation:
+    toc-passed linear both,
+    toc-next-passed linear both;
+  animation-timeline: var(--toc-self), var(--toc-following);
+  animation-range: exit 0% exit 1%;
+
+  /* 最後の項目には次の見出しがないので、次のアニメーションを付けない。タイムラインを none にすると Chrome はアニメーションを終わったものとして扱い、次を越えた（1）のままになって、最後の項目が現在地にならない */
+  &:last-child {
+    animation: toc-passed linear both;
+    animation-timeline: var(--toc-self);
+    animation-range: exit 0% exit 1%;
+  }
+
+  /* 自分を読み始めていて、次をまだ読み始めていなければ現在地（1） */
+  --toc-current: calc(var(--toc-passed) - var(--toc-next-passed));
+
+  /* 文字の色: 現在地は濃くする。リンクではなく li に付けて、リンクはこの色を受け継ぐ */
+  /* リンクに直接付けると、一度飛んだ（訪問済みの）リンクで Chrome がこの色を使わず、親の色（本文の slate-12）で描いてしまう */
+  color: color-mix(
+    in oklab,
+    var(--color-slate-12) calc(var(--toc-current) * 100%),
+    var(--color-slate-11)
+  );
+
+  /* 行の左端の縦線: h2 には薄い灰色（slate-6）で出し、現在地は h2 でも h3 でも lime にする。h3 は現在地のときだけ出す */
+  /* ::before と ::after はリンクのホバーの色（hover-overlay）が使うので、li に付ける */
+  &::before {
+    position: absolute;
+    inset-block: calc(var(--spacing) * 1);
+    left: calc(var(--spacing) * -3);
+    width: 2px;
+    border-radius: 1px;
+    background: color-mix(
+      in oklab,
+      var(--color-lime-11) calc(var(--toc-current) * 100%),
+      var(--color-slate-6)
+    );
+    opacity: max(var(--toc-current), 1 - var(--depth));
+    content: "";
+  }
+}
+
+/* 項目は隙間なく並べ、ホバーで行ごと色を重ねる。深さは 1 字ぶんの字下げで表す（h3 は 17 字）。現在地は文字も濃くする */
+/* 左右は padding（24px）の中へ 9px はみ出させる。ホバーの色は枠から上下左右とも 15px（箱の上下の padding と同じ）離れ、文字は色の端から左右 9px・上下 3px、枠から 24px になる。行は 27px（行 21px + 上下 3px） */
+.toc-link {
+  display: block;
+  margin-inline: calc(var(--spacing) * -3);
+  padding-block: calc(var(--spacing) * 1);
+  padding-inline: calc(var(--spacing) * 3 + 1ic * var(--depth))
+    calc(var(--spacing) * 3);
+  border-radius: var(--radius-lg);
+  color: inherit;
+  word-break: auto-phrase;
+  text-wrap: pretty;
+
+  &:hover {
+    color: var(--color-slate-12);
+  }
+}
+</style>

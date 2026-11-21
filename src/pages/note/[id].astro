@@ -2,6 +2,7 @@
 // src/pages/note/[id].astro
 // import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content'
+import Toc from '../../components/Toc.astro'
 import Layout from '../../layouts/Layout.astro'
 import { formatDate, formatDateAttr, generateTagPath } from '../../lib/note'
 
@@ -17,7 +18,7 @@ export async function getStaticPaths() {
 }
 
 const { note } = Astro.props
-const { Content } = await render(note)
+const { Content, headings } = await render(note)
 ---
 
 <Layout
@@ -28,6 +29,7 @@ const { Content } = await render(note)
   pageTags={note.data.tags ?? undefined}
   pageImage={`/og/${note.data.id}.webp`}
 >
+  <Toc slot="header-actions" headings={headings} />
   <article>
     <!-- 記事の導入。本文用の prose の外に置き、題名・日付・タグは自前のクラスで組む -->
     <header class="mb-20">
