@@ -3,7 +3,7 @@
 // import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content'
 import Layout from '../../layouts/Layout.astro'
-import { formatDate, generateTagPath } from '../../lib/note'
+import { formatDate, formatDateAttr, generateTagPath } from '../../lib/note'
 
 export async function getStaticPaths() {
   const notes = await getCollection('note', ({ data }) => {
@@ -40,13 +40,24 @@ const { Content } = await render(note)
         >
           {note.data.editedAt &&
           note.data.editedAt.getTime() !== note.data.publishedAt.getTime() ? (
-              <time class="flex-1 text-right">
+              <time
+                datetime={formatDateAttr(note.data.publishedAt)}
+                class="flex-1 text-right"
+              >
                 {formatDate(note.data.publishedAt)}
               </time>
               <span class="text-slate-9">→</span>
-              <time class="flex-1">{formatDate(note.data.editedAt)}</time>
+              <time
+                datetime={formatDateAttr(note.data.editedAt)}
+                class="flex-1"
+              >
+                {formatDate(note.data.editedAt)}
+              </time>
           ) : (
-            <time class="flex-1 text-center">
+            <time
+              datetime={formatDateAttr(note.data.publishedAt)}
+              class="flex-1 text-center"
+            >
               {formatDate(note.data.publishedAt)}
             </time>
           )}

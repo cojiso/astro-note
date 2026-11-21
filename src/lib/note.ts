@@ -13,11 +13,21 @@ export async function getAllPublicNotes(): Promise<CollectionEntry<'note'>[]> {
 }
 
 // ユーティリティ関数
-export function formatDate(date: Date): string {
-  const year = date.getFullYear()
+function dateParts(date: Date): [string, string, string] {
+  const year = String(date.getFullYear())
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
-  return `${year}.${month}.${day}`
+  return [year, month, day]
+}
+
+/** 画面に出す日付。2026.11.22 */
+export function formatDate(date: Date): string {
+  return dateParts(date).join('.')
+}
+
+/** <time> の datetime 属性に入れる、機械が読める日付。2026-11-22 */
+export function formatDateAttr(date: Date): string {
+  return dateParts(date).join('-')
 }
 
 export function generateNotePath(id: string): string {

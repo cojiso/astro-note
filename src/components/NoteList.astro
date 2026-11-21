@@ -3,7 +3,7 @@
 // ノートの一覧。題名と公開日を 1 行ずつ並べる
 
 import type { CollectionEntry } from 'astro:content'
-import { formatDate, generateNotePath } from '../lib/note'
+import { formatDate, formatDateAttr, generateNotePath } from '../lib/note'
 
 interface Props {
   notes: CollectionEntry<'note'>[]
@@ -21,7 +21,10 @@ const { notes } = Astro.props
       <h3 class="text-base font-medium text-slate-12 transition-colors">
         {note.data.title}
       </h3>
-      <time class="text-sm text-slate-11 font-display">
+      <time
+        datetime={formatDateAttr(note.data.publishedAt)}
+        class="text-sm text-slate-11 font-display"
+      >
         {formatDate(note.data.publishedAt)}
       </time>
     </a>
