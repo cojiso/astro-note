@@ -14,7 +14,6 @@
     "gen:colors": "node scripts/gen-radix-colors.mjs"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.12",
     "@astrojs/markdown-remark": "^7.3.9",
     "@r4ai/remark-callout": "^0.6.2",
     "@tailwindcss/forms": "^0.5.11",
@@ -33,16 +32,17 @@
     "remark-link-card-plus": "^0.9.0",
     "remark-toc": "^9.0.0",
     "sharp": "^0.35.5",
-    "tailwindcss": "^4.3.5",
-    "typescript": "^6.0.3"
+    "tailwindcss": "^4.3.5"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.12",
     "@biomejs/biome": "^2.6.8",
     "@iconify-json/lucide": "^1.2.156",
     "@radix-ui/colors": "^3.0.0",
     "@tailwindcss/vite": "^4.3.5",
     "@types/node": "^26.6.6",
     "@types/qrcode": "^1.5.6",
+    "typescript": "^6.0.3",
     "wrangler": "^4.165.0"
   }
 }
