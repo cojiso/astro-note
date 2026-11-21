@@ -1,5 +1,5 @@
 // @radix-ui/colors のライトの値から、Tailwind の @theme で色を定義する src/styles/radix-colors.css を生成する
-// @radix-ui/colors を更新したら pnpm gen:colors で生成し直す
+// @radix-ui/colors を更新したら bun run gen:colors で生成し直す
 import { readFileSync, writeFileSync } from 'node:fs'
 import radix from '@radix-ui/colors'
 
