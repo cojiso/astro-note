@@ -240,7 +240,7 @@ const itemStyle = (heading: MarkdownHeading, index: number) => ({
   );
 
   /* 行の左端の縦線: h2 には薄い灰色（slate-6）で出し、現在地は h2 でも h3 でも lime にする。h3 は現在地のときだけ出す */
-  /* ::before と ::after はリンクのホバーの色（hover-overlay）が使うので、li に付ける */
+  /* ::before と ::after はリンクの押す範囲と色（hover-overlay）が使うので、li に付ける */
   &::before {
     position: absolute;
     inset-block: calc(var(--spacing) * 1);
@@ -260,6 +260,8 @@ const itemStyle = (heading: MarkdownHeading, index: number) => ({
 /* 項目は隙間なく並べ、ホバーで行ごと色を重ねる。深さは 1 字ぶんの字下げで表す（h3 は 17 字）。現在地は文字も濃くする */
 /* 左右は padding（24px）の中へ 9px はみ出させる。ホバーの色は枠から上下左右とも 15px（箱の上下の padding と同じ）離れ、文字は色の端から左右 9px・上下 3px、枠から 24px になる。行は 27px（行 21px + 上下 3px） */
 .toc-link {
+  /* hover-overlay の押す範囲と色を、li ではなくリンク自身の箱に収める。li より左右に広げているので */
+  position: relative;
   display: block;
   margin-inline: calc(var(--spacing) * -3);
   padding-block: calc(var(--spacing) * 1);

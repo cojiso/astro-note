@@ -114,17 +114,39 @@
   @apply font-display text-xs leading-6 px-3 py-1 bg-slate-3 text-lime-12 rounded-full;
 }
 
-/* ホバーと押したときに重ねる色。2 枚重ね、ホバーで 1 枚、押すともう 1 枚。色は Radix の透過色 gray-a3（地の色の段。2 枚重ねると a4 と a5 の間）。ページの地（gray-2）と同じ色みのない灰色で、濃さだけを変える。時間と曲線は 0.2s cubic-bezier(0.4, 0, 0.6, 1) */
-/* outer: 色だけを inset で要素の外へ 9px はみ出させ、中身は列の端に揃えたままにする。角丸ははみ出しと同じ 9px で、中身の角を中心にした弧になる */
+/* 押す範囲と、ホバーと押したときに重ねる色を、押す要素（リンク）自身の擬似要素に描く */
+/* ::after は押す範囲。いちばん近い position を持つ祖先の箱いっぱいに広がる。カードの中の名前をリンクで包み、カードに relative を付けると、カードのどこを押してもリンクになる。リンクとカードの間の要素には position・transform・filter を付けない。付けると押す範囲がそこで止まる */
+/* カードではなく自分の箱で完結させるときは、要素自身に relative を付ける（目次のリンク、タグ） */
+/* ::before は重ねる色。色は Radix の透過色 gray-a3。ページの地（gray-2）と同じ色みのない灰色で、濃さだけを変える。押したときは同じ層を 11.42% に濃くする。gray-a3（15/255）を 2 枚重ねた濃さ（1 − (240/255)²）。時間と曲線は 0.2s cubic-bezier(0.4, 0, 0.6, 1) */
+/* outer: 色を箱の外へ 9px はみ出させ、中身は列の端に揃えたままにする。角丸ははみ出しと同じ 9px で、中身の角を中心にした弧になる */
 /* 角丸はどこでも 9px にそろえる。角丸のあるカードでも、角丸 + 9px（同心）ではなく 9px にする。15px との差は小さく、一つの値の方が揃って見える */
 /* --hover-overlay-y で上下のはみ出しを替える。隙間なく並べる一覧の行は上下を 0 にして、押せる範囲と色を揃える */
-/* inner: 色を要素の箱いっぱいに重ねる。角は層に角丸を付けず、要素を overflow: clip で切り抜く。切り抜きの角はブラウザが枠の内側の縁（要素の角丸 − 枠の太さ）で描くので、枠の内側にぴったり沿う。はみ出しがないので広がる動きもしない。枠のあるカードを、枠の中だけ色づけたいときに使う */
+/* inner: 色を箱いっぱいに重ねる。角は層に角丸を付けず、箱を overflow: clip で切り抜く。切り抜きの角はブラウザが枠の内側の縁（箱の角丸 − 枠の太さ）で描くので、枠の内側にぴったり沿う。はみ出しがないので広がる動きもしない。枠のあるカードを、枠の中だけ色づけたいときに使う。カードに広げるときは、切り抜く overflow-clip をカードに付ける */
 @utility hover-overlay {
-  position: relative;
+  /* 要素自身の枠は文字にしか付かないので消し、押す範囲（::after）に描く */
+  &:focus-visible {
+    outline: none;
+  }
 
   &::before,
   &::after {
     position: absolute;
+    content: "";
+  }
+
+  &::after {
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  /* 枠は内側に出す。箱の端いっぱいに敷くので、外に出すと隣と重なり、inner では切り抜きで欠ける */
+  &:focus-visible::after {
+    outline: auto;
+    outline-offset: -2px;
+  }
+
+  /* outer は箱の外へはみ出すので、押す範囲にしない */
+  &::before {
     inset: var(--hover-overlay-y, calc(var(--spacing) * -3))
       calc(var(--spacing) * -3);
     border-radius: var(--radius-xl);
@@ -133,8 +155,8 @@
     scale: 0.99;
     transition:
       opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1),
-      scale 0.2s cubic-bezier(0.4, 0, 0.6, 1);
-    content: "";
+      scale 0.2s cubic-bezier(0.4, 0, 0.6, 1),
+      background-color 0.2s cubic-bezier(0.4, 0, 0.6, 1);
     pointer-events: none;
   }
 
@@ -142,8 +164,7 @@
     overflow: clip;
   }
 
-  &.inner::before,
-  &.inner::after {
+  &.inner::before {
     inset: 0;
     border-radius: 0;
     scale: 1;
@@ -151,18 +172,17 @@
 
   /* タッチではタップの後も :hover が残って色が消えないので、ホバーできる環境に限る（Tailwind の hover: と同じ条件） */
   @media (hover: hover) {
-    &:hover::before,
-    &:hover::after {
+    &:hover::before {
+      opacity: 1;
       scale: 1;
     }
 
-    &:hover::before,
-    &:hover:active::after {
-      opacity: 1;
+    &:hover:active::before {
+      background: rgb(0 0 0 / 11.42%);
     }
   }
 
-  /* タッチでは押している間だけ 1 枚を重ねる。:active は指を離すと外れるので色が残らない */
+  /* タッチでは押している間だけ色を重ねる。:active は指を離すと外れるので色が残らない */
   @media (hover: none) {
     &:active::before {
       opacity: 1;

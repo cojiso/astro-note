@@ -14,12 +14,14 @@ const { notes } = Astro.props
 
 <div>
   {notes.map((note) => (
-    <a
-      href={generateNotePath(note.data.id)}
-      class="hover-overlay [--hover-overlay-y:0] flex justify-between gap-5 items-center py-5"
-    >
+    <div class="relative flex justify-between gap-5 items-center py-5">
       <h3 class="text-base font-medium text-slate-12 transition-colors">
-        {note.data.title}
+        <a
+          href={generateNotePath(note.data.id)}
+          class="hover-overlay [--hover-overlay-y:0]"
+        >
+          {note.data.title}
+        </a>
       </h3>
       <time
         datetime={formatDateAttr(note.data.publishedAt)}
@@ -27,6 +29,6 @@ const { notes } = Astro.props
       >
         {formatDate(note.data.publishedAt)}
       </time>
-    </a>
+    </div>
   ))}
 </div>
