@@ -1,47 +1,46 @@
-# Astro Starter Kit: Minimal
+# astro-note
 
-```sh
-npm create astro@latest -- --template minimal
-```
+[orbit.supply](https://orbit.supply) の Web サイトを構築する Astro プロジェクトです。記事の本文（Markdown）は別の非公開リポジトリ（Obsidian の保管庫）で管理しています。
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## ディレクトリ構成と前提条件
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+本リポジトリと記事リポジトリ（`note`）を、同じ親ディレクトリに並べてチェックアウトして使用します。
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+parent/
+├── astro-note/   # 本リポジトリ（Web サイトのコード）
+└── note/         # 非公開リポジトリ（記事本文 / Obsidian の保管庫）
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- **記事の参照先**: デフォルトでは `../note` を読み込みます（環境変数 `NOTE_DIR` で変更可能。[src/content.config.ts](src/content.config.ts)）。
+- **バージョン管理**: 開発ツール（Node.js, Bun, Typst）のバージョンは [mise.toml](mise.toml) で一元管理しています。手元の mise 環境および CI の双方がこれを参照します。
+  - ※ Typst は OGP 画像生成（`og/`）に使用しています。
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 開発コマンド
 
-Any static assets, like images, can be placed in the `public/` directory.
+パッケージマネージャーには **Bun** を使用します。
 
-## 🧞 Commands
+| コマンド | 内容 |
+| :-- | :-- |
+| `bun install` | 依存パッケージのインストール |
+| `bun run dev` | 開発サーバーを起動 (`http://localhost:4321`) |
+| `bun run build` | 型チェック (`astro check`) 後、`dist/` へビルド |
+| `bun run preview` | ビルド成果物をローカルでプレビュー |
+| `bun run lint` | Biome による構文・スタイル検査 |
+| `bun run lint:fix` | Biome による自動修正 |
+| `bun run format` | Biome によるコード整形 |
 
-All commands are run from the root of the project, from a terminal:
+## デプロイ
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+本サイトは **Cloudflare Workers** にデプロイされます。
 
-## 👀 Want to learn more?
+- デプロイは `note` 側の GitHub Actions（`.github/workflows/deploy.yml`）だけが実行します。`note` の `main` ブランチへの push、または手動実行で動作し、両リポジトリをチェックアウトしてビルドし、`wrangler deploy` で Cloudflare Workers にアップロードします。
+- Cloudflare Workers Builds の Git 連携は意図して切ってあります（記事を含まない空サイトがデプロイされるのを防ぐため）。
+- ツールのバージョンを上げる場合は [mise.toml](mise.toml) を更新するだけでよく、`deploy.yml` の変更は不要です。CI の手順自体を変更する場合は、本リポジトリと `note` の `deploy.yml` を合わせて更新してください。
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+### コード変更時のデプロイ手順
+
+**本リポジトリに push しても自動デプロイは行われません。** Web サイトのコードだけを変更した場合は、以下の手順でデプロイします。
+
+1. 本リポジトリの変更を push する
+2. `note` の deploy ワークフローを手動で実行する
