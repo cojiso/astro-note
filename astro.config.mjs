@@ -51,6 +51,11 @@ export default defineConfig({
       themes: ['plastic'],
       // Map language names used in notes to bundled grammars
       shiki: { langAlias: { jsonld: 'json', formula: 'txt' } },
+      // 外側の角丸を画像やコールアウトと同じ --radius-lg にする。外側の角丸は borderRadius に枠線の幅を足したものになるので、そのぶんを引く
+      // 既定（0.3rem）でも外側は 6px になるが、枠線の幅が px なので、ブラウザの文字サイズを変えるとずれる
+      styleOverrides: {
+        borderRadius: 'calc(var(--radius-lg) - var(--ec-brdWd))',
+      },
     }),
     icon(),
   ],
