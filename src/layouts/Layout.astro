@@ -205,14 +205,17 @@ const pageUrl = new URL(
 
 <style>
 /** Header **/
-.group:hover .icons {
-  transform: rotate(-180deg);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* タッチではタップの後も :hover が残って傾いたままになるので、ホバーできる環境に限る */
+@media (hover: hover) {
+  .group:hover .icons {
+    transform: rotate(-180deg);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-.group:not(:hover) .icons {
-  transform: rotate(0deg);
-  animation: rotateBack 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  .group:not(:hover) .icons {
+    transform: rotate(0deg);
+    animation: rotateBack 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
 @keyframes rotateBack {

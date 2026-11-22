@@ -270,8 +270,10 @@ const itemStyle = (heading: MarkdownHeading, index: number) => ({
   word-break: auto-phrase;
   text-wrap: pretty;
 
-  &:hover {
-    color: var(--color-slate-12);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--color-slate-12);
+    }
   }
 }
 </style>

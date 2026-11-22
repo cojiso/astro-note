@@ -149,14 +149,25 @@
     scale: 1;
   }
 
-  &:hover::before,
-  &:hover::after {
-    scale: 1;
+  /* タッチではタップの後も :hover が残って色が消えないので、ホバーできる環境に限る（Tailwind の hover: と同じ条件） */
+  @media (hover: hover) {
+    &:hover::before,
+    &:hover::after {
+      scale: 1;
+    }
+
+    &:hover::before,
+    &:hover:active::after {
+      opacity: 1;
+    }
   }
 
-  &:hover::before,
-  &:hover:active::after {
-    opacity: 1;
+  /* タッチでは押している間だけ 1 枚を重ねる。:active は指を離すと外れるので色が残らない */
+  @media (hover: none) {
+    &:active::before {
+      opacity: 1;
+      scale: 1;
+    }
   }
 }
 
