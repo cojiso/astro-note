@@ -457,63 +457,87 @@
 
 /* Base callout styling */
 [data-callout] {
-  @apply p-5 rounded-lg border flex flex-col gap-3;
+  /* 題名と本文、本文の段落どうしの間隔。文字が本文と同じ大きさなので、本文の段落の間（--prose-gap、15px）と同じにする */
+  --callout-gap: calc(var(--spacing) * 5);
+  /* 枠線は付けず、種類は背景とアイコンの色で分ける。背景は 2 だとページの背景と見分けにくいので 3 にする。色を決めていない種類は灰色 */
+  /* 内側の余白は上下 24px（3px × 8）、左右 15px（3px × 5） */
+  @apply py-8 px-5 rounded-lg bg-slate-3 flex flex-col text-base;
+  gap: var(--callout-gap);
   /* 記事中に置くので、段落と同じく下に --prose-gap をあける */
   margin-block: 0 var(--prose-gap, calc(var(--spacing) * 6));
 }
 
-/* Callout title styling */
-[data-callout-title] {
-  @apply font-medium flex items-center gap-3 text-sm;
+/* アイコンのある種類は、左にアイコン、右に題名と本文の 2 カラムにする。題名の要素は箱を作らず、アイコンと題名の文字を直接グリッドに並べる */
+[data-callout]:has(> [data-callout-title] > svg) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: calc(var(--spacing) * 3);
+  row-gap: var(--callout-gap);
+}
+[data-callout] > [data-callout-title] {
+  display: contents;
 }
 
-/* Callout title icon */
-[data-callout-title]::before {
-  @apply w-5 h-5;
+/* Callout title icon（Lucide の info）。幅は文字の大きさの刻みで本文の二段上（text-xl、20px）。高さは 1 行目の行送りにして、文字と縦の中心をそろえる */
+[data-callout] > [data-callout-title] > svg {
+  @apply h-lh shrink-0;
+  width: var(--text-xl);
+  grid-column: 1;
+  grid-row: 1;
+}
+/* Lucide には塗りつぶしの版がないので、丸を種類の色で塗り、i の線を白にする。塗りは Radix の 8（枠線の段）で、11（文字の段）だと濃すぎる。8 はどの色相でも明るさがほぼ同じ */
+[data-callout] > [data-callout-title] > svg circle {
+  fill: currentColor;
+}
+[data-callout] > [data-callout-title] > svg path {
+  stroke: white;
 }
 
-/* Callout body styling */
-[data-callout-body] {
-  @apply text-sm;
+/* 題名は本文と同じ書式で、右の列の 1 行目に置く */
+[data-callout] > [data-callout-title] > [data-callout-title-inner],
+[data-callout] > [data-callout-body] {
+  grid-column: 2;
 }
 
-/* Remove margin from last paragraph in body */
-[data-callout-body] p:last-child {
-  @apply mb-0;
+/* 題名を書かなかったときの自動の題名（Note など）は、画面からは隠して読み上げにだけ残す。アイコンは読み上げないので、種類はこれで伝える */
+[data-callout-title-inner][data-callout-default-title] {
+  @apply sr-only;
+}
+
+/* 本文の段落の間隔をそろえ、最初と最後の外側の余白をなくす */
+[data-callout] > [data-callout-body] > p {
+  margin-block: 0 var(--callout-gap);
+}
+[data-callout] > [data-callout-body] > :first-child {
+  margin-top: 0;
+}
+[data-callout] > [data-callout-body] > :last-child {
+  margin-bottom: 0;
 }
 
 /* 種類は note（補足）、important（強い肯定）、warning（否定）の 3 つ。名前は Obsidian と GitHub の両方にあるものから選ぶ */
 /* それ以外の種類は土台のスタイルだけになる */
 
-/* Variant: note（補足。ヒントも題名を付けてこれで書く） */
+/* Variant: note（補足。ヒントも題名を付けてこれで書く。サイトの基調色の緑） */
 [data-callout][data-callout-type="note"] {
-  @apply bg-blue-2 border-blue-6;
+  @apply bg-lime-3;
 }
-[data-callout][data-callout-type="note"] [data-callout-title] {
-  @apply text-blue-12;
-}
-[data-callout][data-callout-type="note"] [data-callout-title]::before {
-  content: "ℹ️";
+[data-callout][data-callout-type="note"] > [data-callout-title] > svg {
+  @apply text-lime-8;
 }
 
 /* Variant: important（大事なこと、強くすすめること） */
 [data-callout][data-callout-type="important"] {
-  @apply bg-purple-2 border-purple-6;
+  @apply bg-blue-3;
 }
-[data-callout][data-callout-type="important"] [data-callout-title] {
-  @apply text-purple-12;
-}
-[data-callout][data-callout-type="important"] [data-callout-title]::before {
-  content: "⭐";
+[data-callout][data-callout-type="important"] > [data-callout-title] > svg {
+  @apply text-blue-8;
 }
 
 /* Variant: warning（注意、してはいけないこと。否定は段階を分けずにこれ 1 つ） */
 [data-callout][data-callout-type="warning"] {
-  @apply bg-red-2 border-red-6;
+  @apply bg-red-3;
 }
-[data-callout][data-callout-type="warning"] [data-callout-title] {
-  @apply text-red-12;
-}
-[data-callout][data-callout-type="warning"] [data-callout-title]::before {
-  content: "⚠️";
+[data-callout][data-callout-type="warning"] > [data-callout-title] > svg {
+  @apply text-red-8;
 }

@@ -16,10 +16,29 @@ import remarkLinkCard from 'remark-link-card-plus'
 import remarkToc from 'remark-toc'
 
 /**
+ * Lucide のアイコンを、文字の大きさに合わせた svg の文字列にする。Markdown の中には astro-icon の Icon を置けないので、同じアイコンのデータから組む
+ * @param {keyof typeof lucide.icons} name
+ */
+const lucideSvg = (name) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 ${lucide.width} ${lucide.height}" aria-hidden="true">${lucide.icons[name].body}</svg>`
+
+/**
  * コールアウトの種類名。data-callout-type の値と同じく、空白をハイフンにして小文字にする（プラグインの既定と同じ）
  * @param {import('@r4ai/remark-callout').Callout} callout
  */
 const calloutType = (callout) => callout.type.replace(/\s+/g, '-').toLowerCase()
+
+/**
+ * 題名を書かなかったときに、プラグインが入れた自動の題名（種類名の頭だけ大文字にしたもの。[!NOTE] でも Note）かどうか
+ * 自分で同じ文字列を書いた場合（[!note] Note）も自動の題名とみなす
+ * @param {import('@r4ai/remark-callout').Callout} callout
+ */
+const hasDefaultCalloutTitle = (callout) =>
+  callout.title ===
+  callout.type.charAt(0).toUpperCase() + callout.type.slice(1).toLowerCase()
+
+/** 色を付けているコールアウトの種類。アイコンはどれも Lucide の info で、種類は色で分ける。ほかの種類にはアイコンを付けない */
+const coloredCalloutTypes = new Set(['note', 'important', 'warning'])
 
 // https://astro.build/config
 export default defineConfig({
@@ -54,6 +73,23 @@ export default defineConfig({
               },
             }),
             title: { tagName: 'div', properties: { dataCalloutTitle: true } },
+            // 題名の文字はアイコンの有無によらず要素で包む。既定ではアイコンがないと包まない
+            // 自動の題名には印を付け、CSS で画面からは隠して読み上げにだけ残す
+            /** @param {import('@r4ai/remark-callout').Callout} callout */
+            titleInner: (callout) => ({
+              tagName: 'div',
+              properties: {
+                dataCalloutTitleInner: true,
+                dataCalloutDefaultTitle: hasDefaultCalloutTitle(callout),
+              },
+            }),
+            // 題名の前に Lucide のアイコンを置く。raw の HTML として渡し、後ろの rehype-raw で要素に変換させる
+            /** @param {import('@r4ai/remark-callout').Callout} callout */
+            icon: (callout) => {
+              return coloredCalloutTypes.has(calloutType(callout))
+                ? lucideSvg('info')
+                : undefined
+            },
           },
         ],
       ],
@@ -72,7 +108,7 @@ export default defineConfig({
         // 文字列か、要素を返す関数だけを受け付ける
         footnoteBackContent: () => ({
           type: 'raw',
-          value: `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true">${lucide.icons['corner-right-up'].body}</svg>`,
+          value: lucideSvg('corner-right-up'),
         }),
       },
       rehypePlugins: [
