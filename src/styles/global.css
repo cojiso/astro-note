@@ -61,6 +61,8 @@
     /* 日本語の組版: 小書き仮名や長音の行頭を禁止し、行頭の開き括弧の空きを詰める */
     line-break: strict;
     text-spacing-trim: trim-start;
+    /* 斜体のない書体（日本語）を、ブラウザが傾けて斜体に見せるのを止める。Lato は斜体を読み込んでいるので、欧文は斜体のまま */
+    font-synthesis-style: none;
   }
 
   /* 中の要素から cqw で body の幅（スクロールバーを除いた画面の幅）を参照できるようにする。vw はスクロールバーの幅を含み、Windows などで横にはみ出すため */
@@ -201,6 +203,27 @@
 
   & a {
     @apply text-lime-11 no-underline hover:underline;
+  }
+
+  /* 強調は斜体にせず、黄色の太い下線を文字の下半分に重ねて蛍光ペンのように見せる。日本語には斜体がなく、欧文と見た目をそろえる。黄色はコールアウトの背景（ライム・青・赤）の上でも見分けられる */
+  /* 下線は文字より先に描かれるので文字は隠れない。背景のグラデーションと違い、行の折り返しでも途切れない */
+  & em {
+    @apply decoration-amber-4;
+    font-style: normal;
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.5em;
+    text-underline-offset: -0.3em;
+    text-decoration-skip-ink: none;
+  }
+
+  /* 引用: プラグインの既定の斜体・中太・前後の欧文の引用符（“ ”）をやめ、本文と同じ書体にする */
+  & blockquote {
+    font-style: normal;
+    font-weight: inherit;
+  }
+  & blockquote p:first-of-type::before,
+  & blockquote p:last-of-type::after {
+    content: none;
   }
 
   & h2 {
