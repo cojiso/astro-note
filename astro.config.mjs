@@ -60,6 +60,8 @@ export default defineConfig({
     icon(),
   ],
   markdown: {
+    // ここで関数として渡すオプションを変えても、Astro は記事の描画結果を作り直さない（設定の変化を調べるときに関数の中身を比べないため）
+    // 手元で確かめる前に、astro dev stop でサーバーを止め、.astro/data-store.json を消してから起動し直す。手元で astro build するときは astro sync --force も実行する。CI は毎回まっさらな状態からビルドするので影響しない
     processor: unified({
       remarkPlugins: [
         remarkToc,
