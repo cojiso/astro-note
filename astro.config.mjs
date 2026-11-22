@@ -15,6 +15,12 @@ import remarkBreaks from 'remark-breaks'
 import remarkLinkCard from 'remark-link-card-plus'
 import remarkToc from 'remark-toc'
 
+/**
+ * コールアウトの種類名。data-callout-type の値と同じく、空白をハイフンにして小文字にする（プラグインの既定と同じ）
+ * @param {import('@r4ai/remark-callout').Callout} callout
+ */
+const calloutType = (callout) => callout.type.replace(/\s+/g, '-').toLowerCase()
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://orbit.supply',
@@ -31,7 +37,26 @@ export default defineConfig({
   ],
   markdown: {
     processor: unified({
-      remarkPlugins: [remarkToc, remarkBreaks, remarkLinkCard, remarkCallout],
+      remarkPlugins: [
+        remarkToc,
+        remarkBreaks,
+        remarkLinkCard,
+        [
+          remarkCallout,
+          {
+            // 折りたたみ（[!note]- や [!note]+）も普通のコールアウトとして出す。既定では details と summary になる
+            /** @param {import('@r4ai/remark-callout').Callout} callout */
+            root: (callout) => ({
+              tagName: 'div',
+              properties: {
+                dataCallout: true,
+                dataCalloutType: calloutType(callout),
+              },
+            }),
+            title: { tagName: 'div', properties: { dataCalloutTitle: true } },
+          },
+        ],
+      ],
       // 脚注の見出しを「脚注」にし、画面にも出す。既定は英語の Footnotes で、読み上げ専用の sr-only が付く
       // 本文に戻るリンクの読み上げも日本語にする。番号の付け方は既定（Back to reference 1、2 回目以降は 1-2）と同じ
       remarkRehype: {
