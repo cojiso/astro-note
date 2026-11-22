@@ -482,7 +482,10 @@
   @apply mb-0;
 }
 
-/* Variant: note (デフォルト/情報) */
+/* 種類は note（補足）、important（強い肯定）、warning（否定）の 3 つ。名前は Obsidian と GitHub の両方にあるものから選ぶ */
+/* それ以外の種類は土台のスタイルだけになる */
+
+/* Variant: note（補足。ヒントも題名を付けてこれで書く） */
 [data-callout][data-callout-type="note"] {
   @apply bg-blue-2 border-blue-6;
 }
@@ -493,46 +496,24 @@
   content: "ℹ️";
 }
 
-/* Variant: warning (警告) */
+/* Variant: important（大事なこと、強くすすめること） */
+[data-callout][data-callout-type="important"] {
+  @apply bg-purple-2 border-purple-6;
+}
+[data-callout][data-callout-type="important"] [data-callout-title] {
+  @apply text-purple-12;
+}
+[data-callout][data-callout-type="important"] [data-callout-title]::before {
+  content: "⭐";
+}
+
+/* Variant: warning（注意、してはいけないこと。否定は段階を分けずにこれ 1 つ） */
 [data-callout][data-callout-type="warning"] {
-  @apply bg-yellow-2 border-yellow-6;
+  @apply bg-red-2 border-red-6;
 }
 [data-callout][data-callout-type="warning"] [data-callout-title] {
-  @apply text-yellow-12;
+  @apply text-red-12;
 }
 [data-callout][data-callout-type="warning"] [data-callout-title]::before {
   content: "⚠️";
-}
-
-/* Variant: check (成功/チェック) */
-[data-callout][data-callout-type="check"] {
-  @apply bg-green-2 border-green-6;
-}
-[data-callout][data-callout-type="check"] [data-callout-title] {
-  @apply text-green-12;
-}
-[data-callout][data-callout-type="check"] [data-callout-title]::before {
-  content: "✅";
-}
-
-/* Variant: danger (危険/エラー) */
-[data-callout][data-callout-type="danger"] {
-  @apply bg-red-2 border-red-6;
-}
-[data-callout][data-callout-type="danger"] [data-callout-title] {
-  @apply text-red-12;
-}
-[data-callout][data-callout-type="danger"] [data-callout-title]::before {
-  content: "🚫";
-}
-
-/* Variant: tip (ヒント) */
-[data-callout][data-callout-type="tip"] {
-  @apply bg-purple-2 border-purple-6;
-}
-[data-callout][data-callout-type="tip"] [data-callout-title] {
-  @apply text-purple-12;
-}
-[data-callout][data-callout-type="tip"] [data-callout-title]::before {
-  content: "💡";
 }
