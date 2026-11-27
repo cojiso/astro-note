@@ -68,7 +68,7 @@ const { Content, headings } = await render(note)
           {note.data.tags?.map((tag) => (
             <a
               href={generateTagPath(tag)}
-              class="pill hover-overlay inner relative overflow-clip"
+              class="pill hover-overlay inner relative"
             >
               {tag}
             </a>
