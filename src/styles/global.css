@@ -82,17 +82,14 @@
     @apply no-underline hover:no-underline;
   }
 
-  /* 日本語の改行: 見出しは文節で折り返して行の長さを揃え、本文は最終行の1文字残りを防ぐ */
+  /* 日本語の改行: 見出しは文節で折り返して行の長さを揃える */
+  /* text-wrap: pretty はどこにも付けない。Safari は段落全体で行の長さを揃えようとして、日本語ではどの行も数文字早く折る。最終行が 1 字だけになるのは、日本語組版では許容されることが多いので（JLREQ 3.5.4）そのままにする */
   h1,
   h2,
   h3,
   h4 {
     word-break: auto-phrase;
     text-wrap: balance;
-  }
-  p,
-  li {
-    text-wrap: pretty;
   }
 }
 
