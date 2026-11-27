@@ -456,6 +456,10 @@
     display: inline-block;
     vertical-align: -0.125em;
   }
+  /* 行末に入りきらないとアイコンだけが次の行に送られるので、アイコン（1em）と前の半角スペースの幅を行の長さに数えさせず、本文の右の余白にぶら下げる。句読点のぶら下げ組と同じ考え方 */
+  & > .footnotes .data-footnote-backref {
+    margin-right: -1.25em;
+  }
 
   /* & li + li {
     margin-top: 0.25em;
