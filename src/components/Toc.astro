@@ -262,6 +262,7 @@ const itemStyle = (heading: MarkdownHeading, index: number) => ({
 .toc-link {
   /* hover-overlay の押す範囲と色を、li ではなくリンク自身の箱に収める。li より左右に広げているので */
   position: relative;
+  overflow: clip;
   display: block;
   margin-inline: calc(var(--spacing) * -3);
   padding-block: calc(var(--spacing) * 1);
